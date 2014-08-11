@@ -2,7 +2,8 @@
 ######################
 /composer.lock
 /config/app.php
-
+/vendor/*
+/tmp/*
 
 # OS generated files #
 ######################
