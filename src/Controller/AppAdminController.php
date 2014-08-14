@@ -1,6 +1,6 @@
 <?php
 /**
- * 项目控制器基础
+ * 项目管理端控制器基础
  *
  * @copyright LeeAdmin
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -9,14 +9,7 @@
  */
 namespace App\Controller;
 
-use Cake\Controller\Controller;
+use App\Controller\AppController;
 
-class AppController extends Controller {
-
-/**
- * 加载组件
- * 
- * @var array
- */
-	public $components = ['Flash'];
+class AppAdminController extends AppController {
 }
