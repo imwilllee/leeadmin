@@ -28,4 +28,38 @@ class UsersController extends AppAdminController {
  */
 	public function logout() {
 	}
+
+/**
+ * 用户管理
+ * 
+ * @return void
+ */
+	public function index() {
+	}
+
+/**
+ * 用户详细
+ * 
+ * @param int $id 用户ID
+ * @return void
+ */
+	public function view($id = null) {
+	}
+
+/**
+ * 创建用户
+ * 
+ * @return void
+ */
+	public function create() {
+	}
+
+/**
+ * 用户编辑
+ * 
+ * @param int $id 用户ID
+ * @return void
+ */
+	public function edit($id = null) {
+	}
 }

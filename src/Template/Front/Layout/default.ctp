@@ -42,12 +42,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 			<?= $this->fetch('content') ?>
 		</div>
 		<div id="footer">
-			<?= $this->Html->link(
-					$this->Html->image('cake.power.gif', ['alt' => $cakeDescription, 'border' => '0']),
-					'http://www.cakephp.org/',
-					['target' => '_blank', 'escape' => false]
-				)
-			?>
+			Front->Layout->Defalut
 		</div>
 	</div>
 </body>

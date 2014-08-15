@@ -1,6 +1,7 @@
 <?php
 use Cake\Core\Configure;
 ?>
+<h2>Admin</h2>
 <h2><?= h($message) ?></h2>
 <p class="error">
 	<strong><?= __d('cake', 'Error') ?>: </strong>

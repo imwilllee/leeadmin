@@ -133,7 +133,7 @@ $config = [
  */
 	'Error' => [
 		'errorLevel' => E_ALL & ~E_DEPRECATED,
-		'exceptionRenderer' => 'Cake\Error\ExceptionRenderer',
+		'exceptionRenderer' => 'App\Error\ExceptionRenderer',
 		'skipLog' => [],
 		'log' => true,
 		'trace' => true,
@@ -217,7 +217,7 @@ $config = [
 			* decreases performance because each query needs to be traversed and
 			* manipulated before being executed.
 			*/
-			'quoteIdentifiers' => false,
+			'quoteIdentifiers' => true,
 
 			/*
 			* During development, if using MySQL < 5.6, uncommenting the

@@ -64,4 +64,7 @@ class PagesController extends AppFrontController {
 			throw new Error\NotFoundException();
 		}
 	}
+
+	public function test() {
+	}
 }
