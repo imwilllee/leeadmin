@@ -162,11 +162,11 @@ Request::addDetector('tablet', function($request) {
  * Plugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
+Plugin::load('Wechat', ['autoload' => true, 'routes' => true]);
 
 /**
  * Connect middleware/dispatcher filters.
  */
-
 DispatcherFactory::add('Asset');
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');

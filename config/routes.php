@@ -11,7 +11,7 @@ use Cake\Routing\Router;
 
 // 项目前端入口
 Router::scope('/', function($routes) {
-	$routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+	$routes->connect('/', ['controller' => 'Home', 'action' => 'index']);
 	$routes->fallbacks();
 });
 
