@@ -10,15 +10,25 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
+use Cake\Core\Configure;
 
 class UsersController extends AppAdminController {
 
 /**
- * 用户登录
+ * 控制器标题
+ * 
+ * @var string
+ */
+	protected $_controllerTitle = '用户管理';
+
+/**
+ * 管理员登陆
  * 
  * @return void
  */
 	public function login() {
+		$this->layout = false;
+		$this->_controllerTitle = '管理员登陆';
 	}
 
 /**

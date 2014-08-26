@@ -12,4 +12,11 @@ namespace App\Controller;
 use App\Controller\AppController;
 
 class AppAdminController extends AppController {
+
+/**
+ * 加载视图助手
+ * 
+ * @var array
+ */
+	public $helpers = ['Admin'];
 }
