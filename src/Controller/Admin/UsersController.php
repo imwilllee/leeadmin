@@ -29,6 +29,9 @@ class UsersController extends AppAdminController {
 	public function login() {
 		$this->layout = false;
 		$this->_controllerTitle = '管理员登陆';
+		if ($this->request->is('post')) {
+			return $this->redirect(['controller' => 'Dashboard', 'action' => 'index', 'prefix' => 'admin']);
+		}
 	}
 
 /**

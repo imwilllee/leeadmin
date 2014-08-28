@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html>
-<?php $this->append('head'); ?>
+<?php $this->append('pageStyle'); ?>
         <style type="text/css">
             html,body{background-color: #3c8dbc !important;}
         </style>
 <?php $this->end(); ?>
+<!DOCTYPE html>
+<html>
 <?php echo $this->element('Common/head'); ?>
     <body>
         <div class="form-box">

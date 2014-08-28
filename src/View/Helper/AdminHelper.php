@@ -24,10 +24,10 @@ class AdminHelper extends Helper {
 	public function title() {
 		$title = Configure::read('Basic.title');
 		$delimiter = Configure::read('Basic.title_delimiter');
-		if ($this->_View->viewVars['controllerTitle'] != '') {
+		if (isset($this->_View->viewVars['controllerTitle']) && $this->_View->viewVars['controllerTitle'] != '') {
 			$title .= $delimiter . $this->_View->viewVars['controllerTitle'];
 		}
-		if ($this->_View->viewVars['actionTitle'] != '') {
+		if (isset($this->_View->viewVars['actionTitle']) && $this->_View->viewVars['actionTitle'] != '') {
 			$title .= $delimiter . $this->_View->viewVars['actionTitle'];
 		}
 		return h($title);

@@ -23,6 +23,7 @@ class ExceptionRenderer extends Error\ExceptionRenderer {
 	public function __construct(\Exception $exception) {
 		parent::__construct($exception);
 		$this->controller->viewClass = 'App\View\View';
+		$this->controller->layout = 'error';
 	}
 
 /**
@@ -35,7 +36,7 @@ class ExceptionRenderer extends Error\ExceptionRenderer {
 		if (!Configure::read('debug')) {
 			$this->controller->viewPath = Inflector::camelize($this->controller->request->params['prefix']) . '/Error';
 		}
-		parent::_outputMessage($template);
+		return parent::_outputMessage($template);
 	}
 
 /**
@@ -48,11 +49,10 @@ class ExceptionRenderer extends Error\ExceptionRenderer {
 		$this->controller->layoutPath = null;
 		$this->controller->subDir = null;
 		$this->controller->viewPath = Inflector::camelize($this->controller->request->params['prefix']) . '/Error';
-		$this->controller->layout = 'error';
 		$this->controller->helpers = ['Form', 'Html', 'Session'];
 		$view = $this->controller->createView();
 		$this->controller->response->body($view->render($template, 'error'));
 		$this->controller->response->type('html');
-		$this->controller->response->send();
+		return $this->controller->response;
 	}
 }
