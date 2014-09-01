@@ -137,7 +137,7 @@ $config = [
  */
 	'Error' => [
 		'errorLevel' => E_ALL & ~E_DEPRECATED,
-		'exceptionRenderer' => 'Cake\Error\ExceptionRenderer',
+		'exceptionRenderer' => 'App\Error\ExceptionRenderer',
 		'skipLog' => [],
 		'log' => true,
 		'trace' => true,
