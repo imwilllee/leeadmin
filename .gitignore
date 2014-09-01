@@ -6,6 +6,7 @@
 /tmp/*
 /logs/*
 /tests/*
+/plugins/DebugKit
 
 # OS generated files #
 ######################

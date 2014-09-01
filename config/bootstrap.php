@@ -34,10 +34,10 @@ require ROOT . DS . 'vendor' . DS . 'autoload.php';
 require CORE_PATH . 'config' . DS . 'bootstrap.php';
 
 use Cake\Cache\Cache;
-use Cake\Configure\Engine\PhpConfig;
 use Cake\Console\ConsoleErrorHandler;
 use Cake\Core\App;
 use Cake\Core\Configure;
+use Cake\Core\Configure\Engine\PhpConfig;
 use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 use Cake\Error\ErrorHandler;
@@ -65,7 +65,7 @@ try {
 // Load an environment local configuration file.
 // You can use this file to provide local overrides to your
 // shared configuration.
-Configure::load('common.php', 'default');
+//Configure::load('app_local.php', 'default');
 
 // When debug = false the metadata cache should last
 // for a very very long time, as we don't want
@@ -162,11 +162,13 @@ Request::addDetector('tablet', function($request) {
  * Plugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-Plugin::load('Wechat', ['autoload' => true, 'routes' => true]);
+
+Plugin::load('DebugKit', ['bootstrap' => true]);
 
 /**
  * Connect middleware/dispatcher filters.
  */
+
 DispatcherFactory::add('Asset');
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');

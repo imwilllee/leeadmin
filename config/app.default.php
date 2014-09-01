@@ -93,7 +93,7 @@ $config = [
 			'prefix' => 'myapp_cake_core_',
 			'path' => CACHE . 'persistent/',
 			'serialize' => true,
-			'duration' => '+30 minutes',
+			'duration' => '+2 minutes',
 		],
 
 	/**
@@ -106,7 +106,7 @@ $config = [
 			'prefix' => 'myapp_cake_model_',
 			'path' => CACHE . 'models/',
 			'serialize' => true,
-			'duration' => '+30 minutes',
+			'duration' => '+2 minutes',
 		],
 	],
 
@@ -133,11 +133,11 @@ $config = [
  *   render method.
  * - `skipLog` - array - List of exceptions to skip for logging. Exceptions that
  *   extend one of the listed exceptions will also be skipped for logging.
- *   E.g.: `'skipLog' => ['Cake\Error\NotFoundException', 'Cake\Error\UnauthorizedException']`
+ *   E.g.: `'skipLog' => ['Cake\Network\Exception\NotFoundException', 'Cake\Network\Exception\UnauthorizedException']`
  */
 	'Error' => [
 		'errorLevel' => E_ALL & ~E_DEPRECATED,
-		'exceptionRenderer' => 'App\Error\ExceptionRenderer',
+		'exceptionRenderer' => 'Cake\Error\ExceptionRenderer',
 		'skipLog' => [],
 		'log' => true,
 		'trace' => true,
@@ -230,7 +230,7 @@ $config = [
 			* following line could boost the speed at which schema metadata is
 			* fetched from the database. It can also be set directly with the
 			* mysql configuration directive 'innodb_stats_on_metadata = 0'
-			* which is the recommended value in production enviroments
+			* which is the recommended value in production environments
 			*/
 			//'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
 		],
