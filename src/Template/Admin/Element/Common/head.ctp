@@ -2,12 +2,18 @@
         <meta charset="UTF-8">
         <title><?php echo $this->Admin->title(); ?></title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-        <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-<?php echo $this->fetch('importCss'); ?>
-        <link rel="stylesheet" href="/css/AdminLTE.css"/>
+        <?php
+            echo $this->Html->css('bootstrap.min');
+            echo $this->fetch('importCss');
+            echo $this->Html->css('admin');
+        ?>
+
         <!--[if lt IE 9]>
-            <script src="js/html5shiv.js"></script>
-            <script src="js/respond.min.js"></script>
+        <?php
+            echo $this->Html->script('html5shiv');
+            echo $this->Html->script('respond.min');
+        ?>
+
         <![endif]-->
 <?php echo $this->fetch('pageStyle'); ?>
     </head>

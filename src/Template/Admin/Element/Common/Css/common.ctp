@@ -1,1 +1,1 @@
-        <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+<?php echo $this->Html->css('font-awesome.min'); ?>
