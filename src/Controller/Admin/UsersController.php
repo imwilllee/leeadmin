@@ -10,7 +10,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
-use Cake\Core\Configure;
+use Cake\ORM\TableRegistry;
 
 class UsersController extends AppAdminController {
 

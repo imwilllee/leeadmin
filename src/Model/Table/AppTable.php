@@ -9,6 +9,9 @@
  */
 namespace App\Model\Table;
 
+use Cake\Core\Configure;
+use Cake\Event\Event;
+use Cake\ORM\Entity;
 use Cake\ORM\Table;
 
 class AppTable extends Table {
@@ -21,5 +24,29 @@ class AppTable extends Table {
  */
 	public function initialize(array $config) {
 		$this->addBehavior('Timestamp');
+		parent::initialize($config);
+	}
+
+/**
+ * 数据保存前处理
+ * 
+ * @param Cake\Event\Event $event 事件对象
+ * @param Cake\ORM\Entity $entity 实体对象
+ * @param array $options 配置项
+ * @return boolean
+ */
+	public function beforeSave(Event $event, Entity $entity, $options = []) {
+		$user = Configure::read('Auth.User');
+		if (!empty($user)) {
+			if ($this->hasField('created_by')) {
+				$this->patchEntity($entity, ['created_by' => $user['id']]);
+			}
+			if ($entity->has($this->primaryKey())) {
+				if ($this->hasField('updated_by')) {
+					$this->patchEntity($entity, ['updated_by' => $user['id']]);
+				}
+			}
+		}
+		return true;
 	}
 }
