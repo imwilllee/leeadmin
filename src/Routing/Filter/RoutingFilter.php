@@ -24,7 +24,8 @@ class RoutingFilter extends Filter\RoutingFilter {
 	public function beforeDispatch(Event $event) {
 		parent::beforeDispatch($event);
 		// 默认路由前缀设置
-		if (empty($event->data['request']->params['prefix'])) {
+		if (empty($event->data['request']->params['prefix']) && $event->data['request']->params['plugin'] != 'DebugKit') {
+
 			$event->data['request']->params['prefix'] = 'front';
 		}
 	}
