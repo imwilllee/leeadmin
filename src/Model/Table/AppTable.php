@@ -36,15 +36,17 @@ class AppTable extends Table {
  * @return boolean
  */
 	public function beforeSave(Event $event, Entity $entity, $options = []) {
+		// 登录信息
 		$user = Configure::read('Auth.User');
+		// 登录的状态下
 		if (!empty($user)) {
-			if ($this->hasField('created_by')) {
-				$this->patchEntity($entity, ['created_by' => $user['id']]);
+			// 数据创建状态并且表中包含created_by字段
+			if ($entity->isNew() !== false && $this->hasField('created_by') && $entity->has('created_by') === false) {
+				$entity->set('created_by', $user['id']);
+				//$entity->unsetProperty('created_by');
 			}
-			if ($entity->has($this->primaryKey())) {
-				if ($this->hasField('updated_by')) {
-					$this->patchEntity($entity, ['updated_by' => $user['id']]);
-				}
+			if ($this->hasField('modified_by') && $entity->has('modified_by') === false) {
+				$entity->set('modified_by', $user['id']);
 			}
 		}
 		return true;
