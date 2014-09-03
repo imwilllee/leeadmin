@@ -31,14 +31,6 @@ class UsersController extends AppAdminController {
 		$this->layout = false;
 		$this->_controllerTitle = '管理员登陆';
 		if ($this->request->is('post')) {
-			// $userTable = TableRegistry::get('Users');
-			// $data = [
-			// 	'email' => 'im.will.lee+' . time() . '@gmail.com',
-			// 	'password' => md5(time()),
-			// 	'created_by' => false
-			// ];
-			// $userEntity = $userTable->newEntity($data);
-			// $userTable->save($userEntity);
 			return $this->redirect(['controller' => 'Dashboard', 'action' => 'index', 'prefix' => 'admin']);
 		}
 	}

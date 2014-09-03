@@ -38,15 +38,24 @@ class AppTable extends Table {
 	public function beforeSave(Event $event, Entity $entity, $options = []) {
 		// 登录信息
 		$user = Configure::read('Auth.User');
+		var_dump($entity->dirty('modified_by'));
+		var_dump($entity->get('modified_by'));
 		// 登录的状态下
 		if (!empty($user)) {
 			// 数据创建状态并且表中包含created_by字段
-			if ($entity->isNew() !== false && $this->hasField('created_by') && $entity->has('created_by') === false) {
-				$entity->set('created_by', $user['id']);
-				//$entity->unsetProperty('created_by');
+			if ($entity->isNew() && $this->hasField('created_by')) {
+				if ($entity->dirty('created_by') === false && $entity->get('created_by') === null) {
+					$entity->set('created_by', $user['id']);
+				} elseif ($entity->dirty('created_by') === true && !$entity->get('created_by') && $entity->get('created_by') !== null) {
+					$entity->unsetProperty('created_by');
+				}
 			}
-			if ($this->hasField('modified_by') && $entity->has('modified_by') === false) {
-				$entity->set('modified_by', $user['id']);
+			if ($this->hasField('modified_by')) {
+				if ($entity->dirty('modified_by') === false && $entity->get('modified_by') === null) {
+					$entity->set('modified_by', $user['id']);
+				} elseif ($entity->dirty('modified_by') === true && !$entity->get('modified_by') && $entity->get('modified_by') !== null) {
+					$entity->unsetProperty('modified_by');
+				}
 			}
 		}
 		return true;
