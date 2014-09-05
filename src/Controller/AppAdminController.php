@@ -20,7 +20,31 @@ class AppAdminController extends AppController {
  * 
  * @var array
  */
-	public $components = ['Flash'];
+	public $components = [
+		'Auth' => [
+			'authenticate' => [
+				'Form' => [
+					'userModel' => 'Users',
+					'fields' => ['username' => 'email'],
+					'scope' => [],
+					'contain' => false,
+					'passwordHasher' => 'Default'
+				],
+			],
+			'loginAction' => [
+				'controller' => 'Users',
+				'action' => 'login',
+				'prefix' => 'admin'
+			],
+			'loginRedirect' => [
+				'controller' => 'Dashboard',
+				'action' => 'index',
+				'prefix' => 'admin'
+			],
+			'flash' => ['key' => 'flash', 'params' => ['element' => 'error']],
+			'authError' => '请先登录系统。'
+		]
+	];
 
 /**
  * 模板助手

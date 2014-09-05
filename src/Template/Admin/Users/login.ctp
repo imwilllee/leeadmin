@@ -12,6 +12,12 @@
             <?php echo $this->Form->create(null); ?>
 
                 <div class="body bg-gray">
+<?php if ($this->Session->check('Flash.flash')) : ?>
+                    <div class="form-group">
+<?php echo $this->Flash->render(); ?>
+
+                    </div>
+<?php endif;?>
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>

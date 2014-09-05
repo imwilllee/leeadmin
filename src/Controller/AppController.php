@@ -16,6 +16,13 @@ use Cake\Event\Event;
 class AppController extends Controller {
 
 /**
+ * 组件
+ * 
+ * @var array
+ */
+	public $components = ['Flash', 'Security', 'Csrf'];
+
+/**
  * 视图类
  * 
  * @var string

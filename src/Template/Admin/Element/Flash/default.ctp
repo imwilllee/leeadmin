@@ -1,7 +1,7 @@
 <?php
-$class = 'message';
+$class = 'error';
 if (!empty($params['class'])) {
-	$class .= ' ' . $params['class'];
+	$class = $params['class'];
 }
 ?>
-<div class="<?= h($class) ?>"><?= h($message) ?></div>
+<div class="alert alert-<?php echo h($class); ?>"><?php echo h($message); ?></div>
