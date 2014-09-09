@@ -26,7 +26,6 @@ class AppAdminController extends AppController {
 				'Form' => [
 					'userModel' => 'Users',
 					'fields' => ['username' => 'email'],
-					'scope' => [],
 					'contain' => false,
 					'passwordHasher' => 'Default'
 				],
@@ -41,8 +40,8 @@ class AppAdminController extends AppController {
 				'action' => 'index',
 				'prefix' => 'admin'
 			],
-			'flash' => ['key' => 'flash', 'params' => ['element' => 'error']],
-			'authError' => '请先登录系统。'
+			'flash' => ['element' => 'error'],
+			'authError' => '请先登录系统！'
 		]
 	];
 
@@ -82,7 +81,9 @@ class AppAdminController extends AppController {
  */
 	public function beforeFilter(Event $event) {
 		parent::beforeFilter($event);
-		Configure::write('Auth.User.id', 1);
+		if ($this->Auth->user()) {
+			Configure::write('Auth.User.id', $this->request->session()->read('Auth.User.id'));
+		}
 	}
 
 /**

@@ -93,7 +93,7 @@ $config = [
 			'prefix' => 'myapp_cake_core_',
 			'path' => CACHE . 'persistent/',
 			'serialize' => true,
-			'duration' => '+2 minutes',
+			'duration' => '+30 minutes',
 		],
 
 	/**
@@ -106,7 +106,7 @@ $config = [
 			'prefix' => 'myapp_cake_model_',
 			'path' => CACHE . 'models/',
 			'serialize' => true,
-			'duration' => '+2 minutes',
+			'duration' => '+30 minutes',
 		],
 	],
 
@@ -311,5 +311,7 @@ $config = [
  */
 	'Session' => [
 		'defaults' => 'php',
+		'cookie' => 'LEEADMIN',
+		'timeout' => 30
 	],
 ];

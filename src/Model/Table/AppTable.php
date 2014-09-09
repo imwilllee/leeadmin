@@ -36,11 +36,8 @@ class AppTable extends Table {
  * @return boolean
  */
 	public function beforeSave(Event $event, Entity $entity, $options = []) {
-		// 登录信息
+		// 登录用户信息
 		$user = Configure::read('Auth.User');
-		var_dump($entity->dirty('modified_by'));
-		var_dump($entity->get('modified_by'));
-		// 登录的状态下
 		if (!empty($user)) {
 			// 数据创建状态并且表中包含created_by字段
 			if ($entity->isNew() && $this->hasField('created_by')) {

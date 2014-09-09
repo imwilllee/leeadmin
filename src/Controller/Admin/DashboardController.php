@@ -10,6 +10,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
+use Cake\Core\Configure;
 
 class DashboardController extends AppAdminController {
 

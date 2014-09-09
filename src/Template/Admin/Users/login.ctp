@@ -15,7 +15,6 @@
 <?php if ($this->Session->check('Flash.flash')) : ?>
                     <div class="form-group">
 <?php echo $this->Flash->render(); ?>
-
                     </div>
 <?php endif;?>
                     <div class="form-group">
