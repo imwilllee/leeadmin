@@ -1,5 +1,11 @@
         <header class="header">
-            <a href="index.html" class="logo">AdminLTE</a>
+            <?php
+                echo $this->Html->link(
+                    'LeeAdmin',
+                    ['controller' => 'Dashboard', 'action' => 'index', 'prefix' => 'admin'],
+                    ['class' => 'logo']
+                );
+            ?>
             <nav class="navbar navbar-static-top" role="navigation">
                 <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
@@ -195,7 +201,7 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="glyphicon glyphicon-user"></i>
-                                <span>Jane Doe <i class="caret"></i></span>
+                                <span><?php echo $this->Session->read('Auth.User.alias'); ?> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="user-header bg-light-blue">
@@ -221,7 +227,13 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        <?php
+                                            echo $this->Html->link(
+                                                '退出',
+                                                ['controller' => 'Users', 'action' => 'logout', 'prefix' => 'admin'],
+                                                ['class' => 'btn btn-default btn-flat']
+                                            );
+                                        ?>
                                     </div>
                                 </li>
                             </ul>

@@ -7,9 +7,6 @@
  * @author    Will.Lee <im.will.lee@gmail.com>
  */
 $config = [
-	'Const' => [
-		'name' => 'LeeAdmin'
-	],
 	'Basic' => [
 		'title' => 'LeeAdmin',
 		'title_delimiter' => ' | '

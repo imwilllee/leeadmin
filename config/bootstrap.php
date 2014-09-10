@@ -66,7 +66,7 @@ try {
 // Load an environment local configuration file.
 // You can use this file to provide local overrides to your
 // shared configuration.
-//Configure::load('app_local.php', 'default');
+Configure::load('common.php', 'default');
 
 // When debug = false the metadata cache should last
 // for a very very long time, as we don't want
