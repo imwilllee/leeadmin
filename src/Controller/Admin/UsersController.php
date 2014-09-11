@@ -74,7 +74,7 @@ class UsersController extends AppAdminController {
  */
 	public function logout() {
 		$this->Flash->success('系统退出成功！');
-		$this->Cookie->delete('SIDEBAR_MENU_CODES');
+		$this->Cookie->delete('SIDEBAR_PARENT_IDS');
 		return $this->redirect($this->Auth->logout());
 	}
 

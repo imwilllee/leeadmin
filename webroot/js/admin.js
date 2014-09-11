@@ -282,16 +282,16 @@ function fix_sidebar() {
                     btn.children(".fa-angle-left").first().removeClass("fa-angle-left").addClass("fa-angle-down");
                     btn.parent("li").addClass("active");
                 }
-                var sidebarMenuCodes = '';
+                var parentIds = '';
                 $('ul.sidebar-menu > li').each(function(){
                     if ($(this).hasClass('active')) {
-                        var menuCode = $(this).attr('data-menu-code');
-                        if (menuCode != '') {
-                            sidebarMenuCodes += menuCode + '.';
+                        var parentId = $(this).attr('data-parent-id');
+                        if (parentId != '') {
+                            parentIds += parentId + '.';
                         }
                     }
                 });
-                $.cookie('SIDEBAR_MENU_CODES', sidebarMenuCodes.replace(/\.+$/,''), { path: '/admin' });
+                $.cookie('SIDEBAR_PARENT_IDS', parentIds.replace(/\.+$/,''), { path: '/admin' });
             });
 
             /* Add margins to submenu elements to give it a tree look */

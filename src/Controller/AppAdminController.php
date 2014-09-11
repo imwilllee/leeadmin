@@ -99,11 +99,11 @@ class AppAdminController extends AppController {
 		if ($this->Auth->user()) {
 			$menusTable = TableRegistry::get('Menus');
 			$this->set('sidebarMenus', $menusTable->getSidebarMenus());
-			$sidebarActiveCodes = [];
-			if (!empty($this->request->cookies['SIDEBAR_MENU_CODES'])) {
-				$sidebarActiveCodes = explode('.', $this->request->cookies['SIDEBAR_MENU_CODES']);
+			$sidebarParentIds = [];
+			if (!empty($this->request->cookies['SIDEBAR_PARENT_IDS'])) {
+				$sidebarParentIds = explode('.', $this->request->cookies['SIDEBAR_PARENT_IDS']);
 			}
-			$this->set('sidebarActiveCodes', $sidebarActiveCodes);
+			$this->set('sidebarParentIds', $sidebarParentIds);
 		}
 	}
 }
