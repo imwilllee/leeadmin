@@ -282,6 +282,16 @@ function fix_sidebar() {
                     btn.children(".fa-angle-left").first().removeClass("fa-angle-left").addClass("fa-angle-down");
                     btn.parent("li").addClass("active");
                 }
+                var sidebarMenuCodes = '';
+                $('ul.sidebar-menu > li').each(function(){
+                    if ($(this).hasClass('active')) {
+                        var menuCode = $(this).attr('data-menu-code');
+                        if (menuCode != '') {
+                            sidebarMenuCodes += menuCode + '.';
+                        }
+                    }
+                });
+                $.cookie('SIDEBAR_MENU_CODES', sidebarMenuCodes.replace(/\.+$/,''), { path: '/admin' });
             });
 
             /* Add margins to submenu elements to give it a tree look */
@@ -390,3 +400,12 @@ b=c.id,g=-p+"%",d=100+2*p+"%",d={position:"absolute",top:g,left:g,display:"block
 'aria-labelledby="';this.id?h+=this.id:(this.id=y,h+=y);h+='"'});h=a.wrap(h+"/>")[_callback]("ifCreated").parent().append(e.insert);d=f('<ins class="'+C+'"/>').css(d).appendTo(h);a.data(m,{o:e,s:a.attr("style")}).css(g);e.inheritClass&&h[_add](c.className||"");e.inheritID&&b&&h.attr("id",m+"-"+b);"static"==h.css("position")&&h.css("position","relative");A(a,!0,_update);if(z.length)z.on(_click+".i mouseover.i mouseout.i "+_touch,function(b){var d=b[_type],e=f(this);if(!c[n]){if(d==_click){if(f(b.target).is("a"))return;
 A(a,!1,!0)}else B&&(/ut|nd/.test(d)?(h[_remove](v),e[_remove](w)):(h[_add](v),e[_add](w)));if(_mobile)b.stopPropagation();else return!1}});a.on(_click+".i focus.i blur.i keyup.i keydown.i keypress.i",function(b){var d=b[_type];b=b.keyCode;if(d==_click)return!1;if("keydown"==d&&32==b)return c[_type]==r&&c[k]||(c[k]?q(a,k):x(a,k)),!1;if("keyup"==d&&c[_type]==r)!c[k]&&x(a,k);else if(/us|ur/.test(d))h["blur"==d?_remove:_add](s)});d.on(_click+" mousedown mouseup mouseover mouseout "+_touch,function(b){var d=
 b[_type],e=/wn|up/.test(d)?t:v;if(!c[n]){if(d==_click)A(a,!1,!0);else{if(/wn|er|in/.test(d))h[_add](e);else h[_remove](e+" "+t);if(z.length&&B&&e==v)z[/ut|nd/.test(d)?_remove:_add](w)}if(_mobile)b.stopPropagation();else return!1}})})}})(window.jQuery||window.Zepto);
+
+/*!
+ * jQuery Cookie Plugin v1.4.1
+ * https://github.com/carhartl/jquery-cookie
+ *
+ * Copyright 2013 Klaus Hartl
+ * Released under the MIT license
+ */
+(function(a){if(typeof define==='function'&&define.amd){define(['jquery'],a)}else if(typeof exports==='object'){a(require('jquery'))}else{a(jQuery)}}(function($){var k=/\+/g;function encode(s){return m.raw?s:encodeURIComponent(s)}function decode(s){return m.raw?s:decodeURIComponent(s)}function stringifyCookieValue(a){return encode(m.json?JSON.stringify(a):String(a))}function parseCookieValue(s){if(s.indexOf('"')===0){s=s.slice(1,-1).replace(/\\"/g,'"').replace(/\\\\/g,'\\')}try{s=decodeURIComponent(s.replace(k,' '));return m.json?JSON.parse(s):s}catch(e){}}function read(s,a){var b=m.raw?s:parseCookieValue(s);return $.isFunction(a)?a(b):b}var m=$.cookie=function(a,b,c){if(b!==undefined&&!$.isFunction(b)){c=$.extend({},m.defaults,c);if(typeof c.expires==='number'){var d=c.expires,t=c.expires=new Date();t.setTime(+t+d*864e+5)}return(document.cookie=[encode(a),'=',stringifyCookieValue(b),c.expires?'; expires='+c.expires.toUTCString():'',c.path?'; path='+c.path:'',c.domain?'; domain='+c.domain:'',c.secure?'; secure':''].join(''))}var e=a?undefined:{};var f=document.cookie?document.cookie.split('; '):[];for(var i=0,l=f.length;i<l;i++){var g=f[i].split('=');var h=decode(g.shift());var j=g.join('=');if(a&&a===h){e=read(j,b);break}if(!a&&(j=read(j))!==undefined){e[h]=j}}return e};m.defaults={};$.removeCookie=function(a,b){if($.cookie(a)===undefined){return false}$.cookie(a,'',$.extend({},b,{expires:-1}));return!$.cookie(a)}}));

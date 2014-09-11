@@ -43,6 +43,11 @@ class AppAdminController extends AppController {
 			],
 			'flash' => ['element' => 'error'],
 			'authError' => '请先登录系统！'
+		],
+		'Cookie' => [
+			'path' => '/admin',
+			'encryption' => false,
+			'expires' => 0
 		]
 	];
 
@@ -94,11 +99,11 @@ class AppAdminController extends AppController {
 		if ($this->Auth->user()) {
 			$menusTable = TableRegistry::get('Menus');
 			$this->set('sidebarMenus', $menusTable->getSidebarMenus());
-			$sidebarActive = [];
-			if (!empty($this->request->cookies['SIDEBAR_ACTIVE'])) {
-				$sidebarActive = explode('.', $this->request->cookies['SIDEBAR_ACTIVE']);
+			$sidebarActiveCodes = [];
+			if (!empty($this->request->cookies['SIDEBAR_MENU_CODES'])) {
+				$sidebarActiveCodes = explode('.', $this->request->cookies['SIDEBAR_MENU_CODES']);
 			}
-			$this->set('sidebarActive', $sidebarActive);
+			$this->set('sidebarActiveCodes', $sidebarActiveCodes);
 		}
 	}
 }

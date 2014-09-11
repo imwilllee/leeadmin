@@ -13,7 +13,7 @@
                             ?>
                         </li>
                         <?php else: ?>
-                        <li class="treeview">
+                        <li class="treeview<?php echo in_array($menuCode, $sidebarActiveCodes) ? ' active' : ''; ?>" data-menu-code="<?php echo $menuCode; ?>">
                             <?php
                                 echo $this->Html->link(
                                     sprintf('<i class="%s"></i> <span>%s</span> <i class="fa fa-angle-left pull-right"></i>', $menu['class'], $menu['name']),
