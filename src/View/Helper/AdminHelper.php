@@ -1,6 +1,6 @@
 <?php
 /**
- * 管理端视图助手
+ * 管理端模板助手
  *
  * @copyright LeeAdmin
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -10,26 +10,7 @@
 
 namespace App\View\Helper;
 
-use Cake\Core\Configure;
-use Cake\Event\Event;
-use Cake\View\Helper;
+use App\View\Helper\AppHelper;
 
-class AdminHelper extends Helper {
-
-/**
- * 显示页面标题
- * 
- * @return string
- */
-	public function title() {
-		$title = Configure::read('Basic.title');
-		$delimiter = Configure::read('Basic.title_delimiter');
-		if (isset($this->_View->viewVars['controllerTitle']) && $this->_View->viewVars['controllerTitle'] != '') {
-			$title .= $delimiter . $this->_View->viewVars['controllerTitle'];
-		}
-		if (isset($this->_View->viewVars['actionTitle']) && $this->_View->viewVars['actionTitle'] != '') {
-			$title .= $delimiter . $this->_View->viewVars['actionTitle'];
-		}
-		return h($title);
-	}
+class AdminHelper extends AppHelper {
 }

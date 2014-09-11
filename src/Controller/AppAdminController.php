@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 
 class AppAdminController extends AppController {
 
@@ -53,25 +54,18 @@ class AppAdminController extends AppController {
 	public $helpers = ['Admin'];
 
 /**
- * 控制器标题
+ * 页面主标题
  * 
  * @var string
  */
-	protected $_controllerTitle = null;
+	protected $_mainTitle = null;
 
 /**
- * 操作标题
+ * 页面副标题
  * 
  * @var string
  */
-	protected $_actionTitle = null;
-
-/**
- * 头部标题
- * 
- * @var string
- */
-	protected $_headerTitle = null;
+	protected $_subTitle = null;
 
 /**
  * 控制器操作执行前回调方法
@@ -94,8 +88,17 @@ class AppAdminController extends AppController {
  */
 	public function beforeRender(Event $event) {
 		parent::beforeRender($event);
-		$this->set('controllerTitle', $this->_controllerTitle);
-		$this->set('actionTitle', $this->_actionTitle);
-		$this->set('headerTitle', $this->_headerTitle);
+		$this->set('mainTitle', $this->_mainTitle);
+		$this->set('subTitle', $this->_subTitle);
+		// 登陆后设置左侧菜单
+		if ($this->Auth->user()) {
+			$menusTable = TableRegistry::get('Menus');
+			$this->set('sidebarMenus', $menusTable->getSidebarMenus());
+			$sidebarActive = [];
+			if (!empty($this->request->cookies['SIDEBAR_ACTIVE'])) {
+				$sidebarActive = explode('.', $this->request->cookies['SIDEBAR_ACTIVE']);
+			}
+			$this->set('sidebarActive', $sidebarActive);
+		}
 	}
 }

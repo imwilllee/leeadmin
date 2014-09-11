@@ -18,11 +18,11 @@ use DateTime;
 class UsersController extends AppAdminController {
 
 /**
- * 控制器标题
+ * 主标题
  * 
  * @var string
  */
-	protected $_controllerTitle = '用户管理';
+	protected $_mainTitle = '用户管理';
 
 /**
  * 控制器操作执行前回调方法
@@ -43,7 +43,7 @@ class UsersController extends AppAdminController {
  */
 	public function login() {
 		$this->layout = false;
-		$this->_controllerTitle = '管理员登陆';
+		$this->_mainTitle = '管理员登陆';
 		// 已登录状态自动跳转
 		if ($this->Auth->user()) {
 			return $this->redirect($this->Auth->redirectUrl());

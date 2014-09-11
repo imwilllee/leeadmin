@@ -11,15 +11,16 @@ namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
 use Cake\Core\Configure;
+use Cake\ORM\TableRegistry;
 
 class DashboardController extends AppAdminController {
 
 /**
- * 控制器标题
+ * 主标题
  * 
  * @var string
  */
-	protected $_controllerTitle = '控制面板';
+	protected $_mainTitle = '控制面板';
 
 /**
  * 用户管理

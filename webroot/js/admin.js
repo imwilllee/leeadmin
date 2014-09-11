@@ -46,12 +46,12 @@ $(function() {
             box.addClass("collapsed-box");
             //Convert minus into plus
             $(this).children(".fa-minus").removeClass("fa-minus").addClass("fa-plus");
-            bf.slideUp();
+            bf.slideUp(150);
         } else {
             box.removeClass("collapsed-box");
             //Convert plus into minus
             $(this).children(".fa-plus").removeClass("fa-plus").addClass("fa-minus");
-            bf.slideDown();
+            bf.slideDown(150);
         }
     });
 
@@ -82,7 +82,7 @@ $(function() {
     $("[data-widget='remove']").click(function() {
         //Find the box parent        
         var box = $(this).parents(".box").first();
-        box.slideUp();
+        box.slideUp(150);
     });
 
     /* Sidebar tree view */
@@ -114,6 +114,10 @@ $(function() {
     _fix();
     //Fire when wrapper is resized
     $(".wrapper").resize(function() {
+        _fix();
+        fix_sidebar();
+    });
+    $(window).resize(function() {
         _fix();
         fix_sidebar();
     });
@@ -267,13 +271,13 @@ function fix_sidebar() {
                 e.preventDefault();
                 if (isActive) {
                     //Slide up to close menu
-                    menu.slideUp(200);
+                    menu.slideUp(150);
                     isActive = false;
                     btn.children(".fa-angle-down").first().removeClass("fa-angle-down").addClass("fa-angle-left");
                     btn.parent("li").removeClass("active");
                 } else {
                     //Slide down to open menu
-                    menu.slideDown(200);
+                    menu.slideDown(150);
                     isActive = true;
                     btn.children(".fa-angle-left").first().removeClass("fa-angle-left").addClass("fa-angle-down");
                     btn.parent("li").addClass("active");
