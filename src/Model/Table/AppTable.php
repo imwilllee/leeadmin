@@ -57,4 +57,15 @@ class AppTable extends Table {
 		}
 		return true;
 	}
+
+/**
+ * 清空数据库
+ * 
+ * @param string $tableName 表名
+ * @return boolean
+ */
+	public function truncate($tableName) {
+		$query = sprintf('TRUNCATE TABLE %s;', $tableName);
+		return $this->connection()->query($query);
+	}
 }

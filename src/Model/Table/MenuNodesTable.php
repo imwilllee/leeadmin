@@ -21,7 +21,7 @@ class MenuNodesTable extends AppTable {
  */
 	public function initialize(array $config) {
 		$this->table('menu_nodes');
-		$this->primaryKey(['id', 'menu_id']);
+		$this->primaryKey(['id']);
 		parent::initialize($config);
 	}
 }

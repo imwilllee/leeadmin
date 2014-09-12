@@ -28,6 +28,13 @@
 <?php endif; ?>
                 </section>
                 <section class="content">
+<?php if ($this->Session->check('Flash.flash')) : ?>
+                    <div class="row">
+                        <div class="col-md-12">
+<?php echo $this->Flash->render(); ?>
+                        </div>
+                    </div>
+<?php endif;?>
 <?php echo $this->fetch('content'); ?>
                 </section>
             </aside>

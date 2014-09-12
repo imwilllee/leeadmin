@@ -1,4 +1,4 @@
-<?php 
+<?php
     $breadcrumbs = [['text' => '控制面板', 'active' => true]];
     $this->set('breadcrumbs', $breadcrumbs);
 ?>

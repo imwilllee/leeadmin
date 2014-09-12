@@ -15,6 +15,11 @@ use Cake\Cache\Cache;
 class MenusTable extends AppTable {
 
 /**
+ * 左侧菜单缓存标志
+ */
+	const MENUS_CACHE_KEY = 'admin_sidebar_menu';
+
+/**
  * 核心功能菜单
  * link定义格式规则
  * 插件格式:plugin.controller/action 和 plugin.prefix/controller/action
@@ -36,14 +41,78 @@ class MenusTable extends AppTable {
 			]
 		],
 		[
-			'menu_code' => 'wechat',
+			'menu_code' => 'plugin',
 			'parent_code' => null,
-			'name' => '微信公众号',
+			'name' => '插件管理',
+			'link' => 'admin/plugins/index',
+			'class' => 'fa fa-plug',
+			'rank' => 0,
+			'display_flg' => true,
+			'menu_nodes' => [
+				['link' => 'admin/plugins/index', 'name' => '查看'],
+				['link' => 'admin/plugins/install', 'name' => '安装'],
+				['link' => 'admin/plugins/active', 'name' => '状态设置'],
+				['link' => 'admin/plugins/setting', 'name' => '插件设置']
+			]
+		],
+		[
+			'menu_code' => 'users',
+			'parent_code' => null,
+			'name' => '管理员用户组',
 			'link' => null,
-			'class' => 'fa fa-wechat',
+			'class' => 'fa fa-users',
 			'rank' => 0,
 			'display_flg' => true
 		],
+		[
+			'menu_code' => null,
+			'parent_code' => 'users',
+			'name' => '系统管理员',
+			'link' => 'admin/users/index',
+			'class' => null,
+			'rank' => 0,
+			'display_flg' => true,
+			'menu_nodes' => [
+				['link' => 'admin/users/create', 'name' => '创建'],
+				['link' => 'admin/users/index', 'name' => '查看'],
+				['link' => 'admin/users/view', 'name' => '详细'],
+				['link' => 'admin/users/edit', 'name' => '编辑'],
+				['link' => 'admin/users/delete', 'name' => '删除']
+			]
+		],
+		[
+			'menu_code' => null,
+			'parent_code' => 'users',
+			'name' => '创建管理员',
+			'link' => 'admin/users/create',
+			'class' => null,
+			'rank' => 0,
+			'display_flg' => true
+		],
+		[
+			'menu_code' => null,
+			'parent_code' => 'users',
+			'name' => '用户组管理',
+			'link' => 'admin/user_groups/index',
+			'class' => null,
+			'rank' => 0,
+			'display_flg' => true,
+			'menu_nodes' => [
+				['link' => 'admin/user_groups/create', 'name' => '创建'],
+				['link' => 'admin/user_groups/index', 'name' => '查看'],
+				['link' => 'admin/user_groups/edit', 'name' => '编辑'],
+				['link' => 'admin/user_groups/delete', 'name' => '删除']
+			]
+		],
+		[
+			'menu_code' => null,
+			'parent_code' => 'users',
+			'name' => '创建用户组',
+			'link' => 'admin/user_groups/create',
+			'class' => null,
+			'rank' => 0,
+			'display_flg' => true
+		]
 	];
 
 /**
@@ -69,7 +138,7 @@ class MenusTable extends AppTable {
  * @return array
  */
 	public function getSidebarMenus() {
-		$cache = Cache::read('admin_sidebar_menu');
+		$cache = Cache::read(self::MENUS_CACHE_KEY);
 		if (empty($cache)) {
 			$query = $this->find()
 				->select(['id', 'plugin_code', 'menu_code', 'parent_code', 'name', 'link', 'class'])
@@ -83,8 +152,32 @@ class MenusTable extends AppTable {
 				}
 			}
 			unset($query);
-			Cache::write('admin_sidebar_menu', $cache);
+			Cache::write(self::MENUS_CACHE_KEY, $cache);
 		}
 		return $cache;
+	}
+
+/**
+ * 刷新核心和插件定义菜单和节点
+ * 
+ * @return boolean
+ */
+	public function refreshMenus() {
+		return $this->connection()->transactional(function() {
+			$this->truncate('menus');
+			$this->truncate('menu_nodes');
+			foreach ($this->_defineCoreMenus as $menu) {
+				// 存在子节点
+				if (isset($menu['menu_nodes'])) {
+					$menu['has_nodes'] = true;
+				}
+				$entity = $this->newEntity($menu);
+				if (!$this->save($entity, ['associated' => ['MenuNodes']])) {
+					return false;
+				}
+			}
+			Cache::delete(self::MENUS_CACHE_KEY);
+			return true;
+		});
 	}
 }

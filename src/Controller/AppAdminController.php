@@ -82,6 +82,8 @@ class AppAdminController extends AppController {
 		parent::beforeFilter($event);
 		if ($this->Auth->user()) {
 			Configure::write('Auth.User.id', $this->request->session()->read('Auth.User.id'));
+			// 刷新核心和插件定义菜单和节点
+			$this->__refreshMenus();
 		}
 	}
 
@@ -104,6 +106,22 @@ class AppAdminController extends AppController {
 				$sidebarParentIds = explode('.', $this->request->cookies['SIDEBAR_PARENT_IDS']);
 			}
 			$this->set('sidebarParentIds', $sidebarParentIds);
+		}
+	}
+
+/**
+ * 刷新核心和插件定义菜单和节点
+ * 
+ * @return boolean
+ */
+	private function __refreshMenus() {
+		if ($this->request->query('_refresh_menu') !== null && Configure::read('debug') === true) {
+			$menusTable = TableRegistry::get('Menus');
+			if ($menusTable->refreshMenus()) {
+				$this->Flash->success('菜单节点刷新成功！');
+			} else {
+				$this->Flash->error('菜单节点刷新失败！');
+			}
 		}
 	}
 }
