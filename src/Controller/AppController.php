@@ -20,7 +20,7 @@ class AppController extends Controller {
  * 
  * @var array
  */
-	public $components = ['Flash', 'Security', 'Csrf'];
+	public $components = ['Flash', 'Csrf'];
 
 /**
  * 视图类

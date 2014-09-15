@@ -10,8 +10,16 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
+use Cake\ORM\TableRegistry;
 
 class GroupsController extends AppAdminController {
+
+/**
+ * 主标题
+ * 
+ * @var string
+ */
+	protected $_mainTitle = '用户组管理';
 
 /**
  * 用户组一览
@@ -19,7 +27,37 @@ class GroupsController extends AppAdminController {
  * @return void
  */
 	public function index() {
-		$this->set('groups', $this->paginate($this->Groups));
+		$this->_subTitle = '用户组一览';
+		$groupsTable = TableRegistry::get('Groups');
+		$query = $groupsTable->find()->select(['id', 'name', 'status', 'explain']);
+		$this->__markQuery($query);
+		$this->paginate = array_merge($this->paginate, ['sortWhitelist' => ['id', 'status']]);
+		$this->set('groups', $this->paginate($query));
+	}
+
+/**
+ * 组装查询条件
+ * 
+ * @param Cake\ORM\Query $query 查询生成器
+ * @return void
+ */
+	private function __markQuery($query) {
+		if ($this->request->is('post')) {
+			if ($this->request->data('name') != '') {
+				$this->request->query['name'] = urlencode($this->request->data('name'));
+			}
+			if ($this->request->data('status') != '') {
+				$this->request->query['status'] = implode('_', $this->request->data('status'));
+			}
+		}
+		if ($this->request->query('name') != '') {
+			$this->request->data['name'] = urldecode($this->request->query('name'));
+			$query->where(['name LIKE' => '%' . $this->request->data('name') . '%']);
+		}
+		if ($this->request->query('status') != '') {
+			$this->request->data['status'] = explode('_', $this->request->query('status'));
+			$query->where(['status IN' => $this->request->data('status')]);
+		}
 	}
 
 /**
@@ -42,9 +80,10 @@ class GroupsController extends AppAdminController {
  * @return void
  */
 	public function add() {
-		$group = $this->Groups->newEntity($this->request->data);
+		$groupsTable = TableRegistry::get('Groups');
+		$group = $groupsTable->newEntity($this->request->data);
 		if ($this->request->is('post')) {
-			if ($this->Groups->save($group)) {
+			if ($groupsTable->save($group)) {
 				$this->Flash->success('The group has been saved.');
 				return $this->redirect(['action' => 'index']);
 			} else {

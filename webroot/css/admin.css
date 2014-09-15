@@ -1437,9 +1437,10 @@ body > .header .logo .icon {
   float: left;
   cursor: default;
 }
+/*
 .box .box-header a {
   color: #444;
-}
+}*/
 .box .box-header > .box-tools {
   padding: 5px 10px 5px 5px;
 }
@@ -3527,4 +3528,17 @@ fieldset[disabled] .btn-vk.active {
 .btn-vk .badge {
   color: #587ea3;
   background-color: #ffffff;
+}
+.fa-1{
+  font-size: 1.3em;
+  margin-right: 1px;
+}
+.input-group .checkbox{
+  margin-top: 0px;
+  margin-bottom: 5px;
+  margin-right: 10px;
+  float: left;
+}
+.input-group .checkbox label{
+  padding-left: 5px;
 }

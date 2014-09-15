@@ -48,6 +48,9 @@ class AppAdminController extends AppController {
 			'path' => '/admin',
 			'encryption' => false,
 			'expires' => 0
+		],
+		'Security' => [
+			'unlockedFields' => []
 		]
 	];
 
@@ -57,6 +60,20 @@ class AppAdminController extends AppController {
  * @var array
  */
 	public $helpers = ['Admin'];
+
+/**
+ * 默认分页参数
+ * 
+ * @var array
+ */
+	public $paginate = [
+		// 默认显示数量
+		'limit' => 10,
+		// 最大显示数量
+		'maxLimit' => 100,
+		// 允许排序字段
+		'sortWhitelist' => ['id']
+	];
 
 /**
  * 页面主标题

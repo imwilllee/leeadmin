@@ -14,7 +14,7 @@
                                     </p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-bag"></i>
+                                    <i class="fa fa-money"></i>
                                 </div>
                                 <a href="#" class="small-box-footer">
                                     More info <i class="fa fa-arrow-circle-right"></i>
@@ -33,7 +33,7 @@
                                     </p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-stats-bars"></i>
+                                    <i class="fa fa-bar-chart"></i>
                                 </div>
                                 <a href="#" class="small-box-footer">
                                     More info <i class="fa fa-arrow-circle-right"></i>
@@ -51,7 +51,7 @@
                                     </p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-person-add"></i>
+                                    <i class="fa fa-user-md"></i>
                                 </div>
                                 <a href="#" class="small-box-footer">
                                     More info <i class="fa fa-arrow-circle-right"></i>
@@ -69,7 +69,7 @@
                                     </p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-pie-graph"></i>
+                                    <i class="fa fa-pie-chart"></i>
                                 </div>
                                 <a href="#" class="small-box-footer">
                                     More info <i class="fa fa-arrow-circle-right"></i>

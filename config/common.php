@@ -7,8 +7,16 @@
  * @author    Will.Lee <im.will.lee@gmail.com>
  */
 $config = [
+	// 站点配置
 	'Basic' => [
 		'title' => 'LeeAdmin',
 		'title_delimiter' => ' - '
+	],
+	// 常用配置
+	'Common' => [
+		'status' => [
+			0 => '禁用',
+			1 => '启用'
+		]
 	]
 ];

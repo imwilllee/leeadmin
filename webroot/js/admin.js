@@ -3,6 +3,9 @@
  * to change the values in the less files!
  */
 var left_side_width = 220; //Sidebar width in pixels
+var box_show_text = "显示";
+var box_hide_text = "隐藏";
+var cookie_config = {path: "/admin"}
 
 $(function() {
     "use strict";
@@ -32,26 +35,58 @@ $(function() {
     });
 
     //Activate tooltips
-    $("[data-toggle='tooltip']").tooltip();
+    $("[data-toggle='tooltip']").tooltip({placement:'bottom'});
 
     /*     
      * Add collapse and remove events to boxes
      */
     $("[data-widget='collapse']").click(function() {
-        //Find the box parent        
-        var box = $(this).parents(".box").first();
+        //Find the box parent
+        var ts = $(this);
+        var tooltipText = ts.attr("data-original-title");
+        if (tooltipText == box_show_text) {
+            tooltipText = box_hide_text;
+        } else {
+            tooltipText = box_show_text;
+        }
+
+        ts.attr("data-original-title", tooltipText);
+        var box = ts.parents(".box").first();
         //Find the body and the footer
         var bf = box.find(".box-body, .box-footer");
         if (!box.hasClass("collapsed-box")) {
             box.addClass("collapsed-box");
             //Convert minus into plus
-            $(this).children(".fa-minus").removeClass("fa-minus").addClass("fa-plus");
+            ts.children(".fa-minus").removeClass("fa-minus").addClass("fa-plus");
             bf.slideUp(150);
+            $.cookie("SHOW_BOX_STATUS", "hide", cookie_config);
         } else {
             box.removeClass("collapsed-box");
             //Convert plus into minus
-            $(this).children(".fa-plus").removeClass("fa-plus").addClass("fa-minus");
+            ts.children(".fa-plus").removeClass("fa-plus").addClass("fa-minus");
             bf.slideDown(150);
+            $.cookie("SHOW_BOX_STATUS", "show", cookie_config);
+        }
+    });
+
+    // 自动显示隐藏box
+    var showBoxStatus = $.cookie('SHOW_BOX_STATUS');
+    if (typeof(showBoxStatus) != "undefined" && showBoxStatus == "show") {
+        var ts = $("#box-collapse");
+        var box = ts.parents(".box").first();
+        ts.attr("data-original-title", box_hide_text);
+        ts.children(".fa-plus").removeClass("fa-plus").addClass("fa-minus");
+        box.removeClass("collapsed-box");
+        box.find(".box-body, .box-footer").show();
+    }
+    // checkbox 选择
+    $("#checkbox-selector").on("ifChanged", function(e){
+        var selector = $(this).attr("data-target-selector");
+        var checkbox = $('input[name="' + selector + '"]');
+        if ($(this).prop("checked")) {
+            checkbox.iCheck("check");
+        } else {
+            checkbox.iCheck("uncheck");
         }
     });
 
@@ -291,7 +326,7 @@ function fix_sidebar() {
                         }
                     }
                 });
-                $.cookie('SIDEBAR_PARENT_IDS', parentIds.replace(/\.+$/,''), { path: '/admin' });
+                $.cookie('SIDEBAR_PARENT_IDS', parentIds.replace(/\.+$/,''), cookie_config);
             });
 
             /* Add margins to submenu elements to give it a tree look */

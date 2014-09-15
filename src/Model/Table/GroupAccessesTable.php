@@ -1,6 +1,6 @@
 <?php
 /**
- * 菜单节点表
+ * 用户组权限表
  *
  * @copyright LeeAdmin
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -11,7 +11,7 @@ namespace App\Model\Table;
 
 use App\Model\Table\AppTable;
 
-class MenuNodesTable extends AppTable {
+class GroupAccessesTable extends AppTable {
 
 /**
  * 初始化方法
@@ -20,8 +20,8 @@ class MenuNodesTable extends AppTable {
  * @return void
  */
 	public function initialize(array $config) {
-		$this->table('menu_nodes');
-		$this->primaryKey('id');
+		$this->table('group_accesses');
+		$this->primaryKey(['group_id', 'menu_node_id']);
 		parent::initialize($config);
 	}
 }

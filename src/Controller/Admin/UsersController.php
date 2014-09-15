@@ -22,7 +22,7 @@ class UsersController extends AppAdminController {
  * 
  * @var string
  */
-	protected $_mainTitle = '用户管理';
+	protected $_mainTitle = '系统管理员';
 
 /**
  * 控制器操作执行前回调方法
@@ -79,11 +79,15 @@ class UsersController extends AppAdminController {
 	}
 
 /**
- * 用户管理
+ * 管理员管理
  * 
  * @return void
  */
 	public function index() {
+		$this->_subTitle = '管理员一览';
+		$usersTable = TableRegistry::get('Users');
+		$this->paginate = array_merge($this->paginate, ['sortWhitelist' => ['id', 'status']]);
+		$this->set('users', $this->paginate($usersTable));
 	}
 
 /**
@@ -100,7 +104,7 @@ class UsersController extends AppAdminController {
  * 
  * @return void
  */
-	public function create() {
+	public function add() {
 	}
 
 /**
