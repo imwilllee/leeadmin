@@ -10,6 +10,9 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
+use App\Error\Exception\DataNotFoundException;
+use Cake\Core\Configure;
+use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\TableRegistry;
 
 class GroupsController extends AppAdminController {
@@ -32,7 +35,11 @@ class GroupsController extends AppAdminController {
 		$query = $groupsTable->find()->select(['id', 'name', 'status', 'explain']);
 		$this->__markQuery($query);
 		$this->paginate = array_merge($this->paginate, ['sortWhitelist' => ['id', 'status']]);
-		$this->set('groups', $this->paginate($query));
+		try {
+			$this->set('groups', $this->paginate($query));
+		} catch (NotFoundException $e) {
+			return $this->redirect(['action' => 'index']);
+		}
 	}
 
 /**
@@ -61,20 +68,6 @@ class GroupsController extends AppAdminController {
 	}
 
 /**
- * 查看用户组
- *
- * @param string $id 用户组ID
- * @return void
- * @throws NotFoundException
- */
-	public function view($id = null) {
-		$group = $this->Groups->get($id, [
-			'contain' => []
-		]);
-		$this->set('group', $group);
-	}
-
-/**
  * 添加用户组
  *
  * @return void
@@ -84,33 +77,40 @@ class GroupsController extends AppAdminController {
 		$group = $groupsTable->newEntity($this->request->data);
 		if ($this->request->is('post')) {
 			if ($groupsTable->save($group)) {
-				$this->Flash->success('The group has been saved.');
+				$this->Flash->success('数据保存成功！');
 				return $this->redirect(['action' => 'index']);
 			} else {
-				$this->Flash->error('The group could not be saved. Please, try again.');
+				$this->Flash->error('数据保存失败！');
 			}
 		}
 		$this->set(compact('group'));
 	}
 
 /**
- * 编辑用户组
+ * 用户组编辑
  *
  * @param string $id 用户组ID
  * @return void
- * @throws NotFoundException
+ * @throws App\Error\Exception\DataNotFoundException
  */
 	public function edit($id = null) {
-		$group = $this->Groups->get($id, [
-			'contain' => []
-		]);
+		$this->_subTitle = '用户组编辑';
+		if ($id == Configure::read('Init.group_id') || empty($id)) {
+			$this->Flash->error('参数错误！');
+			return $this->redirect(['action' => 'index']);
+		}
+		$groupsTable = TableRegistry::get('Groups');
+		$group = $groupsTable->find()->where(['id' => $id])->first();
+		if (!$group) {
+			throw new DataNotFoundException('数据不存在！');
+		}
 		if ($this->request->is(['post', 'put'])) {
-			$group = $this->Groups->patchEntity($group, $this->request->data);
-			if ($this->Groups->save($group)) {
-				$this->Flash->success('The group has been saved.');
+			$group = $groupsTable->patchEntity($group, $this->request->data);
+			if ($groupsTable->save($group)) {
+				$this->Flash->success('数据保存成功！');
 				return $this->redirect(['action' => 'index']);
 			} else {
-				$this->Flash->error('The group could not be saved. Please, try again.');
+				$this->Flash->error('数据保存失败！');
 			}
 		}
 		$this->set(compact('group'));
@@ -119,18 +119,49 @@ class GroupsController extends AppAdminController {
 /**
  * 删除用户组
  *
- * @param string $id 用户组ID
+ * @param int $id 用户组ID
  * @return void
- * @throws NotFoundException
+ * @throws App\Error\Exception\DataNotFoundException
  */
 	public function delete($id = null) {
-		$group = $this->Groups->get($id);
+		if (empty($id)) {
+			$this->Flash->error('参数错误！');
+			return $this->redirect(['action' => 'index']);
+		}
+		$groupsTable = TableRegistry::get('Groups');
+		$group = $groupsTable->find()->where(['id' => $id])->first();
+		if (!$group) {
+			throw new DataNotFoundException('数据不存在！');
+		}
 		$this->request->allowMethod('post', 'delete');
-		if ($this->Groups->delete($group)) {
-			$this->Flash->success('The group has been deleted.');
+		if ($groupsTable->delete($group)) {
+			$this->Flash->success('数据删除成功！');
 		} else {
-			$this->Flash->error('The group could not be deleted. Please, try again.');
+			$this->Flash->error('数据删除失败！');
 		}
 		return $this->redirect(['action' => 'index']);
+	}
+
+/**
+ * 访问权限
+ * 
+ * @param int $id 用户组ID
+ * @return void
+ * @throws App\Error\Exception\DataNotFoundException
+ */
+	public function access($id = null) {
+		$this->_subTitle = '访问权限';
+		if ($id == Configure::read('Init.group_id') || empty($id)) {
+			$this->Flash->error('参数错误！');
+			return $this->redirect(['action' => 'index']);
+		}
+		$groupsTable = TableRegistry::get('Groups');
+		$group = $groupsTable->find()->where(['id' => $id])->first();
+		if (!$group) {
+			throw new DataNotFoundException('数据不存在！');
+		}
+		if ($this->request->is(['post', 'put'])) {
+		}
+		$this->set(compact('group'));
 	}
 }

@@ -1,7 +1,3 @@
-<?php
-    $breadcrumbs = [['text' => '控制面板', 'active' => true]];
-    $this->set('breadcrumbs', $breadcrumbs);
-?>
                     <div class="row">
                         <div class="col-lg-3 col-xs-6">
                             <div class="small-box bg-aqua">

@@ -21,7 +21,7 @@
 
                         <div class="col-xs-2">
                             <div class="pull-right">
-                                <button type="button" id="box-collapse" class="btn btn-primary" data-widget="collapse" data-toggle="tooltip" data-original-title="显示"><i class="fa fa-plus"></i></button>
+                                <button type="button" id="box-collapse" class="btn btn-primary btn-xs" data-widget="collapse" data-toggle="tooltip" data-original-title="显示"><i class="fa fa-plus"></i></button>
                             </div>
                         </div>
                     </div>

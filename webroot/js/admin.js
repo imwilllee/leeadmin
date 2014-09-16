@@ -184,6 +184,23 @@ function fix_sidebar() {
     });
 }
 
+/**
+ * 获取选中的项目
+ * 
+ * @param string target_name 目标名称
+ * @return array
+ */
+function get_checked_items(target_name) {
+    var items = [];
+    var checkbox = $('input[name="' + target_name + '"]');
+    checkbox.each(function(){
+        if ($(this).prop("checked")) {
+            items.push($(this).val());
+        }
+    });
+    return items;
+}
+
 /* 
  * BOX REFRESH BUTTON 
  * ------------------

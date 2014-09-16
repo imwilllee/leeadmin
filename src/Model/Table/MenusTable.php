@@ -101,7 +101,8 @@ class MenusTable extends AppTable {
 				['link' => 'admin/groups/add', 'name' => '创建'],
 				['link' => 'admin/groups/index', 'name' => '查看'],
 				['link' => 'admin/groups/edit', 'name' => '编辑'],
-				['link' => 'admin/groups/delete', 'name' => '删除']
+				['link' => 'admin/groups/delete', 'name' => '删除'],
+				['link' => 'admin/groups/access', 'name' => '访问权限'],
 			]
 		],
 		[

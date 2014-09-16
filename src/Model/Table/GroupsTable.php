@@ -34,18 +34,35 @@ class GroupsTable extends AppTable {
  */
 	public function validationDefault(Validator $validator) {
 		$validator
-			->add('id', 'valid', ['rule' => 'numeric'])
 			->allowEmpty('id', 'create')
+			->add('id', [
+				'numeric' => [
+					'rule' => 'numeric',
+					'message' => '用户组ID格式错误！'
+				]
+			])
 			->validatePresence('name', 'create')
-			->notEmpty('name')
-			->add('status', 'valid', ['rule' => 'boolean'])
+			->notEmpty('name', '用户组名称必须填写！')
+			->add('name', [
+				'maxLength' => [
+					'rule' => ['maxLength', 25],
+					'message' => '用户组名称超出长度限制！'
+				]
+			])
 			->allowEmpty('status')
+			->add('status', [
+				'boolean' => [
+					'rule' => 'boolean',
+					'message' => '状态选择错误！'
+				]
+			])
 			->allowEmpty('explain')
-			->add('created_by', 'valid', ['rule' => 'numeric'])
-			->allowEmpty('created_by')
-			->add('updated_by', 'valid', ['rule' => 'numeric'])
-			->allowEmpty('updated_by');
-
+			->add('explain', [
+				'maxLength' => [
+					'rule' => ['maxLength', 250],
+					'message' => '备注说明超出长度限制！'
+				]
+			]);
 		return $validator;
 	}
 

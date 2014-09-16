@@ -11,6 +11,7 @@
 namespace App\View\Helper;
 
 use App\View\Helper\AppHelper;
+use Cake\Event\Event;
 
 class AdminHelper extends AppHelper {
 
@@ -20,6 +21,19 @@ class AdminHelper extends AppHelper {
  * @var array
  */
 	public $helpers = ['Html', 'Form'];
+
+/**
+ * 模板渲染前置回调函数
+ *
+ * @param \Cake\Event\Event $event 事件对象
+ * @param string $viewFile 视图文件
+ * @return void
+ */
+	public function beforeRender(Event $event, $viewFile) {
+		$this->Form->templates([
+			'error' => '<p class="text-red">{{content}}</p>',
+		]);
+	}
 
 /**
  * 图标编辑按钮
@@ -64,5 +78,29 @@ class AdminHelper extends AppHelper {
 			$options
 		);
 		return $this->Form->postLink('<i class="fa fa-1 fa-trash-o"></i>', $url, $options);
+	}
+
+/**
+ * 显示错误信息
+ * 
+ * @param string $field 字段名称
+ * @return string
+ */
+	public function error($field) {
+		if ($this->Form->isFieldError($field)) {
+			return $this->Form->error($field);
+		}
+	}
+
+/**
+ * 显示错误高亮Class
+ * 
+ * @param string $field 字段名称
+ * @return string
+ */
+	public function errorClass($field) {
+		if ($this->Form->isFieldError($field)) {
+			return ' has-error';
+		}
 	}
 }
