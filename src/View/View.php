@@ -9,6 +9,7 @@
  */
 namespace App\View;
 
+use Cake\Core\App;
 use Cake\Utility\Inflector;
 use Cake\View\View as CakeView;
 
@@ -23,16 +24,16 @@ class View extends CakeView {
 	protected function _getElementFileName($name) {
 		list($plugin, $name) = $this->pluginSplit($name);
 		$paths = $this->_paths($plugin);
-		$first = false;
-		foreach ($paths as $path) {
-			// 优先路径增加前缀目录
-			if ($first === false) {
-				$path .= Inflector::camelize($this->request->params['prefix']) . DS;
-				$first = true;
+		// 包含路由前缀
+		if (!empty($this->request->params['prefix'])) {
+			$viewPaths = App::path('Template');
+			foreach ($viewPaths as $path) {
+				array_unshift($paths, $path . Inflector::camelize($this->request->params['prefix']) . DS);
 			}
-			$path .= 'Element' . DS . $name . $this->_ext;
-			if (file_exists($path)) {
-				return $path;
+		}
+		foreach ($paths as $path) {
+			if (file_exists($path . 'Element' . DS . $name . $this->_ext)) {
+				return $path . 'Element' . DS . $name . $this->_ext;
 			}
 		}
 		return false;

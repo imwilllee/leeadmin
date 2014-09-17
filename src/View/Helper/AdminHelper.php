@@ -36,7 +36,23 @@ class AdminHelper extends AppHelper {
 	}
 
 /**
- * 图标编辑按钮
+ * 图标链接
+ * 
+ * @param string $iconClass 图标样式
+ * @param array $url url链接
+ * @param array $options 配置项
+ * @return string
+ */
+	public function iconLink($iconClass, $url, $options = []) {
+		$options = array_merge(
+			['escape' => false, 'data-toggle' => 'tooltip'],
+			$options
+		);
+		return $this->Html->link(sprintf('<i class="%s"></i>', $iconClass), $url, $options);
+	}
+
+/**
+ * 编辑图标链接
  * 
  * @param array $url 链接数组
  * @param array $options 配置项
@@ -44,14 +60,14 @@ class AdminHelper extends AppHelper {
  */
 	public function iconEditLink($url, $options = []) {
 		$options = array_merge(
-			['escape' => false, 'data-toggle' => 'tooltip', 'data-original-title' => '编辑'],
+			['data-original-title' => '编辑'],
 			$options
 		);
-		return $this->Html->link('<i class="fa fa-1 fa-edit"></i>', $url, $options);
+		return $this->iconLink('fa fa-1 fa-edit', $url, $options);
 	}
 
 /**
- * 图标查看按钮
+ * 查看图标链接
  * 
  * @param array $url 链接数组
  * @param array $options 配置项
@@ -59,14 +75,14 @@ class AdminHelper extends AppHelper {
  */
 	public function iconViewLink($url, $options = []) {
 		$options = array_merge(
-			['escape' => false, 'data-toggle' => 'tooltip', 'data-original-title' => '查看'],
+			['data-original-title' => '查看'],
 			$options
 		);
-		return $this->Html->link('<i class="fa fa-1 fa-search"></i>', $url, $options);
+		return $this->iconLink('fa fa-1 fa-search', $url, $options);
 	}
 
 /**
- * 图标删除按钮
+ * 删除图标链接
  * 
  * @param array $url 链接数组
  * @param array $options 配置项
@@ -74,10 +90,10 @@ class AdminHelper extends AppHelper {
  */
 	public function iconDeleteLink($url, $options = []) {
 		$options = array_merge(
-			['escape' => false, 'data-toggle' => 'tooltip', 'data-original-title' => '删除', 'confirm' => '确认删除？'],
+			['data-original-title' => '编辑', 'confirm' => '确认删除？'],
 			$options
 		);
-		return $this->Form->postLink('<i class="fa fa-1 fa-trash-o"></i>', $url, $options);
+		return $this->iconLink('fa fa-1 fa-trash-o', $url, $options);
 	}
 
 /**

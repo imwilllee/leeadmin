@@ -24,4 +24,16 @@ class GroupAccessesTable extends AppTable {
 		$this->primaryKey(['group_id', 'menu_node_id']);
 		parent::initialize($config);
 	}
+
+/**
+ * 获取用户组权限节点ID列表
+ * 
+ * @param int $id 用户组ID
+ * @return array
+ */
+	public function getGroupAccessNodeIdList($id) {
+		$query = $this->find('list', ['idField' => 'menu_node_id', 'valueField' => 'menu_node_id'])
+					->where(['group_id' => $id]);
+		return array_values($query->toArray());
+	}
 }

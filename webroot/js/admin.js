@@ -5,7 +5,7 @@
 var left_side_width = 220; //Sidebar width in pixels
 var box_show_text = "显示";
 var box_hide_text = "隐藏";
-var cookie_config = {path: "/admin"}
+var cookie_config = {path: "/"}
 
 $(function() {
     "use strict";
@@ -59,13 +59,17 @@ $(function() {
             //Convert minus into plus
             ts.children(".fa-minus").removeClass("fa-minus").addClass("fa-plus");
             bf.slideUp(150);
-            $.cookie("SHOW_BOX_STATUS", "hide", cookie_config);
+            if (ts.prop('id')) {
+                $.cookie("SHOW_BOX_STATUS", "hide", cookie_config);
+            }
         } else {
             box.removeClass("collapsed-box");
             //Convert plus into minus
             ts.children(".fa-plus").removeClass("fa-plus").addClass("fa-minus");
             bf.slideDown(150);
-            $.cookie("SHOW_BOX_STATUS", "show", cookie_config);
+            if (ts.prop('id')) {
+                $.cookie("SHOW_BOX_STATUS", "show", cookie_config);
+            }
         }
     });
 
@@ -88,6 +92,15 @@ $(function() {
         } else {
             checkbox.iCheck("uncheck");
         }
+    });
+
+    $(".logout").on("click", function(){
+        if (confirm("确认退出系统？")) {
+            $.removeCookie('SIDEBAR_PARENT_IDS', cookie_config);
+            $.removeCookie('SHOW_BOX_STATUS', cookie_config);
+            return true;
+        }
+        return false;
     });
 
     /*

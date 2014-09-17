@@ -48,7 +48,7 @@
                                             echo $this->Html->link(
                                                 '退出',
                                                 ['controller' => 'Users', 'action' => 'logout', 'prefix' => 'admin'],
-                                                ['class' => 'btn btn-default btn-flat']
+                                                ['class' => 'btn btn-default btn-flat logout']
                                             );
                                         ?>
                                     </div>

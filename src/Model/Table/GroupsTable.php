@@ -23,6 +23,11 @@ class GroupsTable extends AppTable {
 	public function initialize(array $config) {
 		$this->table('groups');
 		$this->primaryKey('id');
+		$this->hasMany('GroupAccesses', [
+			'className' => 'GroupAccesses',
+			'foreignKey' => 'group_id',
+			'conditions' => null
+		]);
 		parent::initialize($config);
 	}
 
@@ -34,14 +39,7 @@ class GroupsTable extends AppTable {
  */
 	public function validationDefault(Validator $validator) {
 		$validator
-			->allowEmpty('id', 'create')
-			->add('id', [
-				'numeric' => [
-					'rule' => 'numeric',
-					'message' => '用户组ID格式错误！'
-				]
-			])
-			->validatePresence('name', 'create')
+			->validatePresence('name', 'create', '用户组名称项目不存在！')
 			->notEmpty('name', '用户组名称必须填写！')
 			->add('name', [
 				'maxLength' => [
@@ -49,6 +47,7 @@ class GroupsTable extends AppTable {
 					'message' => '用户组名称超出长度限制！'
 				]
 			])
+			->validatePresence('status', 'create', '状态项目不存在！')
 			->allowEmpty('status')
 			->add('status', [
 				'boolean' => [

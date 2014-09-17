@@ -44,11 +44,6 @@ class AppAdminController extends AppController {
 			'flash' => ['element' => 'error'],
 			'authError' => '请先登录系统！'
 		],
-		'Cookie' => [
-			'path' => '/admin',
-			'encryption' => false,
-			'expires' => 0
-		],
 		'Security' => [
 			'unlockedFields' => []
 		]

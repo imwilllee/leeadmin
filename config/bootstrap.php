@@ -166,7 +166,7 @@ Request::addDetector('tablet', function($request) {
  */
 
 // Plugin::load('DebugKit', ['bootstrap' => true]);
-
+// Plugin::load('Wechat', ['routes' => true, 'autoload' => true]);
 /**
  * Connect middleware/dispatcher filters.
  */

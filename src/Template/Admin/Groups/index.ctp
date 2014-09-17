@@ -65,6 +65,7 @@
                             <td>
                             <?php if ($group->id != Configure::read('Init.group_id')): ?>
                                 <?php echo $this->Admin->iconEditLink(['action' => 'edit', $group->id]); ?>
+                                <?php echo $this->Admin->iconLink('fa fa-1 fa-lock', ['action' => 'access', $group->id], ['data-original-title' => '权限']); ?>
                                 <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', $group->id]); ?>
                             <?php endif; ?>
                             </td>

@@ -138,7 +138,7 @@ $config = [
 	'Error' => [
 		'errorLevel' => E_ALL & ~E_DEPRECATED,
 		'exceptionRenderer' => 'App\Error\ExceptionRenderer',
-		'skipLog' => ['App\Error\Exception\DataNotFoundException'],
+		'skipLog' => [],
 		'log' => true,
 		'trace' => true,
 	],

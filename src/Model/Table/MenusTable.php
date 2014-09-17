@@ -142,9 +142,9 @@ class MenusTable extends AppTable {
 		$cache = Cache::read(self::MENUS_CACHE_KEY);
 		if (empty($cache)) {
 			$query = $this->find()
-				->select(['id', 'plugin_code', 'menu_code', 'parent_code', 'name', 'link', 'class'])
-				->where(['display_flg' => true])
-				->order(['rank' => 'ASC']);
+						->select(['id', 'plugin_code', 'menu_code', 'parent_code', 'name', 'link', 'class'])
+						->where(['display_flg' => true])
+						->order(['rank' => 'ASC']);
 			foreach ($query as $menu) {
 				if ($menu->parent_code === null) {
 					$cache[$menu->menu_code] = $menu->toArray();
@@ -179,5 +179,27 @@ class MenusTable extends AppTable {
 			Cache::delete(self::MENUS_CACHE_KEY);
 			return true;
 		});
+	}
+
+/**
+ * 获取菜单以及下属节点
+ *
+ * @param boolean $plugin 是否为plugin
+ * @return Cake\ORM\Query
+ */
+	public function getMenuNodes($plugin = false) {
+		return $this->find()
+					->select(['id', 'plugin_code', 'menu_code', 'parent_code', 'name', 'has_nodes'])
+					->contain(['MenuNodes'])
+					->where(function($exp) use ($plugin){
+						$exp->eq('has_nodes', true);
+						if (!$plugin) {
+							$exp->isNull('plugin_code');
+						} else {
+							$exp->isNotNull('plugin_code');
+						}
+						return $exp;
+					})
+					->order(['rank' => 'ASC']);
 	}
 }
