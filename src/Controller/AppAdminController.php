@@ -12,7 +12,9 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Network\Exception\ForbiddenException;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Inflector;
 
 class AppAdminController extends AppController {
 
@@ -94,6 +96,8 @@ class AppAdminController extends AppController {
 		parent::beforeFilter($event);
 		if ($this->Auth->user()) {
 			Configure::write('Auth.User.id', $this->request->session()->read('Auth.User.id'));
+			// 权限验证
+			$this->__checkUserAccess();
 			// 刷新核心和插件定义菜单和节点
 			$this->__refreshMenus();
 		}
@@ -133,6 +137,31 @@ class AppAdminController extends AppController {
 				$this->Flash->success('菜单节点刷新成功！');
 			} else {
 				$this->Flash->error('菜单节点刷新失败！');
+			}
+		}
+	}
+
+/**
+ * 当前登陆用户权限验证
+ * 
+ * @return void
+ * @throws Cake\Network\Exception\ForbiddenException
+ */
+	private function __checkUserAccess() {
+		if ($this->request->session()->read('Auth.User.group_id') != INIT_GROUP_ID) {
+			$plugin = null;
+			if (!empty($this->request->params['plugin'])) {
+				$plugin = Inflector::underscore($this->request->params['plugin']) . '.';
+			}
+			$node = sprintf(
+					'%s%s/%s/%s',
+					$plugin,
+					$this->request->params['prefix'],
+					Inflector::underscore($this->request->params['controller']),
+					$this->request->params['action']
+			);
+			if (!in_array($node, $this->request->session()->read('Auth.Access'))) {
+				throw new ForbiddenException();
 			}
 		}
 	}
