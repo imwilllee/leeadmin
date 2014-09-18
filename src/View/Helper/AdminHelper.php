@@ -20,7 +20,7 @@ class AdminHelper extends AppHelper {
  * 
  * @var array
  */
-	public $helpers = ['Html', 'Form'];
+	public $helpers = ['Html', 'Form', 'Session'];
 
 /**
  * 模板渲染前置回调函数
@@ -118,5 +118,33 @@ class AdminHelper extends AppHelper {
 		if ($this->Form->isFieldError($field)) {
 			return ' has-error';
 		}
+	}
+
+/**
+ * 检查菜单是否有权限
+ * 
+ * @param array $menu 菜单信息
+ * @return boolean
+ */
+	public function checkMenuAccess($menu) {
+		// 创始人排除
+		if ($this->Session->read('Auth.User.id') == INIT_GROUP_ID) {
+			return true;
+		}
+		$userAccess = $this->Session->read('Auth.Access');
+		// 存在子菜单
+		if (!empty($menu['sub_menus'])) {
+			foreach ($menu['sub_menus'] as $sub) {
+				// 如果子菜单中有一个有权限 展示主菜单
+				if (in_array($sub['link'], $userAccess)) {
+					return true;
+				}
+			}
+		} else {
+			if (in_array($menu['link'], $userAccess)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

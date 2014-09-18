@@ -347,16 +347,16 @@ function get_checked_items(target_name) {
                     btn.children(".fa-angle-left").first().removeClass("fa-angle-left").addClass("fa-angle-down");
                     btn.parent("li").addClass("active");
                 }
-                var parentIds = '';
+                var parentIds = [];
                 $('ul.sidebar-menu > li').each(function(){
                     if ($(this).hasClass('active')) {
                         var parentId = $(this).attr('data-parent-id');
                         if (parentId != '') {
-                            parentIds += parentId + '.';
+                            parentIds.push(parentId);
                         }
                     }
                 });
-                $.cookie('SIDEBAR_PARENT_IDS', parentIds.replace(/\.+$/,''), cookie_config);
+                $.cookie('SIDEBAR_PARENT_IDS', parentIds.join('.'), cookie_config);
             });
 
             /* Add margins to submenu elements to give it a tree look */

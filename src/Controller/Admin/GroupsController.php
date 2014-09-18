@@ -10,7 +10,6 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
-use Cake\Core\Configure;
 use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\TableRegistry;
 
@@ -185,7 +184,7 @@ class GroupsController extends AppAdminController {
  * @return void
  */
 	private function __initGroupCheck($id) {
-		if ($id == Configure::read('Init.group_id') || empty($id)) {
+		if ($id == INIT_GROUP_ID || empty($id)) {
 			$this->Flash->error('请求参数错误！');
 			return $this->redirect(['action' => 'index']);
 		}

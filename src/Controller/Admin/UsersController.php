@@ -57,8 +57,10 @@ class UsersController extends AppAdminController {
 				} else {
 					// 设置登录信息
 					$this->Auth->setUser($user);
+					// 设置权限
+					$this->__setUserAccess($user);
 					// 更新登录信息
-					$this->_updateLastLoginInfo($user);
+					$this->__updateLastLoginInfo($user);
 					return $this->redirect($this->Auth->redirectUrl());
 				}
 			} else {
@@ -121,18 +123,31 @@ class UsersController extends AppAdminController {
  * @param array $user 登录用户信息
  * @return void
  */
-	protected function _updateLastLoginInfo($user) {
+	private function __updateLastLoginInfo($user) {
 		$usersTable = TableRegistry::get('Users');
-		$update = [
-			'id' => $user['id'],
-			'last_logined' => new DateTime('now'),
-			'last_login_ip' => $this->request->clientIp(),
-			'last_user_agent' => $this->request->env('HTTP_USER_AGENT'),
-			'modified_by' => $user['id']
-		];
-		$entity = $usersTable->newEntity($update);
-		// 设置为更新数据
-		$entity->isNew(false);
-		$usersTable->save($entity);
+		$query = $usersTable->query();
+		$query->update()
+			->set([
+				'last_logined' => new DateTime('now'),
+				'last_login_ip' => $this->request->clientIp(),
+				'last_user_agent' => $this->request->env('HTTP_USER_AGENT')
+			])
+			->where(['id' => $user['id']])
+			->execute();
+	}
+
+/**
+ * 设置用户访问权限
+ * 
+ * @param array $user 登录用户信息
+ * @return void
+ */
+	private function __setUserAccess($user) {
+		$userAccess = [];
+		if ($user['group_id'] != INIT_GROUP_ID) {
+			$groupAccessesTable = TableRegistry::get('GroupAccesses');
+			$userAccess = $groupAccessesTable->getGroupAccessNodeNameList($user['group_id']);
+		}
+		$this->request->session()->write('Auth.Access', $userAccess);
 	}
 }

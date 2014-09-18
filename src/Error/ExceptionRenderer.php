@@ -11,7 +11,9 @@ namespace App\Error;
 
 use Cake\Core\Configure;
 use Cake\Error;
+use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
+use Exception;
 
 class ExceptionRenderer extends Error\ExceptionRenderer {
 
@@ -20,10 +22,11 @@ class ExceptionRenderer extends Error\ExceptionRenderer {
  * 
  * @param Exception $exception 异常对象
  */
-	public function __construct(\Exception $exception) {
+	public function __construct(Exception $exception) {
 		parent::__construct($exception);
 		$this->controller->viewClass = 'App\View\View';
 		$this->controller->layout = 'error';
+		$this->_setVariables();
 	}
 
 /**
@@ -54,5 +57,24 @@ class ExceptionRenderer extends Error\ExceptionRenderer {
 		$this->controller->response->body($view->render($template, 'error'));
 		$this->controller->response->type('html');
 		return $this->controller->response;
+	}
+
+/**
+ * 设置变量信息
+ *
+ * @return void
+ */
+	protected function _setVariables() {
+		$mainTitle = '发生错误';
+		$sidebarParentIds = $sidebarMenus = [];
+		// 登陆后设置左侧菜单
+		if ($this->controller->request->session()->check('Auth.User.id')) {
+			$menusTable = TableRegistry::get('Menus');
+			$sidebarMenus = $menusTable->getSidebarMenus();
+			if (!empty($this->controller->request->cookies['SIDEBAR_PARENT_IDS'])) {
+				$sidebarParentIds = explode('.', $this->controller->request->cookies['SIDEBAR_PARENT_IDS']);
+			}
+		}
+		$this->controller->set(compact('mainTitle', 'sidebarParentIds', 'sidebarMenus'));
 	}
 }

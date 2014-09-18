@@ -2484,7 +2484,7 @@ Component: timeline
 }
 .error-page > .error-content > h3 {
   font-weight: 300;
-  font-size: 25px;
+  /*font-size: 25px;*/
 }
 @media screen and (max-width: 767px) {
   .error-page > .error-content > h3 {

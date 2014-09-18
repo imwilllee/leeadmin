@@ -1,7 +1,9 @@
+<?php if (!empty($sidebarMenus)): ?>
             <aside class="left-side sidebar-offcanvas">
                 <section class="sidebar">
                     <ul class="sidebar-menu">
                     <?php foreach ($sidebarMenus as $menuCode => $menu): ?>
+                        <?php if (!$this->Admin->checkMenuAccess($menu)) continue; ?>
                         <?php if (empty($menu['sub_menus']) && !empty($menu['link'])): ?>
                         <li>
                             <?php
@@ -23,6 +25,7 @@
                             ?>
                             <ul class="treeview-menu">
                             <?php foreach ($menu['sub_menus'] as $sub): ?>
+                                <?php if (!$this->Admin->checkMenuAccess($sub)) continue; ?>
                                 <li>
                                 <?php
                                     echo $this->Html->link(
@@ -40,3 +43,4 @@
                     </ul>
                 </section>
             </aside>
+<?php endif; ?>

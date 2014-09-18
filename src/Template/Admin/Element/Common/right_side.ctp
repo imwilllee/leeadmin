@@ -2,7 +2,7 @@
                 <section class="content-header">
                     <h1>
                         <?php echo h($mainTitle); ?>
-                        <?php if ($subTitle != ''): ?>
+                        <?php if (isset($subTitle) && $subTitle != ''): ?>
                         <small><?php echo h($subTitle); ?></small>
                         <?php endif; ?>
                     </h1>

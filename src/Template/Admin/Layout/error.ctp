@@ -1,49 +1,27 @@
 <?php
-/**
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @since         0.10.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- */
-
-$cakeDescription = 'CakePHP: the rapid development php framework';
+    $this->append('importCss');
+    echo $this->element('Common/Css/common');
+    $this->end();
 ?>
 <!DOCTYPE html>
 <html>
-<head>
-	<?= $this->Html->charset() ?>
-	<title>
-		<?= $cakeDescription ?>:
-		<?= $this->fetch('title') ?>
-	</title>
-	<?= $this->Html->meta('icon') ?>
+    <head>
+<?php echo $this->element('Common/head'); ?>
+    </head>
+    <body class="skin-blue">
+<?php if ($this->Session->check('Auth.User.id')): ?>
+<?php echo $this->element('Common/header'); ?>
+        <div class="wrapper row-offcanvas row-offcanvas-left">
+<?php echo $this->element('Common/left_side'); ?>
+<?php echo $this->element('Common/right_side'); ?>
+        </div>
+<?php else: ?>
+        <div class="right-side strech">
+            <?php echo $this->fetch('content'); ?>
+        </div>
 
-	<?= $this->Html->css('cake.generic') ?>
+<?php endif;?>
 
-	<?= $this->fetch('meta') ?>
-	<?= $this->fetch('css') ?>
-	<?= $this->fetch('script') ?>
-</head>
-<body>
-	<div id="container">
-		<div id="header">
-			<h1><?= $this->Html->link($cakeDescription, 'http://cakephp.org') ?></h1>
-		</div>
-		<div id="content">
-			<?= $this->Flash->render() ?>
-
-			<?= $this->fetch('content') ?>
-		</div>
-		<div id="footer">
-			Admin->Layout->Error
-		</div>
-	</div>
-</body>
+<?php echo $this->element('Common/Script/common'); ?>
+    </body>
 </html>

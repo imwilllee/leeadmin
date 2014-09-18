@@ -32,10 +32,10 @@
                                         <label>状态</label>
                                         <div class="input-group">
                                             <div class="checkbox">
-                                                <?php echo $this->Form->checkbox('status', ['id' => 'status']); ?><label for="status">开启</label>
+                                                <?php echo $this->Form->checkbox('status', ['id' => 'status']); ?><label for="status">启用</label>
                                             </div>
                                         </div>
-                                        <span class="text-light-blue">关闭后，所属该用户组下的用户将不能登录。</span>
+                                        <span class="text-light-blue">启用后，所属该用户组下的用户才能正常登录。</span>
                                         <?php echo $this->Admin->error('status'); ?>
                                     </div>
                                 </div>

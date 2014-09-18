@@ -18,6 +18,7 @@
  * constants
  */
 require __DIR__ . '/paths.php';
+require __DIR__ . '/defines.php';
 
 // Use composer to load the autoloader.
 require ROOT . DS . 'vendor' . DS . 'autoload.php';

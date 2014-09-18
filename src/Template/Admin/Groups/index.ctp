@@ -51,7 +51,7 @@
                             <td><?php echo $group->id; ?></td>
                             <td>
                             <?php
-                                echo $group->id != Configure::read('Init.group_id') ? $this->Html->link($group->name, ['action' => 'edit', $group->id]) : $group->name;
+                                echo $group->id != INIT_GROUP_ID ? $this->Html->link($group->name, ['action' => 'edit', $group->id]) : $group->name;
                             ?>
                             </td>
                             <td>
@@ -63,7 +63,7 @@
                             </td>
                             <td><?php echo h($group->explain); ?></td>
                             <td>
-                            <?php if ($group->id != Configure::read('Init.group_id')): ?>
+                            <?php if ($group->id != INIT_GROUP_ID): ?>
                                 <?php echo $this->Admin->iconEditLink(['action' => 'edit', $group->id]); ?>
                                 <?php echo $this->Admin->iconLink('fa fa-1 fa-lock', ['action' => 'access', $group->id], ['data-original-title' => '权限']); ?>
                                 <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', $group->id]); ?>
