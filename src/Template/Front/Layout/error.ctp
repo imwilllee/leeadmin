@@ -25,7 +25,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 	</title>
 	<?= $this->Html->meta('icon') ?>
 
-	<?= $this->Html->css('cake.generic') ?>
+	<?= $this->Html->css('base.css') ?>
+	<?= $this->Html->css('cake.css') ?>
 
 	<?= $this->fetch('meta') ?>
 	<?= $this->fetch('css') ?>
@@ -42,7 +43,12 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 			<?= $this->fetch('content') ?>
 		</div>
 		<div id="footer">
-			Front->Layout->Error
+			<?= $this->Html->link(
+					$this->Html->image('cake.power.gif', ['alt' => $cakeDescription, 'border' => '0']),
+					'http://www.cakephp.org/',
+					['target' => '_blank', 'escape' => false]
+				)
+			?>
 		</div>
 	</div>
 </body>
