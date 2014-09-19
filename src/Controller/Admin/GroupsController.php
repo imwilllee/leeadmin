@@ -57,11 +57,13 @@ class GroupsController extends AppAdminController {
 		}
 		if ($this->request->query('name') != '') {
 			$this->request->data['name'] = urldecode($this->request->query('name'));
-			$query->where(['name LIKE' => '%' . $this->request->data('name') . '%']);
+			$query->where(['name LIKE' => '%' . $this->request->data['name'] . '%']);
 		}
 		if ($this->request->query('status') != '') {
 			$this->request->data['status'] = explode('_', $this->request->query('status'));
-			$query->where(['status IN' => $this->request->data('status')]);
+			if (!empty($this->request->data['status'])) {
+				$query->where(['status IN' => $this->request->data['status']]);
+			}
 		}
 	}
 

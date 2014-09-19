@@ -24,8 +24,8 @@
                                 <li class="user-header bg-light-blue">
                                     <img src="/img/no_avatar.png" class="img-circle" alt="User Image" />
                                     <p>
-                                        Jane Doe - Web Developer
-                                        <small>Member since Nov. 2012</small>
+                                        <?php echo $this->Session->read('Auth.User.alias'); ?> - <?php echo $this->Session->read('Auth.User.group.name'); ?>
+                                        <small><?php echo $this->Session->read('Auth.User.email'); ?></small>
                                     </p>
                                 </li>
                                 <li class="user-body">

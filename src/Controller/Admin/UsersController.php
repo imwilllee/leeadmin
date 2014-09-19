@@ -87,8 +87,83 @@ class UsersController extends AppAdminController {
 	public function index() {
 		$this->_subTitle = '管理员一览';
 		$usersTable = TableRegistry::get('Users');
-		$this->paginate = array_merge($this->paginate, ['sortWhitelist' => ['id', 'status']]);
-		$this->set('users', $this->paginate($usersTable));
+		$query = $usersTable->find()
+					->select(
+						[
+							'Users.id',
+							'Users.email',
+							'Users.status',
+							'Users.alias',
+							'Users.group_id',
+							'Users.last_logined',
+							'Users.last_login_ip',
+							'Users.created',
+							'Groups.name'
+						]
+					)
+					->contain(['Groups']);
+		$this->__markQuery($query);
+		$config = [
+			'sortWhitelist' => [
+				'Users.status',
+				'Users.group_id',
+				'Users.created',
+				'Users.last_logined'
+			]
+		];
+		$this->paginate = array_merge($this->paginate, $config);
+		$users = $this->paginate($query);
+		$groupsTable = TableRegistry::get('Groups');
+		$groupList = $groupsTable->find('list', ['idField' => 'id', 'valueField' => 'name'])
+						->select(['id', 'name'])->toArray();
+		$this->set(compact('users', 'groupList') );
+	}
+
+/**
+ * 组装查询条件
+ * 
+ * @param Cake\ORM\Query $query 查询生成器
+ * @return void
+ */
+	private function __markQuery($query) {
+		if ($this->request->is('post')) {
+			if ($this->request->data('q') != '') {
+				$this->request->query['q'] = urlencode($this->request->data('q'));
+			}
+			if ($this->request->data('email') != '') {
+				$this->request->query['email'] = urlencode($this->request->data('email'));
+			}
+			if ($this->request->data('group_id') != '') {
+				$this->request->query['group_id'] = $this->request->data('group_id');
+			}
+			if ($this->request->data('status') != '') {
+				$this->request->query['status'] = implode('_', $this->request->data('status'));
+			}
+		}
+		if ($this->request->query('q') != '') {
+			$this->request->data['q'] = urldecode($this->request->query('q'));
+			$query->andWhere(function($exp){
+				return $exp->or_([
+					'Users.alias LIKE' => '%' . $this->request->data['q'] . '%',
+					'Users.email' => $this->request->data['q']
+				]);
+			});
+		}
+		if ($this->request->query('email') != '') {
+			$query->where(['Users.email' => $this->request->data['email']]);
+		}
+		if ($this->request->query('group_id') != '') {
+			$query->where(['Users.group_id' => $this->request->data['group_id']]);
+		}
+		if ($this->request->query('status') != '') {
+			$this->request->data['status'] = explode('_', $this->request->query('status'));
+			if (!empty($this->request->data['status'])) {
+				$query->where(['Users.status IN' => $this->request->data['status']]);
+			}
+		}
+		if (!$this->request->query('sort')) {
+			$query->order(['Users.id' => 'DESC']);
+		}
 	}
 
 /**

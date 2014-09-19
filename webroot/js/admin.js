@@ -84,7 +84,7 @@ $(function() {
         box.find(".box-body, .box-footer").show();
     }
     // checkbox 选择
-    $("#checkbox-selector").on("ifChanged", function(e){
+    $("#checkbox-selector").on("ifChanged", function(){
         var selector = $(this).attr("data-target-selector");
         var checkbox = $('input[name="' + selector + '"]');
         if ($(this).prop("checked")) {
@@ -94,6 +94,7 @@ $(function() {
         }
     });
 
+    // 退出登录确认
     $(".logout").on("click", function(){
         if (confirm("确认退出系统？")) {
             $.removeCookie('SIDEBAR_PARENT_IDS', cookie_config);

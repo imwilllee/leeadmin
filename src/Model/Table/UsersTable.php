@@ -26,6 +26,11 @@ class UsersTable extends AppTable {
 	public function initialize(array $config) {
 		$this->table('users');
 		$this->primaryKey('id');
+		$this->belongsTo('Groups', [
+			'className' => 'Groups',
+			'foreignKey' => 'group_id',
+			'conditions' => null
+		]);
 		parent::initialize($config);
 	}
 

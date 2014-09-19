@@ -38,7 +38,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th style="width:40px;">ID</th>
+                            <th style="width:40px;"><?php echo $this->Paginator->sort('id', '#'); ?></th>
                             <th>用户组名称</th>
                             <th><?php echo $this->Paginator->sort('status', '状态'); ?></th>
                             <th>备注说明</th>
@@ -61,7 +61,7 @@
                                 <span class="label label-danger"><?php echo Configure::read('Common.status.0'); ?></span>
                             <?php endif; ?>
                             </td>
-                            <td><?php echo h($group->explain); ?></td>
+                            <td><?php echo nl2br(h($group->explain)); ?></td>
                             <td>
                             <?php if ($group->id != INIT_GROUP_ID): ?>
                                 <?php echo $this->Admin->iconEditLink(['action' => 'edit', $group->id]); ?>

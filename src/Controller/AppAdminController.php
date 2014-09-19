@@ -29,7 +29,7 @@ class AppAdminController extends AppController {
 				'Form' => [
 					'userModel' => 'Users',
 					'fields' => ['username' => 'email'],
-					'contain' => false,
+					'contain' => ['Groups'],
 					'passwordHasher' => 'Default'
 				],
 			],
@@ -148,20 +148,24 @@ class AppAdminController extends AppController {
  * @throws Cake\Network\Exception\ForbiddenException
  */
 	private function __checkUserAccess() {
-		if ($this->request->session()->read('Auth.User.group_id') != INIT_GROUP_ID) {
-			$plugin = null;
-			if (!empty($this->request->params['plugin'])) {
-				$plugin = Inflector::underscore($this->request->params['plugin']) . '.';
-			}
-			$node = sprintf(
-					'%s%s/%s/%s',
-					$plugin,
-					$this->request->params['prefix'],
-					Inflector::underscore($this->request->params['controller']),
-					$this->request->params['action']
-			);
-			if (!in_array($node, $this->request->session()->read('Auth.Access'))) {
-				throw new ForbiddenException();
+		// 排除不需要验证的操作
+		$action = $this->request->params['action'];
+		if (!in_array($action, $this->Auth->allowedActions)) {
+			if ($this->request->session()->read('Auth.User.group_id') != INIT_GROUP_ID) {
+				$plugin = null;
+				if (!empty($this->request->params['plugin'])) {
+					$plugin = Inflector::underscore($this->request->params['plugin']) . '.';
+				}
+				$node = sprintf(
+						'%s%s/%s/%s',
+						$plugin,
+						$this->request->params['prefix'],
+						Inflector::underscore($this->request->params['controller']),
+						$action
+				);
+				if (!in_array($node, $this->request->session()->read('Auth.Access'))) {
+					throw new ForbiddenException();
+				}
 			}
 		}
 	}
