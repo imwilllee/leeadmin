@@ -48,4 +48,74 @@ class UsersTable extends AppTable {
 		}
 		return parent::beforeSave($event, $entity, $options);
 	}
+
+/**
+ * 默认验证规则
+ *
+ * @param \Cake\Validation\Validator $validator 验证对象
+ * @return \Cake\Validation\Validator
+ */
+	public function validationDefault(Validator $validator) {
+		$validator
+			->validatePresence('email', 'create', '邮箱项目不存在！')
+			->notEmpty('email', '邮箱必须填写！')
+			->add('email', [
+				'maxLength' => [
+					'rule' => ['maxLength', 32],
+					'message' => '邮箱超出长度限制！',
+					'last' => true
+				],
+				'email' => [
+					'rule' => 'email',
+					'message' => '邮箱格式错误！',
+					'last' => true
+				],
+				'unique' => [
+					'rule' => 'validateUnique',
+					'message' => '该邮箱已存在！',
+					'provider' => 'table'
+				]
+			])
+			->validatePresence('password', 'create', '密码项目不存在！')
+			->notEmpty('password', '密码必须填写！')
+			->add('password', [
+				'custom' => [
+					'rule' => function ($value, $context) {
+						if (preg_match("/^[_0-9a-zA-Z]{6,18}$/i", $value)) {
+							return true;
+						}
+						return false;
+					},
+					'message' => '密码格式错误！',
+					'last' => true
+				]
+			])
+			->validatePresence('confirm_password', 'create', '确认密码项目不存在！')
+			->notEmpty('confirm_password', '确认密码必须填写！')
+			->add('confirm_password', [
+				'confirm' => [
+					'rule' => function ($value, $context) {
+						return $value === $context['data']['password'];
+					},
+					'message' => '两次密码输入不一致！',
+					'last' => true
+				]
+			])
+			->validatePresence('status', 'create', '状态项目不存在！')
+			->allowEmpty('status')
+			->add('status', [
+				'boolean' => [
+					'rule' => 'boolean',
+					'message' => '状态选择错误！'
+				]
+			])
+			->allowEmpty('explain')
+			->add('explain', [
+				'maxLength' => [
+					'rule' => ['maxLength', 250],
+					'message' => '备注说明超出长度限制！'
+				]
+			]);
+		return $validator;
+	}
 }

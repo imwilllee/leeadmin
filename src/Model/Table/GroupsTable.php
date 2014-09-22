@@ -65,4 +65,13 @@ class GroupsTable extends AppTable {
 		return $validator;
 	}
 
+/**
+ * 获取用户组列表
+ * 
+ * @return array
+ */
+	public function getGroupList() {
+		return $this->find('list', ['idField' => 'id', 'valueField' => 'name'])
+						->select(['id', 'name'])->toArray();
+	}
 }

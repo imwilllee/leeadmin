@@ -114,8 +114,7 @@ class UsersController extends AppAdminController {
 		$this->paginate = array_merge($this->paginate, $config);
 		$users = $this->paginate($query);
 		$groupsTable = TableRegistry::get('Groups');
-		$groupList = $groupsTable->find('list', ['idField' => 'id', 'valueField' => 'name'])
-						->select(['id', 'name'])->toArray();
+		$groupList = $groupsTable->getGroupList();
 		$this->set(compact('users', 'groupList') );
 	}
 
@@ -176,11 +175,25 @@ class UsersController extends AppAdminController {
 	}
 
 /**
- * 创建用户
+ * 创建管理员
  * 
  * @return void
  */
 	public function add() {
+		$this->_subTitle = '创建管理员';
+		$usersTable = TableRegistry::get('Users');
+		$user = $usersTable->newEntity($this->request->data);
+		if ($this->request->is('post')) {
+			if ($usersTable->save($user)) {
+				$this->Flash->success('数据保存成功！');
+				return $this->redirect(['action' => 'index']);
+			} else {
+				$this->Flash->error('数据保存失败！');
+			}
+		}
+		$groupsTable = TableRegistry::get('Groups');
+		$groupList = $groupsTable->getGroupList();
+		$this->set(compact('user', 'groupList'));
 	}
 
 /**
