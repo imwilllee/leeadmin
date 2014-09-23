@@ -4,13 +4,13 @@
 <div class="row">
     <div class="col-md-12">
         <div class="box box-primary collapsed-box">
-        <?php echo $this->Form->create(null); ?>
+        <?php echo $this->Form->create(null, ['url' => ['action' => 'index']]); ?>
             <div class="box-header">
                 <div class="box-tools">
                     <div class="row">
                         <div class="col-xs-10">
                             <div class="pull-left">
-                                <div class="input-group col-md-4 col-xs-12">
+                                <div class="input-group col-lg-4 col-md-8 col-xs-12">
                                     <?php echo $this->Form->text('q', ['class' => 'form-control', 'placeholder' => '昵称或邮箱']); ?>
                                     <span class="input-group-btn">
                                         <button class="btn btn-primary btn-flat">数据检索</button>
@@ -29,19 +29,19 @@
             </div>
             <div class="box-body" style="display: none;">
                 <div class="row">
-                    <div class="col-md-3 col-xs-12">
+                    <div class="col-lg-3 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label>邮箱</label>
                             <?php echo $this->Form->text('email', ['class' => 'form-control', 'placeholder' => '邮箱']); ?>
                         </div>
                     </div>
-                    <div class="col-md-3 col-xs-12">
+                    <div class="col-lg-3 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label>用户组</label>
                             <?php echo $this->Form->select('group_id', $groupList, ['class' => 'form-control', 'empty' => '选择用户组']); ?>
                         </div>
                     </div>
-                    <div class="col-md-6 col-xs-12">
+                    <div class="col-lg-3 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label>状态</label>
                             <div class="input-group">
@@ -113,7 +113,7 @@
                             <td><?php echo $this->Admin->showDateTime($user->created); ?></td>
                             <td><?php echo $this->Admin->showDateTime($user->last_logined); ?></td>
                             <td><?php echo h($user->last_login_ip); ?></td>
-                            <td class="actions">
+                            <td>
                                 <?php echo $this->Admin->iconViewLink(['action' => 'view', $user->id]); ?>
                                 <?php echo $this->Admin->iconEditLink(['action' => 'edit', $user->id]); ?>
                                 <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', $user->id]); ?>

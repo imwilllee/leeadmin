@@ -197,12 +197,50 @@ class UsersController extends AppAdminController {
 	}
 
 /**
- * 用户编辑
+ * 管理员编辑
  * 
- * @param int $id 用户ID
+ * @param int $id 管理员ID
  * @return void
  */
 	public function edit($id = null) {
+		$this->_subTitle = '管理员编辑';
+		$usersTable = TableRegistry::get('Users');
+		$user = $usersTable->get($id, ['contain' => false]);
+		// 去除密码项
+		$user->unsetProperty('password');
+		if ($this->request->is(['post', 'put'])) {
+			if ($this->request->data('change_password')) {
+				$this->request->data['password'] = $this->request->data['change_password'];
+			}
+			$user = $usersTable->patchEntity($user, $this->request->data);
+			if ($usersTable->save($user)) {
+				$this->Flash->success('数据保存成功！');
+				return $this->redirect(['action' => 'index']);
+			} else {
+				$this->Flash->error('数据保存失败！');
+			}
+		}
+		$groupsTable = TableRegistry::get('Groups');
+		$groupList = $groupsTable->getGroupList();
+		$this->set(compact('user', 'groupList'));
+	}
+
+/**
+ * 删除管理员
+ *
+ * @param int $id 用户组ID
+ * @return void
+ */
+	public function delete($id = null) {
+		$this->request->allowMethod('post', 'delete');
+		$usersTable = TableRegistry::get('Users');
+		$user = $usersTable->get($id, ['contain' => false]);
+		if ($usersTable->delete($user)) {
+			$this->Flash->success('数据删除成功！');
+		} else {
+			$this->Flash->error('数据删除失败！');
+		}
+		return $this->redirect(['action' => 'index']);
 	}
 
 /**

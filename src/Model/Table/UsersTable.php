@@ -11,8 +11,10 @@ namespace App\Model\Table;
 
 use App\Model\Table\AppTable;
 use Cake\Auth\DefaultPasswordHasher;
+use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 class UsersTable extends AppTable {
@@ -56,6 +58,9 @@ class UsersTable extends AppTable {
  * @return \Cake\Validation\Validator
  */
 	public function validationDefault(Validator $validator) {
+		$groupsTable = TableRegistry::get('Groups');
+		$groupList = array_keys($groupsTable->getGroupList());
+		$sexList = array_keys(Configure::read('Common.sex'));
 		$validator
 			->validatePresence('email', 'create', '邮箱项目不存在！')
 			->notEmpty('email', '邮箱必须填写！')
@@ -107,6 +112,44 @@ class UsersTable extends AppTable {
 				'boolean' => [
 					'rule' => 'boolean',
 					'message' => '状态选择错误！'
+				]
+			])
+			->validatePresence('group_id', 'create', '所属用户组项目不存在！')
+			->notEmpty('group_id', '所属用户组必须填写！')
+			->add('group_id', [
+				'inList' => [
+					'rule' => ['inList', $groupList],
+					'message' => '所属用户组选择错误！'
+				]
+			])
+			->validatePresence('alias', 'create', '昵称项目不存在！')
+			->notEmpty('alias', '昵称必须填写！')
+			->add('alias', [
+				'maxLength' => [
+					'rule' => ['maxLength', 12],
+					'message' => '昵称超出长度限制！',
+					'last' => true
+				]
+			])
+			->allowEmpty('mobile')
+			->add('mobile', [
+				'maxLength' => [
+					'rule' => ['maxLength', 13],
+					'message' => '手机号码超出长度限制！'
+				]
+			])
+			->allowEmpty('birth')
+			->add('birth', [
+				'date' => [
+					'rule' => 'date',
+					'message' => '出生年月格式错误！'
+				]
+			])
+			->allowEmpty('sex')
+			->add('sex', [
+				'inList' => [
+					'rule' => ['inList', $sexList],
+					'message' => '性别选择错误！'
 				]
 			])
 			->allowEmpty('explain')

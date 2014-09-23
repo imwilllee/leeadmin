@@ -7,13 +7,13 @@
         <?php echo $this->Form->create(null, ['url' => ['action' => 'index']]); ?>
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-4 col-xs-12">
+                    <div class="col-lg-3 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label>用户组名称</label>
                             <?php echo $this->Form->text('name', ['class' => 'form-control', 'placeholder' => '用户组名称']); ?>
                         </div>
                     </div>
-                    <div class="col-md-4 col-xs-12">
+                    <div class="col-lg-9 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label>状态</label>
                             <div class="input-group">

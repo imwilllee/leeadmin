@@ -90,10 +90,10 @@ class AdminHelper extends AppHelper {
  */
 	public function iconDeleteLink($url, $options = []) {
 		$options = array_merge(
-			['data-original-title' => '编辑', 'confirm' => '确认删除？'],
+			['data-toggle' => 'tooltip', 'data-original-title' => '删除', 'confirm' => '确认删除？', 'escape' => false],
 			$options
 		);
-		return $this->iconLink('fa fa-1 fa-trash-o', $url, $options);
+		return $this->Form->postLink('<i class="fa fa-1 fa-trash-o"></i>', $url, $options);
 	}
 
 /**
