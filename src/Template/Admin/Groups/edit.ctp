@@ -18,7 +18,7 @@
                         </div>
                         <div class="box-body">
                             <div class="row">
-                                <div class="col-lg-4 col-md-8 col-xs-12">
+                                <div class="col-lg-5 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('name'); ?>">
                                         <label>用户组名称</label>
                                         <?php echo $this->Form->text('name', ['class' => 'form-control', 'placeholder' => '用户组名称']); ?>
@@ -43,7 +43,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-8 col-xs-12">
+                                <div class="col-lg-5 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('explain'); ?>">
                                         <label>备注说明</label>
                                         <?php

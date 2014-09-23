@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-xs-10">
                             <div class="pull-left">
-                                <div class="input-group col-lg-4 col-md-8 col-xs-12">
+                                <div class="input-group col-lg-5 col-md-8 col-xs-12">
                                     <?php echo $this->Form->text('q', ['class' => 'form-control', 'placeholder' => '昵称或邮箱']); ?>
                                     <span class="input-group-btn">
                                         <button class="btn btn-primary btn-flat">数据检索</button>
@@ -29,19 +29,19 @@
             </div>
             <div class="box-body" style="display: none;">
                 <div class="row">
-                    <div class="col-lg-3 col-md-6 col-xs-12">
+                    <div class="col-lg-4 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label>邮箱</label>
                             <?php echo $this->Form->text('email', ['class' => 'form-control', 'placeholder' => '邮箱']); ?>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-xs-12">
+                    <div class="col-lg-4 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label>用户组</label>
                             <?php echo $this->Form->select('group_id', $groupList, ['class' => 'form-control', 'empty' => '选择用户组']); ?>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-xs-12">
+                    <div class="col-lg-4 col-md-6 col-xs-12">
                         <div class="form-group">
                             <label>状态</label>
                             <div class="input-group">

@@ -25,7 +25,7 @@
                         </div>
                         <div class="box-body">
                             <div class="row">
-                                <div class="col-lg-4 col-md-8 col-xs-12">
+                                <div class="col-lg-5 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('email'); ?>">
                                         <label>邮箱</label>
                                         <?php echo $this->Form->text('email', ['class' => 'form-control', 'placeholder' => '邮箱']); ?>
@@ -36,7 +36,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-8 col-xs-12">
+                                <div class="col-lg-5 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('password'); ?>">
                                         <label>更新密码</label>
                                         <?php echo $this->Form->password('change_password', ['class' => 'form-control', 'placeholder' => '更新密码']); ?>
@@ -72,7 +72,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-8 col-xs-12">
+                                <div class="col-lg-5 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('alias'); ?>">
                                         <label>昵称</label>
                                         <?php echo $this->Form->text('alias', ['class' => 'form-control', 'placeholder' => '昵称']); ?>
@@ -93,7 +93,7 @@
                         <div class="box-body">
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-8 col-xs-12">
+                                <div class="col-lg-5 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('mobile'); ?>">
                                         <label>手机号码</label>
                                         <?php echo $this->Form->text('mobile', ['class' => 'form-control', 'placeholder' => '手机号码']); ?>
@@ -132,7 +132,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-8 col-xs-12">
+                                <div class="col-lg-5 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('explain'); ?>">
                                         <label>备注说明</label>
                                         <?php echo $this->Form->textarea('explain', ['class' => 'form-control', 'placeholder' => '备注说明', 'rows' => 5]); ?>
