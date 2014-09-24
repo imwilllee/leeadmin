@@ -37,6 +37,11 @@ $(function() {
     //Activate tooltips
     $("[data-toggle='tooltip']").tooltip({placement:'bottom'});
 
+    // Ajax Error
+    $(document).ajaxError(function(event, xhr, settings, thrownError) {
+        location.replace(location.href);
+    });
+
     /*     
      * Add collapse and remove events to boxes
      */

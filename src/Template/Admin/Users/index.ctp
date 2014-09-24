@@ -1,5 +1,6 @@
 <?php
     use Cake\Core\Configure;
+    use Cake\Routing\Router;
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -59,15 +60,15 @@
         <div class="box box-primary">
             <div class="box-header">
                 <div class="box-tools">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-flat">批量操作</button>
+                    <div class="btn-group" id="action-menus">
+                        <button type="button" class="btn btn-default btn-flat">操作</button>
                         <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
-                            <span class="sr-only">批量操作</span>
+                            <span class="sr-only">操作</span>
                         </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a>禁用</a></li>
-                            <li><a>启用</a></li>
+                        <ul class="dropdown-menu">
+                            <li><?php echo $this->Html->link('禁用', ['action' =>'change_status', 'disable'], ['class' => 'batch-action']); ?></li>
+                            <li><?php echo $this->Html->link('启用', ['action' =>'change_status', 'enable'], ['class' => 'batch-action']); ?></li>
                         </ul>
                     </div>
                     <?php echo $this->Html->link('创建管理员', ['action' => 'add'], ['class' => 'btn btn-primary btn-flat']); ?>
@@ -130,3 +131,32 @@
 
     </div>
 </div>
+<?php $this->append('pageScript'); ?>
+<script>
+    $(function(){
+        $('.batch-action').on('click', function(){
+            $('#action-menus').removeClass('open');
+            var items = get_checked_items('id[]');
+            if ($.isEmptyObject(items)) {
+                alert('至少选择一个项目！');
+                return false;
+            }
+            $.get(
+                $(this).attr('href'),
+                {
+                    ids: items.join('_')
+                },
+                function(json){
+                    if (json.err_code == 0) {
+                        location.replace(location.href);
+                    } else {
+                        alert(json.message);
+                    }
+                },
+                'json'
+            );
+            return false;
+        });
+    });
+</script>
+<?php $this->end(); ?>

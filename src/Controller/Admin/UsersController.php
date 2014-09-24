@@ -248,6 +248,39 @@ class UsersController extends AppAdminController {
 	}
 
 /**
+ * 更改状态
+ *
+ * @param string $status 状态
+ * @return void
+ */
+	public function change_status($status = 'enable') {
+		$this->request->allowMethod('ajax');
+		$this->autoRender = false;
+		$ids = $this->request->query('ids');
+		$ids = explode('_', $ids);
+		if (empty($ids)) {
+			$this->_ajaxError('请选择至少选择一个项目！');
+		} else {
+			$usersTable = TableRegistry::get('Users');
+			$query = $usersTable->query();
+			$result = $query->update()
+				->set([
+					'status' => $status == 'enable',
+					'modified' => new DateTime('now'),
+					'modified_by' => $this->request->session()->read('Auth.User.id')
+				])
+				->where(['id IN' => $ids])
+				->execute();
+			if ($result) {
+				$this->Flash->success('数据更新成功！');
+				$this->_ajaxSuccess();
+			} else {
+				$this->_ajaxError('数据更新失败');
+			}
+		}
+	}
+
+/**
  * 更新用户最后登录信息
  * 
  * @param array $user 登录用户信息

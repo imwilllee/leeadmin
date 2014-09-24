@@ -77,6 +77,7 @@ class MenusTable extends AppTable {
 				['link' => 'admin/users/index', 'name' => '查看'],
 				['link' => 'admin/users/view', 'name' => '详细'],
 				['link' => 'admin/users/edit', 'name' => '编辑'],
+				['link' => 'admin/users/change_status', 'name' => '更改状态'],
 				['link' => 'admin/users/delete', 'name' => '删除']
 			]
 		],
