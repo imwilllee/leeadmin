@@ -86,7 +86,7 @@ class UsersTable extends AppTable {
 			->add('password', [
 				'custom' => [
 					'rule' => function ($value, $context) {
-						if (preg_match("/^[_0-9a-zA-Z]{6,18}$/i", $value)) {
+						if (preg_match('/^[_0-9a-zA-Z]{6,18}$/i', $value)) {
 							return true;
 						}
 						return false;
@@ -133,9 +133,14 @@ class UsersTable extends AppTable {
 			])
 			->allowEmpty('mobile')
 			->add('mobile', [
-				'maxLength' => [
-					'rule' => ['maxLength', 13],
-					'message' => '手机号码超出长度限制！'
+				'custom' => [
+					'rule' => function ($value, $context) {
+						if (preg_match('/^[0-9]{11,13}$/i', $value)) {
+							return true;
+						}
+						return false;
+					},
+					'message' => '手机号码格式错误！'
 				]
 			])
 			->allowEmpty('birth')

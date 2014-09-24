@@ -73,7 +73,7 @@
                         <div class="box-body">
                             <div class="row">
                                 <?php foreach ($pulginMenuNodes as $menu): ?>
-                                <div class="col-md-4 col-xs-12">
+                                <div class="col-lg-4 col-md-6 col-xs-12">
                                     <div class="box box-primary">
                                         <div class="box-header">
                                             <h3 class="box-title"><?php echo h($menu->name); ?></h3>

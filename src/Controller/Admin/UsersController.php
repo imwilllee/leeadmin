@@ -166,12 +166,16 @@ class UsersController extends AppAdminController {
 	}
 
 /**
- * 用户详细
+ * 管理员详细
  * 
  * @param int $id 用户ID
  * @return void
  */
 	public function view($id = null) {
+		$this->_subTitle = '管理员详细';
+		$usersTable = TableRegistry::get('Users');
+		$user = $usersTable->get($id, ['contain' => ['Groups']]);
+		$this->set(compact('user'));
 	}
 
 /**

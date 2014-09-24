@@ -51,7 +51,7 @@
                             <td><?php echo $group->id; ?></td>
                             <td>
                             <?php
-                                echo $group->id != INIT_GROUP_ID ? $this->Html->link($group->name, ['action' => 'edit', $group->id]) : $group->name;
+                                echo $group->id != INIT_GROUP_ID ? $this->Html->link($group->name, ['action' => 'view', $group->id]) : $group->name;
                             ?>
                             </td>
                             <td>

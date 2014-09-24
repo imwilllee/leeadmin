@@ -68,6 +68,25 @@ class GroupsController extends AppAdminController {
 	}
 
 /**
+ * 用户组详细
+ * 
+ * @param int $id 用户组ID
+ * @return void
+ */
+	public function view($id = null) {
+		$this->_subTitle = '用户组详细';
+		$this->__initGroupCheck($id);
+		$groupsTable = TableRegistry::get('Groups');
+		$group = $groupsTable->get($id, ['contain' => false]);
+		// 用户组权限取得
+		$groupAccessesTable = TableRegistry::get('GroupAccesses');
+		$access = $groupAccessesTable->getGroupAccessNodeIdList($id);
+		// 设置菜单节点
+		$this->__setMenuNodes();
+		$this->set(compact('group', 'access'));
+	}
+
+/**
  * 创建用户组
  *
  * @return void
@@ -172,11 +191,9 @@ class GroupsController extends AppAdminController {
 			// 用户组权限取得
 			$access = $groupAccessesTable->getGroupAccessNodeIdList($id);
 		}
-		// 系统菜单节点取得
-		$menusTable = TableRegistry::get('Menus');
-		$menuNodes = $menusTable->getMenuNodes();
-		$pulginMenuNodes = $menusTable->getMenuNodes(true);
-		$this->set(compact('group', 'access', 'menuNodes', 'pulginMenuNodes'));
+		// 设置菜单节点
+		$this->__setMenuNodes();
+		$this->set(compact('group', 'access'));
 	}
 
 /**
@@ -190,5 +207,18 @@ class GroupsController extends AppAdminController {
 			$this->Flash->error('请求参数错误！');
 			return $this->redirect(['action' => 'index']);
 		}
+	}
+
+/**
+ * 设置菜单节点
+ * 
+ * @return void
+ */
+	private function __setMenuNodes() {
+		// 系统菜单节点取得
+		$menusTable = TableRegistry::get('Menus');
+		$menuNodes = $menusTable->getMenuNodes();
+		$pulginMenuNodes = $menusTable->getMenuNodes(true);
+		$this->set(compact('menuNodes', 'pulginMenuNodes'));
 	}
 }

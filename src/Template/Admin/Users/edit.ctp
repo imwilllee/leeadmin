@@ -18,7 +18,7 @@
                 ?>
                     <div class="box box-solid box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">必填信息</h3>
+                            <h3 class="box-title">账号信息</h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-primary btn-xs" data-widget="collapse" data-toggle="tooltip" data-original-title="关闭"><i class="fa fa-minus"></i></button>
                             </div>
@@ -85,7 +85,7 @@
 
                     <div class="box box-solid box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">选填信息</h3>
+                            <h3 class="box-title">详细信息</h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-primary btn-xs" data-widget="collapse" data-toggle="tooltip" data-original-title="关闭"><i class="fa fa-minus"></i></button>
                             </div>

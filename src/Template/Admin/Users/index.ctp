@@ -107,7 +107,7 @@
                             </td>
                             <td>
                             <?php
-                                echo $user->group_id == INIT_GROUP_ID ? h($user->group->name) : $this->Html->link($user->group->name, ['controller' => 'Groups', 'action' => 'edit', $user->group_id]);
+                                echo $user->group_id == INIT_GROUP_ID ? h($user->group->name) : $this->Html->link($user->group->name, ['controller' => 'Groups', 'action' => 'view', $user->group_id]);
                             ?>
                             </td>
                             <td><?php echo $this->Admin->showDateTime($user->created); ?></td>
