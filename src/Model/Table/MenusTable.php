@@ -27,7 +27,7 @@ class MenusTable extends AppTable {
  * 
  * @var array
  */
-	protected $_defineCoreMenus = [
+	protected $_defineCoreMenuNodes = [
 		[
 			'menu_code' => 'dashboard',
 			'parent_code' => null,
@@ -145,7 +145,7 @@ class MenusTable extends AppTable {
 		if (empty($cache)) {
 			$query = $this->find()
 						->select(['id', 'plugin_code', 'menu_code', 'parent_code', 'name', 'link', 'class'])
-						->where(['display_flg' => true])
+						->where(['display_flg' => true, 'status' => true])
 						->order(['rank' => 'ASC']);
 			foreach ($query as $menu) {
 				if ($menu->parent_code === null) {
@@ -168,7 +168,7 @@ class MenusTable extends AppTable {
 		return $this->connection()->transactional(function() {
 			$this->truncate('menus');
 			$this->truncate('menu_nodes');
-			foreach ($this->_defineCoreMenus as $menu) {
+			foreach ($this->_defineCoreMenuNodes as $menu) {
 				// 存在子节点
 				if (isset($menu['menu_nodes'])) {
 					$menu['has_nodes'] = true;
@@ -178,7 +178,7 @@ class MenusTable extends AppTable {
 					return false;
 				}
 			}
-			Cache::delete(self::MENUS_CACHE_KEY);
+			$this->clearMenuCache();
 			return true;
 		});
 	}
@@ -195,6 +195,7 @@ class MenusTable extends AppTable {
 					->contain(['MenuNodes'])
 					->where(function($exp) use ($plugin){
 						$exp->eq('has_nodes', true);
+						$exp->eq('status', true);
 						if (!$plugin) {
 							$exp->isNull('plugin_code');
 						} else {
@@ -203,5 +204,14 @@ class MenusTable extends AppTable {
 						return $exp;
 					})
 					->order(['rank' => 'ASC']);
+	}
+
+/**
+ * 清除菜单缓存
+ * 
+ * @return void
+ */
+	public function clearMenuCache() {
+		Cache::delete(self::MENUS_CACHE_KEY);
 	}
 }

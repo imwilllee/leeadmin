@@ -81,21 +81,3 @@
 
     </div>
 </div>
-
-<?php $this->append('pageScript'); ?>
-<script>
-    $(function(){
-        $('.change-status').on('click', function(){
-            var checked = get_checked_items('id[]');
-            if (!$.isEmptyObject(checked)) {
-                var href = $(this).attr('href') + '/' + checked.join('-');
-                $(this).attr('href', href);
-                return true;
-            } else {
-                alert('请至少选择一个项目！');
-                return false;
-            }
-        });
-    });
-</script>
-<?php $this->end(); ?>

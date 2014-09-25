@@ -23,7 +23,7 @@ class DashboardController extends AppAdminController {
 	protected $_mainTitle = '控制面板';
 
 /**
- * 用户管理
+ * 控制面板首页
  * 
  * @return void
  */

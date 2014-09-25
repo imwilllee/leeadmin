@@ -1,6 +1,5 @@
 <?php
 /**
- * 微信插件
  * 公众号管理
  *
  * @copyright LeeAdmin.Wechat
