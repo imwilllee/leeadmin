@@ -2,7 +2,7 @@
             <?php
                 echo $this->Html->link(
                     'LeeAdmin',
-                    ['controller' => 'Dashboard', 'action' => 'index', 'prefix' => 'admin'],
+                    ['controller' => 'Dashboard', 'action' => 'index'],
                     ['class' => 'logo']
                 );
             ?>
@@ -19,14 +19,14 @@
                         <?php
                             echo $this->Html->link(
                                 '<i class="fa fa-plug"></i> 插件管理',
-                                ['controller' => 'Plugins', 'action' => 'index'],
+                                ['plugin' => false, 'controller' => 'Plugins', 'action' => 'index'],
                                 ['escape' => false]
                             );
                         ?></li>
                         <li class="dropdown user user-menu">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-user"></i>
-                                <span><?php echo $this->Session->read('Auth.User.alias'); ?> <i class="caret"></i></span>
+                                <?php echo $this->Session->read('Auth.User.alias'); ?> <i class="caret"></i>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="user-header bg-light-blue">
@@ -49,13 +49,19 @@
                                 </li>
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        <?php
+                                            echo $this->Html->link(
+                                                '更改密码',
+                                                ['plugin' => false, 'controller' => 'Users', 'action' => 'change_password'],
+                                                ['class' => 'btn btn-default btn-flat logout']
+                                            );
+                                        ?>
                                     </div>
                                     <div class="pull-right">
                                         <?php
                                             echo $this->Html->link(
                                                 '退出',
-                                                ['controller' => 'Users', 'action' => 'logout', 'prefix' => 'admin'],
+                                                ['plugin' => false, 'controller' => 'Users', 'action' => 'logout'],
                                                 ['class' => 'btn btn-default btn-flat logout']
                                             );
                                         ?>
