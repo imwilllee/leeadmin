@@ -32,23 +32,23 @@ return [
 			'menu_code' => null,
 			'parent_code' => 'wechat',
 			'name' => '公众号管理',
-			'link' => 'Wechat.admin/account/index',
+			'link' => 'Wechat.admin/Account/index',
 			'class' => null,
 			'rank' => 0,
 			'display_flg' => true,
 			'menu_nodes' => [
-				['link' => 'Wechat.admin/account/add', 'name' => '创建'],
-				['link' => 'Wechat.admin/account/index', 'name' => '查看'],
-				['link' => 'Wechat.admin/account/view', 'name' => '详细'],
-				['link' => 'Wechat.admin/account/edit', 'name' => '编辑'],
-				['link' => 'Wechat.admin/account/delete', 'name' => '删除']
+				['link' => 'Wechat.admin/Account/add', 'name' => '创建'],
+				['link' => 'Wechat.admin/Account/index', 'name' => '查看'],
+				['link' => 'Wechat.admin/Account/view', 'name' => '详细'],
+				['link' => 'Wechat.admin/Account/edit', 'name' => '编辑'],
+				['link' => 'Wechat.admin/Account/delete', 'name' => '删除']
 			]
 		],
 		[
 			'menu_code' => null,
 			'parent_code' => 'wechat',
 			'name' => '添加公众号',
-			'link' => 'Wechat.admin/account/add',
+			'link' => 'Wechat.admin/Account/add',
 			'class' => null,
 			'rank' => 0,
 			'display_flg' => true
@@ -57,15 +57,15 @@ return [
 			'menu_code' => null,
 			'parent_code' => 'wechat',
 			'name' => '订阅用户',
-			'link' => 'Wechat.admin/subscribers/index',
+			'link' => 'Wechat.admin/Subscribers/index',
 			'class' => null,
 			'rank' => 0,
 			'display_flg' => true,
 			'menu_nodes' => [
-				['link' => 'Wechat.admin/subscribers/index', 'name' => '查看'],
-				['link' => 'Wechat.admin/subscribers/view', 'name' => '详细'],
-				['link' => 'Wechat.admin/subscribers/edit', 'name' => '编辑'],
-				['link' => 'Wechat.admin/subscribers/delete', 'name' => '删除']
+				['link' => 'Wechat.admin/Subscribers/index', 'name' => '查看'],
+				['link' => 'Wechat.admin/Subscribers/view', 'name' => '详细'],
+				['link' => 'Wechat.admin/Subscribers/edit', 'name' => '编辑'],
+				['link' => 'Wechat.admin/Subscribers/delete', 'name' => '删除']
 			]
 		],
 	]

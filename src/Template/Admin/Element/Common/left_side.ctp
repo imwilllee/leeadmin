@@ -1,6 +1,15 @@
 <?php if (!empty($sidebarMenus)): ?>
             <aside class="left-side sidebar-offcanvas">
                 <section class="sidebar">
+                    <div class="sidebar-form">
+                        <?php
+                            echo $this->Html->link(
+                                '<i class="fa fa-dashboard"></i> 控制面板',
+                                ['controller' => 'Dashboard', 'action' => 'index'],
+                                ['class' => 'btn btn-block btn-social btn-linkedin', 'escape' => false]
+                            );
+                        ?>
+                    </div>
                     <ul class="sidebar-menu">
                     <?php foreach ($sidebarMenus as $menuCode => $menu): ?>
                         <?php if (!$this->Admin->checkMenuAccess($menu)) continue; ?>

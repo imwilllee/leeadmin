@@ -14,7 +14,6 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Network\Exception\ForbiddenException;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Inflector;
 
 class AppAdminController extends AppController {
 
@@ -188,13 +187,13 @@ class AppAdminController extends AppController {
 			if ($this->request->session()->read('Auth.User.group_id') != INIT_GROUP_ID) {
 				$plugin = null;
 				if (!empty($this->request->params['plugin'])) {
-					$plugin = Inflector::underscore($this->request->params['plugin']) . '.';
+					$plugin = $this->request->params['plugin'] . '.';
 				}
 				$node = sprintf(
 						'%s%s/%s/%s',
 						$plugin,
 						$this->request->params['prefix'],
-						Inflector::underscore($this->request->params['controller']),
+						$this->request->params['controller'],
 						$action
 				);
 				if (!in_array($node, $this->request->session()->read('Auth.Access'))) {

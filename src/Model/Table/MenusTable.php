@@ -32,27 +32,27 @@ class MenusTable extends AppTable {
 			'menu_code' => 'dashboard',
 			'parent_code' => null,
 			'name' => '控制面板',
-			'link' => 'admin/dashboard/index',
+			'link' => 'admin/Dashboard/index',
 			'class' => 'fa fa-dashboard',
 			'rank' => 0,
-			'display_flg' => true,
+			'display_flg' => false,
 			'menu_nodes' => [
-				['link' => 'admin/dashboard/index', 'name' => '查看']
+				['link' => 'admin/Dashboard/index', 'name' => '查看']
 			]
 		],
 		[
 			'menu_code' => 'plugin',
 			'parent_code' => null,
 			'name' => '插件管理',
-			'link' => 'admin/plugins/index',
+			'link' => 'admin/Plugins/index',
 			'class' => 'fa fa-plug',
 			'rank' => 0,
-			'display_flg' => true,
+			'display_flg' => false,
 			'menu_nodes' => [
-				['link' => 'admin/plugins/index', 'name' => '查看'],
-				['link' => 'admin/plugins/install', 'name' => '安装'],
-				['link' => 'admin/plugins/active', 'name' => '状态设置'],
-				['link' => 'admin/plugins/setting', 'name' => '插件设置']
+				['link' => 'admin/Plugins/index', 'name' => '查看'],
+				['link' => 'admin/Plugins/install', 'name' => '安装'],
+				['link' => 'admin/Plugins/active', 'name' => '状态设置'],
+				['link' => 'admin/Plugins/setting', 'name' => '插件设置']
 			]
 		],
 		[
@@ -68,24 +68,24 @@ class MenusTable extends AppTable {
 			'menu_code' => null,
 			'parent_code' => 'users',
 			'name' => '系统管理员',
-			'link' => 'admin/users/index',
+			'link' => 'admin/Users/index',
 			'class' => null,
 			'rank' => 0,
 			'display_flg' => true,
 			'menu_nodes' => [
-				['link' => 'admin/users/add', 'name' => '创建'],
-				['link' => 'admin/users/index', 'name' => '查看'],
-				['link' => 'admin/users/view', 'name' => '详细'],
-				['link' => 'admin/users/edit', 'name' => '编辑'],
-				['link' => 'admin/users/change_status', 'name' => '更改状态'],
-				['link' => 'admin/users/delete', 'name' => '删除']
+				['link' => 'admin/Users/add', 'name' => '创建'],
+				['link' => 'admin/Users/index', 'name' => '查看'],
+				['link' => 'admin/Users/view', 'name' => '详细'],
+				['link' => 'admin/Users/edit', 'name' => '编辑'],
+				['link' => 'admin/Users/change_status', 'name' => '更改状态'],
+				['link' => 'admin/Users/delete', 'name' => '删除']
 			]
 		],
 		[
 			'menu_code' => null,
 			'parent_code' => 'users',
 			'name' => '创建管理员',
-			'link' => 'admin/users/add',
+			'link' => 'admin/Users/add',
 			'class' => null,
 			'rank' => 0,
 			'display_flg' => true
@@ -94,24 +94,24 @@ class MenusTable extends AppTable {
 			'menu_code' => null,
 			'parent_code' => 'users',
 			'name' => '用户组管理',
-			'link' => 'admin/groups/index',
+			'link' => 'admin/Groups/index',
 			'class' => null,
 			'rank' => 0,
 			'display_flg' => true,
 			'menu_nodes' => [
-				['link' => 'admin/groups/add', 'name' => '创建'],
-				['link' => 'admin/groups/index', 'name' => '查看'],
-				['link' => 'admin/groups/view', 'name' => '详细'],
-				['link' => 'admin/groups/edit', 'name' => '编辑'],
-				['link' => 'admin/groups/delete', 'name' => '删除'],
-				['link' => 'admin/groups/access', 'name' => '访问权限'],
+				['link' => 'admin/Groups/add', 'name' => '创建'],
+				['link' => 'admin/Groups/index', 'name' => '查看'],
+				['link' => 'admin/Groups/view', 'name' => '详细'],
+				['link' => 'admin/Groups/edit', 'name' => '编辑'],
+				['link' => 'admin/Groups/delete', 'name' => '删除'],
+				['link' => 'admin/Groups/access', 'name' => '访问权限'],
 			]
 		],
 		[
 			'menu_code' => null,
 			'parent_code' => 'users',
 			'name' => '创建用户组',
-			'link' => 'admin/groups/add',
+			'link' => 'admin/Groups/add',
 			'class' => null,
 			'rank' => 0,
 			'display_flg' => true

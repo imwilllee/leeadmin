@@ -15,9 +15,17 @@
                 </a>
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
+                        <li>
+                        <?php
+                            echo $this->Html->link(
+                                '<i class="fa fa-plug"></i> 插件管理',
+                                ['controller' => 'Plugins', 'action' => 'index'],
+                                ['escape' => false]
+                            );
+                        ?></li>
                         <li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="glyphicon glyphicon-user"></i>
+                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-user"></i>
                                 <span><?php echo $this->Session->read('Auth.User.alias'); ?> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
