@@ -26,6 +26,8 @@ class GroupsTable extends AppTable {
 		$this->hasMany('GroupAccesses', [
 			'className' => 'GroupAccesses',
 			'foreignKey' => 'group_id',
+			'dependent' => true,
+			'cascadeCallbacks' => true,
 			'conditions' => null
 		]);
 		parent::initialize($config);
@@ -72,6 +74,6 @@ class GroupsTable extends AppTable {
  */
 	public function getGroupList() {
 		return $this->find('list', ['idField' => 'id', 'valueField' => 'name'])
-						->select(['id', 'name'])->toArray();
+					->select(['id', 'name'])->toArray();
 	}
 }

@@ -11,7 +11,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
 use Cake\Core\Configure;
-use Cake\ORM\TableRegistry;
+use Cake\Core\Plugin;
 
 class DashboardController extends AppAdminController {
 

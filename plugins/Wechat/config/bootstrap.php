@@ -1,7 +1,7 @@
 <?php
 /**
  * 微信公众平台插件
- * 路由定义
+ * 引导文件
  *
  * @copyright LeeAdmin.Wechat
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -10,6 +10,9 @@
  */
 use Cake\Routing\Router;
 
+/**
+ * 路由定义
+ */
 Router::plugin('Wechat', function($plugin) {
 	$plugin->fallbacks();
 	$plugin->prefix('admin', function($routes) {

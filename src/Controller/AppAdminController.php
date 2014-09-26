@@ -13,7 +13,6 @@ use App\Controller\AppController;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Network\Exception\ForbiddenException;
-use Cake\ORM\TableRegistry;
 
 class AppAdminController extends AppController {
 
@@ -47,7 +46,8 @@ class AppAdminController extends AppController {
 		],
 		'Security' => [
 			'unlockedFields' => []
-		]
+		],
+		'MenuNode'
 	];
 
 /**
@@ -98,7 +98,7 @@ class AppAdminController extends AppController {
 			// 权限验证
 			$this->__checkUserAccess();
 			// 刷新核心和插件定义菜单和节点
-			$this->__refreshMenus();
+			$this->__refreshMenuNodes();
 		}
 	}
 
@@ -114,8 +114,7 @@ class AppAdminController extends AppController {
 		$this->set('subTitle', $this->_subTitle);
 		// 登陆后设置左侧菜单
 		if ($this->Auth->user()) {
-			$menusTable = TableRegistry::get('Menus');
-			$this->set('sidebarMenus', $menusTable->getSidebarMenus());
+			$this->set('sidebarMenus', $this->MenuNode->sidebarMenus());
 			$sidebarParentIds = [];
 			if (!empty($this->request->cookies['SIDEBAR_PARENT_IDS'])) {
 				$sidebarParentIds = explode('.', $this->request->cookies['SIDEBAR_PARENT_IDS']);
@@ -163,10 +162,9 @@ class AppAdminController extends AppController {
  * 
  * @return boolean
  */
-	private function __refreshMenus() {
+	private function __refreshMenuNodes() {
 		if ($this->request->query('_refresh_menu') !== null && Configure::read('debug') === true) {
-			$menusTable = TableRegistry::get('Menus');
-			if ($menusTable->refreshMenus()) {
+			if ($this->MenuNode->refreshMenuNodes()) {
 				$this->Flash->success('菜单节点刷新成功！');
 			} else {
 				$this->Flash->error('菜单节点刷新失败！');

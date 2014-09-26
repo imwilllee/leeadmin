@@ -11,7 +11,6 @@ namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
 use Cake\Network\Exception\NotFoundException;
-use Cake\ORM\TableRegistry;
 
 class GroupsController extends AppAdminController {
 
@@ -29,8 +28,8 @@ class GroupsController extends AppAdminController {
  */
 	public function index() {
 		$this->_subTitle = '用户组一览';
-		$groupsTable = TableRegistry::get('Groups');
-		$query = $groupsTable->find()->select(['id', 'name', 'status', 'explain']);
+		$this->loadModel('Groups');
+		$query = $this->Groups->find()->select(['id', 'name', 'status', 'explain']);
 		$this->__markQuery($query);
 		$this->paginate = array_merge($this->paginate, ['sortWhitelist' => ['id', 'status']]);
 		try {
@@ -76,11 +75,11 @@ class GroupsController extends AppAdminController {
 	public function view($id = null) {
 		$this->_subTitle = '用户组详细';
 		$this->__initGroupCheck($id);
-		$groupsTable = TableRegistry::get('Groups');
-		$group = $groupsTable->get($id, ['contain' => false]);
+		$this->loadModel('Groups');
+		$group = $this->Groups->get($id, ['contain' => false]);
 		// 用户组权限取得
-		$groupAccessesTable = TableRegistry::get('GroupAccesses');
-		$access = $groupAccessesTable->getGroupAccessNodeIdList($id);
+		$this->loadModel('GroupAccesses');
+		$access = $this->GroupAccesses->getGroupAccessNodeIdList($id);
 		// 设置菜单节点
 		$this->__setMenuNodes();
 		$this->set(compact('group', 'access'));
@@ -93,10 +92,10 @@ class GroupsController extends AppAdminController {
  */
 	public function add() {
 		$this->_subTitle = '创建用户组';
-		$groupsTable = TableRegistry::get('Groups');
-		$group = $groupsTable->newEntity($this->request->data);
+		$this->loadModel('Groups');
+		$group = $this->Groups->newEntity($this->request->data);
 		if ($this->request->is('post')) {
-			if ($groupsTable->save($group)) {
+			if ($this->Groups->save($group)) {
 				$this->Flash->success('数据保存成功！');
 				return $this->redirect(['action' => 'index']);
 			} else {
@@ -115,11 +114,11 @@ class GroupsController extends AppAdminController {
 	public function edit($id = null) {
 		$this->_subTitle = '用户组编辑';
 		$this->__initGroupCheck($id);
-		$groupsTable = TableRegistry::get('Groups');
-		$group = $groupsTable->get($id, ['contain' => false]);
+		$this->loadModel('Groups');
+		$group = $this->Groups->get($id, ['contain' => false]);
 		if ($this->request->is(['post', 'put'])) {
-			$group = $groupsTable->patchEntity($group, $this->request->data);
-			if ($groupsTable->save($group)) {
+			$group = $this->Groups->patchEntity($group, $this->request->data);
+			if ($this->Groups->save($group)) {
 				$this->Flash->success('数据保存成功！');
 				return $this->redirect(['action' => 'index']);
 			} else {
@@ -138,9 +137,9 @@ class GroupsController extends AppAdminController {
 	public function delete($id = null) {
 		$this->request->allowMethod('post', 'delete');
 		$this->__initGroupCheck($id);
-		$groupsTable = TableRegistry::get('Groups');
-		$group = $groupsTable->get($id, ['contain' => false]);
-		if ($groupsTable->delete($group)) {
+		$this->loadModel('Groups');
+		$group = $this->Groups->get($id, ['contain' => false]);
+		if ($this->Groups->delete($group)) {
 			$this->Flash->success('数据删除成功！');
 		} else {
 			$this->Flash->error('数据删除失败！');
@@ -157,16 +156,16 @@ class GroupsController extends AppAdminController {
 	public function access($id = null) {
 		$this->_subTitle = '访问权限';
 		$this->__initGroupCheck($id);
-		$groupsTable = TableRegistry::get('Groups');
-		$group = $groupsTable->get($id, ['contain' => false]);
-		$groupAccessesTable = TableRegistry::get('GroupAccesses');
+		$this->loadModel('Groups');
+		$group = $this->Groups->get($id, ['contain' => false]);
+		$this->loadModel('GroupAccesses');
 		// 数据保存
 		if ($this->request->is(['post', 'put'])) {
 			// 选择的权限节点
 			$access = $this->request->data('menu_node_id');
-			$query = $groupAccessesTable->query();
+			$query = $this->GroupAccesses->query();
 			// 开启事务保存数据
-			$result = $groupAccessesTable->connection()->transactional(
+			$result = $this->GroupAccesses->connection()->transactional(
 				function() use($query, $access, $id) {
 					// 删除原有权限节点
 					if ($query->delete()->where(['group_id' => $id])->execute()) {
@@ -189,7 +188,7 @@ class GroupsController extends AppAdminController {
 
 		} else {
 			// 用户组权限取得
-			$access = $groupAccessesTable->getGroupAccessNodeIdList($id);
+			$access = $this->GroupAccesses->getGroupAccessNodeIdList($id);
 		}
 		// 设置菜单节点
 		$this->__setMenuNodes();
@@ -216,9 +215,9 @@ class GroupsController extends AppAdminController {
  */
 	private function __setMenuNodes() {
 		// 系统菜单节点取得
-		$menusTable = TableRegistry::get('Menus');
-		$menuNodes = $menusTable->getMenuNodes();
-		$pulginMenuNodes = $menusTable->getMenuNodes(true);
+		$this->loadModel('Menus');
+		$menuNodes = $this->Menus->getMenuNodes();
+		$pulginMenuNodes = $this->Menus->getMenuNodes(true);
 		$this->set(compact('menuNodes', 'pulginMenuNodes'));
 	}
 }

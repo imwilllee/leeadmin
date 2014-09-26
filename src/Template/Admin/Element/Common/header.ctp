@@ -2,7 +2,7 @@
             <?php
                 echo $this->Html->link(
                     'LeeAdmin',
-                    ['controller' => 'Dashboard', 'action' => 'index'],
+                    ['plugin' => false, 'controller' => 'Dashboard', 'action' => 'index'],
                     ['class' => 'logo']
                 );
             ?>
@@ -15,14 +15,6 @@
                 </a>
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
-                        <li>
-                        <?php
-                            echo $this->Html->link(
-                                '<i class="fa fa-plug"></i> 插件管理',
-                                ['plugin' => false, 'controller' => 'Plugins', 'action' => 'index'],
-                                ['escape' => false]
-                            );
-                        ?></li>
                         <li class="dropdown user user-menu">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-user"></i>

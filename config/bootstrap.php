@@ -68,7 +68,6 @@ try {
 // You can use this file to provide local overrides to your
 // shared configuration.
 Configure::load('common.php', 'default');
-Configure::load('plugins.php', 'default');
 
 // When debug = false the metadata cache should last
 // for a very very long time, as we don't want
@@ -169,12 +168,8 @@ Request::addDetector('tablet', function($request) {
 
 // Plugin::load('DebugKit', ['bootstrap' => true]);
 
-foreach (Configure::read('Plugin') as $pluginCode => $options) {
-	if ($options['status'] == true) {
-		Plugin::load($pluginCode, $options);
-	}
-}
-// Plugin::load('Wechat', ['routes' => true, 'autoload' => true]);
+Plugin::load('Wechat', ['bootstrap' => true, 'autoload' => true]);
+
 /**
  * Connect middleware/dispatcher filters.
  */

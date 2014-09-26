@@ -5,7 +5,7 @@
                         <?php
                             echo $this->Html->link(
                                 '<i class="fa fa-dashboard"></i> 控制面板',
-                                ['controller' => 'Dashboard', 'action' => 'index'],
+                                ['plugin' => false, 'controller' => 'Dashboard', 'action' => 'index'],
                                 ['class' => 'btn btn-block btn-social btn-linkedin', 'escape' => false]
                             );
                         ?>
@@ -23,7 +23,7 @@
                                 );
                             ?>
                         </li>
-                        <?php else: ?>
+                        <?php elseif(!empty($menu['sub_menus'])): ?>
                         <li class="treeview<?php echo in_array($menu['id'], $sidebarParentIds) ? ' active' : ''; ?>" data-parent-id="<?php echo $menu['id']; ?>">
                             <?php
                                 echo $this->Html->link(
