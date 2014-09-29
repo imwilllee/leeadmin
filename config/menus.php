@@ -31,7 +31,7 @@ return [
 			['link' => 'admin/Users/index', 'name' => '查看'],
 			['link' => 'admin/Users/view', 'name' => '详细'],
 			['link' => 'admin/Users/edit', 'name' => '编辑'],
-			['link' => 'admin/Users/change_status', 'name' => '更改状态'],
+			['link' => 'admin/Users/active', 'name' => '状态变更'],
 			['link' => 'admin/Users/delete', 'name' => '删除']
 		]
 	],
@@ -67,6 +67,7 @@ return [
 			['link' => 'admin/Groups/view', 'name' => '详细'],
 			['link' => 'admin/Groups/edit', 'name' => '编辑'],
 			['link' => 'admin/Groups/delete', 'name' => '删除'],
+			['link' => 'admin/Groups/active', 'name' => '状态变更'],
 			['link' => 'admin/Groups/access', 'name' => '访问权限'],
 		]
 	],

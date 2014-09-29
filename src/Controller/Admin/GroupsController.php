@@ -11,6 +11,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
 use Cake\Network\Exception\NotFoundException;
+use DateTime;
 
 class GroupsController extends AppAdminController {
 
@@ -193,6 +194,39 @@ class GroupsController extends AppAdminController {
 		// 设置菜单节点
 		$this->__setMenuNodes();
 		$this->set(compact('group', 'access'));
+	}
+
+/**
+ * 状态变更
+ *
+ * @param string $status 状态
+ * @param int $id 用户组ID
+ * @return void
+ */
+	public function active($status = 'enable', $id = null) {
+		$this->autoRender = false;
+		$this->__initGroupCheck($id);
+		if (empty($id)) {
+			$this->Flash->error('参数错误！');
+		} else {
+			$ids = explode('_', $id);
+			$this->loadModel('Groups');
+			$query = $this->Groups->query();
+			$result = $query->update()
+				->set([
+					'status' => $status == 'enable',
+					'modified' => new DateTime('now'),
+					'modified_by' => $this->request->session()->read('Auth.User.id')
+				])
+				->where(['id' => $id])
+				->execute();
+			if ($result) {
+				$this->Flash->success('数据更新成功！');
+			} else {
+				$this->Flash->error('数据更新失败');
+			}
+		}
+		return $this->redirect(['action' => 'index']);
 	}
 
 /**

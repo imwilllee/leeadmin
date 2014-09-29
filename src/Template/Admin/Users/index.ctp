@@ -67,8 +67,8 @@
                             <span class="sr-only">操作</span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><?php echo $this->Html->link('禁用', ['action' =>'change_status', 'disable'], ['class' => 'batch-action']); ?></li>
-                            <li><?php echo $this->Html->link('启用', ['action' =>'change_status', 'enable'], ['class' => 'batch-action']); ?></li>
+                            <li><?php echo $this->Html->link('禁用', ['action' =>'active', 'disable'], ['class' => 'batch-action']); ?></li>
+                            <li><?php echo $this->Html->link('启用', ['action' =>'active', 'enable'], ['class' => 'batch-action']); ?></li>
                         </ul>
                     </div>
                     <?php echo $this->Html->link('创建管理员', ['action' => 'add'], ['class' => 'btn btn-primary btn-flat']); ?>
@@ -101,9 +101,21 @@
                             </td>
                             <td>
                             <?php if ($user->status): ?>
-                                <span class="label label-primary"><?php echo Configure::read('Common.status.1'); ?></span>
+                                <?php
+                                    echo $this->Html->link(
+                                        Configure::read('Common.status.1'),
+                                        ['action' => 'active', 'disable', '?' => ['id' => $user->id]],
+                                        ['class' => 'label label-primary', 'confirm' => '确认更改状态？']
+                                    );
+                                ?>
                             <?php else: ?>
-                                <span class="label label-danger"><?php echo Configure::read('Common.status.0'); ?></span>
+                                <?php
+                                    echo $this->Html->link(
+                                        Configure::read('Common.status.0'),
+                                        ['action' => 'active', 'enable', '?' => ['id' => $user->id]],
+                                        ['class' => 'label label-danger', 'confirm' => '确认更改状态？']
+                                    );
+                                ?>
                             <?php endif; ?>
                             </td>
                             <td>
@@ -141,20 +153,9 @@
                 alert('至少选择一个项目！');
                 return false;
             }
-            $.get(
-                $(this).attr('href'),
-                {
-                    ids: items.join('_')
-                },
-                function(json){
-                    if (json.err_code == 0) {
-                        location.replace(location.href);
-                    } else {
-                        alert(json.message);
-                    }
-                },
-                'json'
-            );
+            if (confirm('确认更改状态？')) {
+                location.href = $(this).attr('href') + '?id=' +items.join('_');
+            }
             return false;
         });
     });

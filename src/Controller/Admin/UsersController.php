@@ -236,7 +236,7 @@ class UsersController extends AppAdminController {
  */
 	public function delete($id = null) {
 		$this->request->allowMethod('post', 'delete');
-		$this->loadModel('Groups');
+		$this->loadModel('Users');
 		$user = $this->Users->get($id, ['contain' => false]);
 		if ($this->Users->delete($user)) {
 			$this->Flash->success('数据删除成功！');
@@ -247,20 +247,19 @@ class UsersController extends AppAdminController {
 	}
 
 /**
- * 更改状态
+ * 状态变更
  *
  * @param string $status 状态
  * @return void
  */
-	public function change_status($status = 'enable') {
-		$this->request->allowMethod('ajax');
+	public function active($status = 'enable') {
 		$this->autoRender = false;
-		$ids = $this->request->query('ids');
-		$ids = explode('_', $ids);
+		$ids = $this->request->query('id');
 		if (empty($ids)) {
-			$this->_ajaxError('请选择至少选择一个项目！');
+			$this->Flash->error('请选择至少选择一个项目！');
 		} else {
-			$this->loadModel('Groups');
+			$ids = explode('_', $ids);
+			$this->loadModel('Users');
 			$query = $this->Users->query();
 			$result = $query->update()
 				->set([
@@ -272,11 +271,11 @@ class UsersController extends AppAdminController {
 				->execute();
 			if ($result) {
 				$this->Flash->success('数据更新成功！');
-				$this->_ajaxSuccess();
 			} else {
-				$this->_ajaxError('数据更新失败');
+				$this->Flash->error('数据更新失败');
 			}
 		}
+		return $this->redirect(['action' => 'index']);
 	}
 
 /**
@@ -286,7 +285,7 @@ class UsersController extends AppAdminController {
  * @return void
  */
 	private function __updateLastLoginInfo($user) {
-		$this->loadModel('Groups');
+		$this->loadModel('Users');
 		$query = $this->Users->query();
 		$query->update()
 			->set([

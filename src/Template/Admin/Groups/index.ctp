@@ -55,10 +55,30 @@
                             ?>
                             </td>
                             <td>
-                            <?php if ($group->status): ?>
-                                <span class="label label-primary"><?php echo Configure::read('Common.status.1'); ?></span>
-                            <?php else: ?>
-                                <span class="label label-danger"><?php echo Configure::read('Common.status.0'); ?></span>
+                            <?php if ($group->id != INIT_GROUP_ID): ?>
+                                <?php if ($group->status): ?>
+                                    <?php
+                                        echo $this->Html->link(
+                                            Configure::read('Common.status.1'),
+                                            ['action' => 'active', 'disable', $group->id],
+                                            ['class' => 'label label-primary', 'confirm' => '确认更改状态？']
+                                        );
+                                    ?>
+                                <?php else: ?>
+                                    <?php
+                                        echo $this->Html->link(
+                                            Configure::read('Common.status.0'),
+                                            ['action' => 'active', 'enable', $group->id],
+                                            ['class' => 'label label-danger', 'confirm' => '确认更改状态？']
+                                        );
+                                    ?>
+                                <?php endif; ?>
+                            <?php else:?>
+                                <?php if ($group->status): ?>
+                                    <span class="label label-primary"><?php echo Configure::read('Common.status.1'); ?></span>
+                                <?php else: ?>
+                                    <span class="label label-danger"><?php echo Configure::read('Common.status.0'); ?></span>
+                                <?php endif; ?>
                             <?php endif; ?>
                             </td>
                             <td><?php echo nl2br(h($group->explain)); ?></td>

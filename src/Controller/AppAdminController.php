@@ -124,40 +124,6 @@ class AppAdminController extends AppController {
 	}
 
 /**
- * ajax成功
- * 
- * @param array $response 返回数据
- * @param string $message 成功信息
- * @return void
- */
-	protected function _ajaxSuccess($response = [], $message = '') {
-		$this->response->disableCache();
-		$body = [
-			'err_code' => 0,
-			'message' => $message,
-			'body' => $response
-		];
-		$this->response->body(json_encode($body));
-		$this->response->type('json');
-	}
-
-/**
- * ajax失败
- *
- * @param string $errMsg 错误信息
- * @return void
- */
-	protected function _ajaxError($errMsg) {
-		$this->response->disableCache();
-		$body = [
-			'err_code' => 1,
-			'message' => $errMsg,
-		];
-		$this->response->body(json_encode($body));
-		$this->response->type('json');
-	}
-
-/**
  * 刷新核心和插件定义菜单和节点
  * 
  * @return boolean
