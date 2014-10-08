@@ -10,6 +10,7 @@
 namespace App\Model\Table;
 
 use App\Model\Table\AppTable;
+use Cake\ORM\Query;
 
 class MenusTable extends AppTable {
 
@@ -32,7 +33,7 @@ class MenusTable extends AppTable {
 
 /**
  * 管理端侧边栏菜单
- * 
+ *
  * @return array
  */
 	public function getSidebarMenus() {
@@ -99,5 +100,15 @@ class MenusTable extends AppTable {
 					return $exp;
 				})
 				->order(['rank' => 'ASC']);
+	}
+
+/**
+ * [findTree description]
+ *
+ * @param Cake\ORM\Query $query 查询器
+ * @param array $options 参数
+ * @return Cake\ORM\Query
+ */
+	public function findTree(Query $query, array $options) {
 	}
 }
