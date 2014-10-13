@@ -98,8 +98,7 @@ return [
 		'rank' => 0,
 		'display_flg' => true,
 		'menu_nodes' => [
-			['link' => 'admin/Setting/index', 'name' => '站点信息'],
-			['link' => 'admin/Setting/menus', 'name' => '管理菜单排序'],
+			['link' => 'admin/Setting/index', 'name' => '站点信息']
 		]
 	],
 	[
@@ -110,14 +109,5 @@ return [
 		'class' => null,
 		'rank' => 0,
 		'display_flg' => true
-	],
-	[
-		'menu_code' => null,
-		'parent_code' => 'setting',
-		'name' => '管理菜单排序',
-		'link' => 'admin/Setting/menus',
-		'class' => null,
-		'rank' => 0,
-		'display_flg' => true
-	],
+	]
 ];

@@ -1,7 +1,7 @@
 <?php
 /**
  * 菜单节点管理组件
- * 
+ *
  * 核心菜单定义在config/menus.php文件内
  * 插件菜单定义在插件目录下的config/menus.php文件内
  * 调用refresh()方法刷新所有菜单
@@ -32,25 +32,17 @@ class MenuNodeComponent extends Component {
 /**
  * 初始化方法
  *
- * @param Cake\Event\Event $event 事件对象
+ * @param array $config 配置项
  * @return void
  */
-	public function initialize(Event $event) {
-	}
-
-/**
- * 启动方法
- * 
- * @param Cake\Event\Event $event 事件对象
- * @return void
- */
-	public function startup(Event $event) {
+	public function initialize(array $config) {
+		parent::initialize($config);
 	}
 
 /**
  * 刷新菜单节点
  * 包括核心和插件
- * 
+ *
  * @return boolean
  */
 	public function refreshMenuNodes() {
@@ -67,7 +59,7 @@ class MenuNodeComponent extends Component {
 
 /**
  * 侧边栏菜单
- * 
+ *
  * @return array
  */
 	public function sidebarMenus() {
@@ -82,7 +74,7 @@ class MenuNodeComponent extends Component {
 
 /**
  * 安装插件菜单节点
- * 
+ *
  * @return boolean
  */
 	public function installPluginMenuNodes() {
@@ -90,7 +82,7 @@ class MenuNodeComponent extends Component {
 
 /**
  * 取得所有插件菜单
- * 
+ *
  * @return boolean
  */
 	public function pluginMenuNodes() {
@@ -123,7 +115,7 @@ class MenuNodeComponent extends Component {
 
 /**
  * 删除缓存
- * 
+ *
  * @return boolean
  */
 	public function clearCache() {

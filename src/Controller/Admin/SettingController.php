@@ -29,14 +29,4 @@ class SettingController extends AppAdminController {
 		$this->_subTitle = '站点信息';
 	}
 
-/**
- * 管理菜单排序
- *
- * @return void
- */
-	public function menus() {
-		$this->_subTitle = '管理菜单排序';
-		$this->loadModel('Menus');
-	}
-
 }
