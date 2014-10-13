@@ -1,25 +1,17 @@
 
         <?php
             $this->append('importScript');
-            echo $this->Html->script('plugins/My97DatePicker/WdatePicker');
+            echo $this->Html->script('plugins/laydate/laydate');
             $this->end();
         ?>
 <?php $this->append('pageScript'); ?>
 <script>
     $(function(){
         $('.datepicker').on('click', function(){
-            WdatePicker({
-                el: $(this).attr('data-target-id')
-            });
+            laydate({elem: '#' + $(this).attr('data-target-id'), format: 'YYYY-MM-DD'});
         });
         $('.datetimepicker').on('click', function(){
-            WdatePicker({
-                el: $(this).attr('data-target-id'),
-                dateFmt: 'yyyy-MM-dd HH:mm:ss',
-                hmsMenuCfg: {
-                     H: [1, 6], m: [1, 8], s: [1, 8] 
-                }
-            });
+            laydate({elem: '#' + $(this).attr('data-target-id'), istime: true, format: 'YYYY-MM-DD hh:mm:ss'});
         });
     });
 </script>

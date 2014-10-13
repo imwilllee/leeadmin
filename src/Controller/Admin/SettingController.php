@@ -27,6 +27,7 @@ class SettingController extends AppAdminController {
  */
 	public function index() {
 		$this->_subTitle = '站点信息';
+		$this->loadModel('Options');
 	}
 
 }
