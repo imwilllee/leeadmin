@@ -14,6 +14,9 @@
                     <div class="box box-solid box-primary">
                         <div class="box-header">
                             <h3 class="box-title">用户组信息</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-primary btn-xs" data-widget="collapse" data-toggle="tooltip" data-original-title="关闭"><i class="fa fa-minus"></i></button>
+                            </div>
                         </div>
                         <div class="box-body">
                             <div class="row">
@@ -59,13 +62,10 @@
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="box-footer">
-                            <?php echo $this->Html->link('返回一览', ['action' => 'index'], ['class' => 'btn btn-default btn-flat']); ?>
-                            <button class="btn btn-primary btn-flat">确认保存</button>
                         </div>
                     </div>
+                    <?php echo $this->Html->link('返回一览', ['action' => 'index'], ['class' => 'btn btn-default btn-flat']); ?>
+                    <button class="btn btn-primary btn-flat">确认保存</button>
                 <?php echo $this->Form->end(); ?>
 
                 </div>

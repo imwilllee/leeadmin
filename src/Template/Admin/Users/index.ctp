@@ -123,8 +123,8 @@
                                 echo $user->group_id == INIT_GROUP_ID ? h($user->group->name) : $this->Html->link($user->group->name, ['controller' => 'Groups', 'action' => 'view', $user->group_id]);
                             ?>
                             </td>
-                            <td><?php echo $this->Admin->showDateTime($user->created); ?></td>
-                            <td><?php echo $this->Admin->showDateTime($user->last_logined); ?></td>
+                            <td><?php echo df($user->created); ?></td>
+                            <td><?php echo df($user->last_logined); ?></td>
                             <td><?php echo h($user->last_login_ip); ?></td>
                             <td>
                                 <?php echo $this->Admin->iconViewLink(['action' => 'view', $user->id]); ?>

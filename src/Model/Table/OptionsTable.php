@@ -24,4 +24,13 @@ class OptionsTable extends AppTable {
 		$this->primaryKey('id');
 		parent::initialize($config);
 	}
+
+/**
+ * 保存配置项
+ *
+ * @param array $options 配置项
+ * @return boolean
+ */
+	public function saveOptions($options) {
+	}
 }

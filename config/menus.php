@@ -98,16 +98,26 @@ return [
 		'rank' => 0,
 		'display_flg' => true,
 		'menu_nodes' => [
-			['link' => 'admin/Setting/index', 'name' => '站点信息']
+			['link' => 'admin/Options/index', 'name' => '站点信息'],
+			['link' => 'admin/Options/seo', 'name' => 'SEO设置'],
 		]
 	],
 	[
 		'menu_code' => null,
 		'parent_code' => 'setting',
 		'name' => '站点信息',
-		'link' => 'admin/Setting/index',
+		'link' => 'admin/Options/index',
 		'class' => null,
 		'rank' => 0,
 		'display_flg' => true
-	]
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'setting',
+		'name' => 'SEO设置',
+		'link' => 'admin/Options/seo',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
 ];

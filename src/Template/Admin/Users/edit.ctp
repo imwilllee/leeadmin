@@ -13,7 +13,7 @@
                 <?php echo $this->Form->create($user); ?>
                 <?php
                     if (!empty($user->birth)){
-                        $user->birth = $this->Admin->showDateTime($user->birth, 'Y-m-d');
+                        $user->birth = df($user->birth, 'Y-m-d');
                     }
                 ?>
                     <div class="box box-solid box-primary">

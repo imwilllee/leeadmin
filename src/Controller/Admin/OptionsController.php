@@ -11,7 +11,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
 
-class SettingController extends AppAdminController {
+class OptionsController extends AppAdminController {
 
 /**
  * 主标题
@@ -30,4 +30,12 @@ class SettingController extends AppAdminController {
 		$this->loadModel('Options');
 	}
 
+/**
+ * SEO设置
+ *
+ * @return void
+ */
+	public function seo() {
+		$this->_subTitle = 'SEO设置';
+	}
 }

@@ -13,13 +13,12 @@ namespace App\View\Helper;
 use Cake\Core\Configure;
 use Cake\Utility\Time;
 use Cake\View\Helper;
-use DateTime;
 
 class AppHelper extends Helper {
 
 /**
  * 显示页面标题
- * 
+ *
  * @return string
  */
 	public function title() {
@@ -40,7 +39,7 @@ class AppHelper extends Helper {
  * url格式规则
  * 插件格式:plugin.controller/action 和 plugin.prefix/controller/action
  * 基本格式:controller/action 和 prefix/controller/action
- * 
+ *
  * @param string $url url地址
  * @return array
  */
@@ -51,25 +50,6 @@ class AppHelper extends Helper {
 			return ['plugin' => $plugin, 'controller' => $link[1], 'action' => $link[2], 'prefix' => $link[0]];
 		} else {
 			return ['plugin' => $plugin, 'controller' => $link[0], 'action' => $link[1], 'prefix' => false];
-		}
-	}
-
-/**
- * 转换日期显示
- * 
- * @param mixd $date 日期
- * @param string $format 格式
- * @return string
- */
-	public function showDateTime($date, $format = 'Y-m-d H:i:s') {
-		if (empty($date)) {
-			return null;
-		}
-		if (is_string($date)) {
-			$dt = new DateTime($date);
-			return $dt->format($format);
-		} else {
-			return $date->format($format);
 		}
 	}
 }

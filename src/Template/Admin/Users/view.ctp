@@ -65,7 +65,7 @@
                                 <div class="col-xs-12">
                                     <div class="form-group">
                                         <label>创建日期</label>
-                                        <p><?php echo $this->Admin->showDateTime($user->created); ?></p>
+                                        <p><?php echo df($user->created); ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@
                                 <div class="col-xs-12">
                                     <div class="form-group">
                                         <label>出生年月</label>
-                                        <p><?php echo $this->Admin->showDateTime($user->birth, 'Y-m-d'); ?></p>
+                                        <p><?php echo df($user->birth, 'Y-m-d'); ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -131,7 +131,7 @@
                                 <div class="col-xs-12">
                                     <div class="form-group">
                                         <label>最后登录日期</label>
-                                        <p><?php echo $this->Admin->showDateTime($user->last_logined); ?></p>
+                                        <p><?php echo df($user->last_logined); ?></p>
                                     </div>
                                 </div>
                             </div>

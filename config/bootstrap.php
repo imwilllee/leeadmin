@@ -33,6 +33,7 @@ require ROOT . DS . 'vendor' . DS . 'autoload.php';
  * - Setting the default application paths.
  */
 require CORE_PATH . 'config' . DS . 'bootstrap.php';
+require APP . 'Core' . DS . 'functions.php';
 
 use Cake\Cache\Cache;
 use Cake\Console\ConsoleErrorHandler;
