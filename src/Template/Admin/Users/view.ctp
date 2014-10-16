@@ -5,13 +5,16 @@
     <div class="col-md-12">
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="javascript:;">基本信息</a></li>
+                <li><?php echo $this->Html->link('管理员一览', ['action' => 'index']); ?></li>
+                <li><?php echo $this->Html->link('创建管理员', ['action' => 'add']); ?></li>
+                <li class="active"><a href="javascript:;">管理员详细</a></li>
+                <li><?php echo $this->Html->link('管理员编辑', ['action' => 'edit', $user->id]); ?></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active">
                     <div class="box box-solid box-primary">
                         <div class="box-header">
-                            <h3 class="box-title">账号信息</h3>
+                            <h3 class="box-title">基本信息</h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-primary btn-xs" data-widget="collapse" data-toggle="tooltip" data-original-title="关闭"><i class="fa fa-minus"></i></button>
                             </div>

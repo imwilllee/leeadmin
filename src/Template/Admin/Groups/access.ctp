@@ -5,7 +5,10 @@
     <div class="col-md-12">
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-                <li><?php echo $this->Html->link('基本信息', ['action' => 'edit', $group->id]); ?></li>
+                <li><?php echo $this->Html->link('用户组一览', ['action' => 'index']); ?></li>
+                <li><?php echo $this->Html->link('创建用户组', ['action' => 'add']); ?></li>
+                <li><?php echo $this->Html->link('用户组详细', ['action' => 'view', $group->id]); ?></li>
+                <li><?php echo $this->Html->link('用户组编辑', ['action' => 'edit', $group->id]); ?></li>
                 <li class="active"><a href="javascript:;">访问权限</a></li>
             </ul>
             <div class="tab-content">
