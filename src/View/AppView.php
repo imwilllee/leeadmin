@@ -1,6 +1,6 @@
 <?php
 /**
- * 重载视图类
+ * 项目视图类
  *
  * @copyright LeeAdmin
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -11,13 +11,21 @@ namespace App\View;
 
 use Cake\Core\App;
 use Cake\Utility\Inflector;
-use Cake\View\View as CakeView;
+use Cake\View\View;
 
-class View extends CakeView {
+class AppView extends View {
+
+/**
+ * 初始化钩子方法
+ *
+ * @return void
+ */
+	public function initialize() {
+	}
 
 /**
  * 更改Element位置
- * 
+ *
  * @param string $name Element名称
  * @return mixed
  */

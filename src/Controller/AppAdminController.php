@@ -17,12 +17,49 @@ use Cake\Network\Exception\ForbiddenException;
 class AppAdminController extends AppController {
 
 /**
- * 组件
- * 
+ * 模板助手
+ *
  * @var array
  */
-	public $components = [
-		'Auth' => [
+	public $helpers = ['Admin'];
+
+/**
+ * 默认分页参数
+ *
+ * @var array
+ */
+	public $paginate = [
+		// 默认显示数量
+		'limit' => 10,
+		// 最大显示数量
+		'maxLimit' => 100,
+		// 允许排序字段
+		'sortWhitelist' => ['id']
+	];
+
+/**
+ * 页面主标题
+ *
+ * @var string
+ */
+	protected $_mainTitle = null;
+
+/**
+ * 页面副标题
+ *
+ * @var string
+ */
+	protected $_subTitle = null;
+
+/**
+ * 初始化钩子方法
+ *
+ * @return void
+ */
+	public function initialize() {
+		parent::initialize();
+		// Auth组件
+		$this->loadComponent('Auth', [
 			'authenticate' => [
 				'Form' => [
 					'userModel' => 'Users',
@@ -43,51 +80,14 @@ class AppAdminController extends AppController {
 			],
 			'flash' => ['element' => 'error'],
 			'authError' => '请先登录系统！'
-		],
-		'Security' => [
-			'unlockedFields' => []
-		],
-		'MenuNode'
-	];
-
-/**
- * 模板助手
- * 
- * @var array
- */
-	public $helpers = ['Admin'];
-
-/**
- * 默认分页参数
- * 
- * @var array
- */
-	public $paginate = [
-		// 默认显示数量
-		'limit' => 10,
-		// 最大显示数量
-		'maxLimit' => 100,
-		// 允许排序字段
-		'sortWhitelist' => ['id']
-	];
-
-/**
- * 页面主标题
- * 
- * @var string
- */
-	protected $_mainTitle = null;
-
-/**
- * 页面副标题
- * 
- * @var string
- */
-	protected $_subTitle = null;
+		]);
+		// 菜单节点组件
+		$this->loadComponent('MenuNode');
+	}
 
 /**
  * 控制器操作执行前回调方法
- * 
+ *
  * @param Cake\Event\Event $event 事件对象
  * @return void
  */
@@ -104,7 +104,7 @@ class AppAdminController extends AppController {
 
 /**
  * 模板渲染前回调方法
- * 
+ *
  * @param Cake\Event\Event $event 事件对象
  * @return void
  */
@@ -125,7 +125,7 @@ class AppAdminController extends AppController {
 
 /**
  * 刷新核心和插件定义菜单和节点
- * 
+ *
  * @return boolean
  */
 	private function __refreshMenuNodes() {
@@ -140,7 +140,7 @@ class AppAdminController extends AppController {
 
 /**
  * 当前登陆用户权限验证
- * 
+ *
  * @return void
  * @throws Cake\Network\Exception\ForbiddenException
  */

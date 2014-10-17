@@ -19,19 +19,19 @@ class ExceptionRenderer extends Error\ExceptionRenderer {
 
 /**
  * 构造函数
- * 
+ *
  * @param Exception $exception 异常对象
  */
 	public function __construct(Exception $exception) {
 		parent::__construct($exception);
-		$this->controller->viewClass = 'App\View\View';
+		$this->controller->viewClass = 'App\View\AppView';
 		$this->controller->layout = 'error';
 		$this->_setVariables();
 	}
 
 /**
  * 输出异常信息
- * 
+ *
  * @param string $template 模板
  * @return void
  */
@@ -44,7 +44,7 @@ class ExceptionRenderer extends Error\ExceptionRenderer {
 
 /**
  * 安全输出异常信息
- * 
+ *
  * @param string $template 模板
  * @return void
  */

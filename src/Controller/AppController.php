@@ -16,22 +16,26 @@ use Cake\Event\Event;
 class AppController extends Controller {
 
 /**
- * 组件
- * 
- * @var array
- */
-	public $components = ['Flash', 'Csrf'];
-
-/**
  * 视图类
- * 
+ *
  * @var string
  */
-	public $viewClass = 'App\View\View';
+	public $viewClass = 'App\View\AppView';
+
+/**
+ * 初始化钩子方法
+ *
+ * @return void
+ */
+	public function initialize() {
+		$this->loadComponent('Flash');
+		$this->loadComponent('Csrf');
+		$this->loadComponent('Security');
+	}
 
 /**
  * 控制器操作执行前回调方法
- * 
+ *
  * @param Cake\Event\Event $event 事件对象
  * @return void
  */
@@ -43,7 +47,7 @@ class AppController extends Controller {
 
 /**
  * 模板渲染前回调方法
- * 
+ *
  * @param Cake\Event\Event $event 事件对象
  * @return void
  */
