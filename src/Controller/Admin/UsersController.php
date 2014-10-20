@@ -18,14 +18,14 @@ class UsersController extends AppAdminController {
 
 /**
  * 主标题
- * 
+ *
  * @var string
  */
 	protected $_mainTitle = '系统管理员';
 
 /**
  * 控制器操作执行前回调方法
- * 
+ *
  * @param Cake\Event\Event $event 事件对象
  * @return void
  */
@@ -37,7 +37,7 @@ class UsersController extends AppAdminController {
 
 /**
  * 管理员登陆
- * 
+ *
  * @return void
  */
 	public function login() {
@@ -70,7 +70,7 @@ class UsersController extends AppAdminController {
 
 /**
  * 用户退出
- * 
+ *
  * @return void
  */
 	public function logout() {
@@ -80,7 +80,7 @@ class UsersController extends AppAdminController {
 
 /**
  * 管理员管理
- * 
+ *
  * @return void
  */
 	public function index() {
@@ -119,7 +119,7 @@ class UsersController extends AppAdminController {
 
 /**
  * 组装查询条件
- * 
+ *
  * @param Cake\ORM\Query $query 查询生成器
  * @return void
  */
@@ -140,7 +140,7 @@ class UsersController extends AppAdminController {
 		}
 		if ($this->request->query('q') != '') {
 			$this->request->data['q'] = urldecode($this->request->query('q'));
-			$query->andWhere(function($exp){
+			$query->andWhere(function ($exp) {
 				return $exp->or_([
 					'Users.alias LIKE' => '%' . $this->request->data['q'] . '%',
 					'Users.email' => $this->request->data['q']
@@ -166,7 +166,7 @@ class UsersController extends AppAdminController {
 
 /**
  * 管理员详细
- * 
+ *
  * @param int $id 用户ID
  * @return void
  */
@@ -179,7 +179,7 @@ class UsersController extends AppAdminController {
 
 /**
  * 创建管理员
- * 
+ *
  * @return void
  */
 	public function add() {
@@ -201,7 +201,7 @@ class UsersController extends AppAdminController {
 
 /**
  * 管理员编辑
- * 
+ *
  * @param int $id 管理员ID
  * @return void
  */
@@ -280,7 +280,7 @@ class UsersController extends AppAdminController {
 
 /**
  * 更新用户最后登录信息
- * 
+ *
  * @param array $user 登录用户信息
  * @return void
  */
@@ -299,7 +299,7 @@ class UsersController extends AppAdminController {
 
 /**
  * 设置用户访问权限
- * 
+ *
  * @param array $user 登录用户信息
  * @return void
  */

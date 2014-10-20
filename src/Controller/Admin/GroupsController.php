@@ -17,7 +17,7 @@ class GroupsController extends AppAdminController {
 
 /**
  * 主标题
- * 
+ *
  * @var string
  */
 	protected $_mainTitle = '用户组管理';
@@ -42,7 +42,7 @@ class GroupsController extends AppAdminController {
 
 /**
  * 组装查询条件
- * 
+ *
  * @param Cake\ORM\Query $query 查询生成器
  * @return void
  */
@@ -69,7 +69,7 @@ class GroupsController extends AppAdminController {
 
 /**
  * 用户组详细
- * 
+ *
  * @param int $id 用户组ID
  * @return void
  */
@@ -150,7 +150,7 @@ class GroupsController extends AppAdminController {
 
 /**
  * 访问权限
- * 
+ *
  * @param int $id 用户组ID
  * @return void
  */
@@ -167,7 +167,7 @@ class GroupsController extends AppAdminController {
 			$query = $this->GroupAccesses->query();
 			// 开启事务保存数据
 			$result = $this->GroupAccesses->connection()->transactional(
-				function() use($query, $access, $id) {
+				function () use ($query, $access, $id) {
 					// 删除原有权限节点
 					if ($query->delete()->where(['group_id' => $id])->execute()) {
 						$query->insert(['group_id', 'menu_node_id']);
@@ -231,7 +231,7 @@ class GroupsController extends AppAdminController {
 
 /**
  * 系统创始人用户组判断
- * 
+ *
  * @param int $id 用户组ID
  * @return void
  */
@@ -244,7 +244,7 @@ class GroupsController extends AppAdminController {
 
 /**
  * 设置菜单节点
- * 
+ *
  * @return void
  */
 	private function __setMenuNodes() {

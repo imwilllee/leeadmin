@@ -63,7 +63,7 @@ class MenusTable extends AppTable {
  * @return boolean
  */
 	public function initMenuNodes($menuNodes) {
-		return $this->connection()->transactional(function() use ($menuNodes) {
+		return $this->connection()->transactional(function () use ($menuNodes) {
 			$this->truncate('menus');
 			$this->truncate('menu_nodes');
 			foreach ($menuNodes as $menu) {
@@ -90,7 +90,7 @@ class MenusTable extends AppTable {
 		return $this->find()
 				->select(['id', 'plugin_code', 'menu_code', 'parent_code', 'name', 'has_nodes'])
 				->contain(['MenuNodes'])
-				->where(function($exp) use ($plugin){
+				->where(function ($exp) use ($plugin){
 					$exp->eq('has_nodes', true);
 					if (!$plugin) {
 						$exp->isNull('plugin_code');
@@ -100,15 +100,5 @@ class MenusTable extends AppTable {
 					return $exp;
 				})
 				->order(['rank' => 'ASC']);
-	}
-
-/**
- * [findTree description]
- *
- * @param Cake\ORM\Query $query 查询器
- * @param array $options 参数
- * @return Cake\ORM\Query
- */
-	public function findTree(Query $query, array $options) {
 	}
 }

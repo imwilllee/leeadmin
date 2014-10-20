@@ -29,7 +29,7 @@ class AppTable extends Table {
 
 /**
  * 数据保存前处理
- * 
+ *
  * @param Cake\Event\Event $event 事件对象
  * @param Cake\ORM\Entity $entity 实体对象
  * @param array $options 配置项
@@ -60,7 +60,7 @@ class AppTable extends Table {
 
 /**
  * 清空数据库
- * 
+ *
  * @param string $tableName 表名
  * @return boolean
  */

@@ -17,7 +17,7 @@ class AdminHelper extends AppHelper {
 
 /**
  * 使用模板助手
- * 
+ *
  * @var array
  */
 	public $helpers = ['Html', 'Form', 'Session'];
@@ -37,7 +37,7 @@ class AdminHelper extends AppHelper {
 
 /**
  * 图标链接
- * 
+ *
  * @param string $iconClass 图标样式
  * @param array $url url链接
  * @param array $options 配置项
@@ -53,7 +53,7 @@ class AdminHelper extends AppHelper {
 
 /**
  * 编辑图标链接
- * 
+ *
  * @param array $url 链接数组
  * @param array $options 配置项
  * @return string
@@ -68,7 +68,7 @@ class AdminHelper extends AppHelper {
 
 /**
  * 查看图标链接
- * 
+ *
  * @param array $url 链接数组
  * @param array $options 配置项
  * @return string
@@ -83,7 +83,7 @@ class AdminHelper extends AppHelper {
 
 /**
  * 删除图标链接
- * 
+ *
  * @param array $url 链接数组
  * @param array $options 配置项
  * @return string
@@ -98,7 +98,7 @@ class AdminHelper extends AppHelper {
 
 /**
  * 显示错误信息
- * 
+ *
  * @param string $field 字段名称
  * @return string
  */
@@ -110,7 +110,7 @@ class AdminHelper extends AppHelper {
 
 /**
  * 显示错误高亮Class
- * 
+ *
  * @param string $field 字段名称
  * @return string
  */
@@ -122,7 +122,7 @@ class AdminHelper extends AppHelper {
 
 /**
  * 检查菜单是否有权限
- * 
+ *
  * @param array $menu 菜单信息
  * @return boolean
  */

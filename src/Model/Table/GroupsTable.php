@@ -69,7 +69,7 @@ class GroupsTable extends AppTable {
 
 /**
  * 获取用户组列表
- * 
+ *
  * @return array
  */
 	public function getGroupList() {

@@ -32,7 +32,7 @@ class GroupAccessesTable extends AppTable {
 
 /**
  * 获取用户组权限节点ID列表
- * 
+ *
  * @param int $id 用户组ID
  * @return array
  */
@@ -44,7 +44,7 @@ class GroupAccessesTable extends AppTable {
 
 /**
  * 获取用户组下所有节点名称
- * 
+ *
  * @param int $id 用户组ID
  * @return array
  */

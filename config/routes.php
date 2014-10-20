@@ -10,17 +10,17 @@ use Cake\Core\Plugin;
 use Cake\Routing\Router;
 
 // 项目前端入口
-Router::scope('/', function($routes) {
+Router::scope('/', function ($routes) {
 	$routes->connect('/', ['controller' => 'Home', 'action' => 'index']);
 	$routes->fallbacks();
 });
 
 // 项目管理端入口
-Router::prefix('admin', function($routes) {
+Router::prefix('admin', function ($routes) {
 	$routes->connect('/', ['controller' => 'Users', 'action' => 'login']);
 	$routes->connect('/logout', ['controller' => 'Users', 'action' => 'logout']);
 	$routes->fallbacks();
 });
 
-// 加载插件路由定义
+// 加载所有插件默认路由定义
 Plugin::routes();

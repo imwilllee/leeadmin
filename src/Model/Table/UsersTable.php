@@ -38,7 +38,7 @@ class UsersTable extends AppTable {
 
 /**
  * 数据保存前处理
- * 
+ *
  * @param Cake\Event\Event $event 事件对象
  * @param Cake\ORM\Entity $entity 实体对象
  * @param array $options 配置项

@@ -22,6 +22,7 @@ require __DIR__ . '/defines.php';
 
 // Use composer to load the autoloader.
 require ROOT . DS . 'vendor' . DS . 'autoload.php';
+require APP . 'Core' . DS . 'functions.php';
 
 /**
  * Bootstrap CakePHP.
@@ -33,7 +34,6 @@ require ROOT . DS . 'vendor' . DS . 'autoload.php';
  * - Setting the default application paths.
  */
 require CORE_PATH . 'config' . DS . 'bootstrap.php';
-require APP . 'Core' . DS . 'functions.php';
 
 use Cake\Cache\Cache;
 use Cake\Console\ConsoleErrorHandler;
@@ -60,14 +60,15 @@ use Cake\Utility\Security;
  */
 try {
 	Configure::config('default', new PhpConfig());
-	Configure::load('app.php', 'default', false);
+	Configure::load('app', 'default', false);
 } catch (\Exception $e) {
-	die('Unable to load config/app.php. Create it by copying config/app.default.php to config/app.php.');
+	die($e->getMessage() . "\n");
 }
 
 // Load an environment local configuration file.
-// You can use this file to provide local overrides to your
+// You can use a file like app_local.php to provide local overrides to your
 // shared configuration.
+//Configure::load('app_local', 'default');
 Configure::load('common.php', 'default');
 
 // When debug = false the metadata cache should last
@@ -82,7 +83,7 @@ if (!Configure::read('debug')) {
  * Set server timezone to UTC. You can change it to another timezone of your
  * choice but using UTC makes time calculations / conversions easier.
  */
-date_default_timezone_set('PRC');
+date_default_timezone_set('UTC');
 
 /**
  * Configure the mbstring extension to use the correct encoding.
@@ -139,11 +140,11 @@ Security::salt(Configure::consume('Security.salt'));
 /**
  * Setup detectors for mobile and tablet.
  */
-Request::addDetector('mobile', function($request) {
+Request::addDetector('mobile', function ($request) {
 	$detector = new \Detection\MobileDetect();
 	return $detector->isMobile();
 });
-Request::addDetector('tablet', function($request) {
+Request::addDetector('tablet', function ($request) {
 	$detector = new \Detection\MobileDetect();
 	return $detector->isTablet();
 });
@@ -152,9 +153,10 @@ Request::addDetector('tablet', function($request) {
  * Custom Inflector rules, can be set to correctly pluralize or singularize table, model, controller names or whatever other
  * string is passed to the inflection functions
  *
- * Inflector::rules('singular', ['rules' => [], 'irregular' => [], 'uninflected' => []]);
- * Inflector::rules('plural', ['rules' => [], 'irregular' => [], 'uninflected' => []]);
- *
+ * Inflector::rules('plural', ['/^(inflect)or$/i' => '\1ables']);
+ * Inflector::rules('irregular' => ['red' => 'redlings']);
+ * Inflector::rules('uninflected', ['dontinflectme']);
+ * Inflector::rules('transliteration', ['/å/' => 'aa']);
  */
 
 /**
@@ -168,7 +170,6 @@ Request::addDetector('tablet', function($request) {
  */
 
 // Plugin::load('DebugKit', ['bootstrap' => true]);
-
 Plugin::load('Wechat', ['bootstrap' => true, 'autoload' => true]);
 
 /**
