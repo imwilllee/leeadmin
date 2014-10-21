@@ -116,8 +116,8 @@ class AppAdminController extends AppController {
 		if ($this->Auth->user()) {
 			$this->set('sidebarMenus', $this->MenuNode->sidebarMenus());
 			$sidebarParentIds = [];
-			if (!empty($this->request->cookies['SIDEBAR_PARENT_IDS'])) {
-				$sidebarParentIds = explode('.', $this->request->cookies['SIDEBAR_PARENT_IDS']);
+			if (!empty($this->request->cookies['siderbarIds'])) {
+				$sidebarParentIds = explode('.', $this->request->cookies['siderbarIds']);
 			}
 			$this->set('sidebarParentIds', $sidebarParentIds);
 		}

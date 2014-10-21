@@ -1,5 +1,5 @@
 /*
- * Global variables. If you change any of these vars, don't forget 
+ * Global variables. If you change any of these vars, don't forget
  * to change the values in the less files!
  */
 var left_side_width = 220; //Sidebar width in pixels
@@ -42,7 +42,7 @@ $(function() {
         location.replace(location.href);
     });
 
-    /*     
+    /*
      * Add collapse and remove events to boxes
      */
     $("[data-widget='collapse']").click(function() {
@@ -65,7 +65,7 @@ $(function() {
             ts.children(".fa-minus").removeClass("fa-minus").addClass("fa-plus");
             bf.slideUp(150);
             if (ts.prop('id')) {
-                $.cookie("SHOW_BOX_STATUS", "hide", cookie_config);
+                $.cookie("boxStatus", "hide", cookie_config);
             }
         } else {
             box.removeClass("collapsed-box");
@@ -73,14 +73,14 @@ $(function() {
             ts.children(".fa-plus").removeClass("fa-plus").addClass("fa-minus");
             bf.slideDown(150);
             if (ts.prop('id')) {
-                $.cookie("SHOW_BOX_STATUS", "show", cookie_config);
+                $.cookie("boxStatus", "show", cookie_config);
             }
         }
     });
 
     // 自动显示隐藏box
-    var showBoxStatus = $.cookie('SHOW_BOX_STATUS');
-    if (typeof(showBoxStatus) != "undefined" && showBoxStatus == "show") {
+    var showboxStatus = $.cookie('boxStatus');
+    if (typeof(showboxStatus) != "undefined" && showboxStatus == "show") {
         var ts = $("#box-collapse");
         var box = ts.parents(".box").first();
         ts.attr("data-original-title", box_hide_text);
@@ -102,8 +102,8 @@ $(function() {
     // 退出登录确认
     $(".logout").on("click", function(){
         if (confirm("确认退出系统？")) {
-            $.removeCookie('SIDEBAR_PARENT_IDS', cookie_config);
-            $.removeCookie('SHOW_BOX_STATUS', cookie_config);
+            $.removeCookie('siderbarIds', cookie_config);
+            $.removeCookie('boxStatus', cookie_config);
             return true;
         }
         return false;
@@ -134,7 +134,7 @@ $(function() {
     });
 
     $("[data-widget='remove']").click(function() {
-        //Find the box parent        
+        //Find the box parent
         var box = $(this).parents(".box").first();
         box.slideUp(150);
     });
@@ -142,13 +142,13 @@ $(function() {
     /* Sidebar tree view */
     $(".sidebar .treeview").tree();
 
-    /* 
+    /*
      * Make sure that the sidebar is streched full height
      * ---------------------------------------------
      * We are gonna assign a min-height value every time the
      * wrapper gets resized and upon page load. We will use
      * Ben Alman's method for detecting the resize event.
-     * 
+     *
      **/
     function _fix() {
         //Get window height and the wrapper height
@@ -180,7 +180,7 @@ $(function() {
     fix_sidebar();
 
     /*
-     * We are gonna initialize all checkbox and radio inputs to 
+     * We are gonna initialize all checkbox and radio inputs to
      * iCheck plugin in.
      * You can find the documentation at http://fronteed.com/iCheck/
      */
@@ -205,7 +205,7 @@ function fix_sidebar() {
 
 /**
  * 获取选中的项目
- * 
+ *
  * @param string target_name 目标名称
  * @return array
  */
@@ -220,12 +220,12 @@ function get_checked_items(target_name) {
     return items;
 }
 
-/* 
- * BOX REFRESH BUTTON 
+/*
+ * BOX REFRESH BUTTON
  * ------------------
  * This is a custom plugin to use with the compenet BOX. It allows you to add
  * a refresh button to the box. It converts the box's state to a loading state.
- * 
+ *
  * USAGE:
  *  $("#box-widget").boxRefresh( options );
  * */
@@ -302,13 +302,13 @@ function get_checked_items(target_name) {
  * SIDEBAR MENU
  * ------------
  * This is a custom plugin for the sidebar menu. It provides a tree view.
- * 
+ *
  * Usage:
  * $(".sidebar).tree();
- * 
+ *
  * Note: This plugin does not accept any options. Instead, it only requires a class
  *       added to the element that contains a sub-menu.
- *       
+ *
  * When used with the sidebar, for example, it would look something like this:
  * <ul class='sidebar-menu'>
  *      <li class="treeview active">
@@ -318,7 +318,7 @@ function get_checked_items(target_name) {
  *          </ul>
  *      </li>
  * </ul>
- * 
+ *
  * Add .active class to <li> elements if you want the menu to be open automatically
  * on page load. See above for an example.
  */
@@ -362,7 +362,7 @@ function get_checked_items(target_name) {
                         }
                     }
                 });
-                $.cookie('SIDEBAR_PARENT_IDS', parentIds.join('.'), cookie_config);
+                $.cookie('siderbarIds', parentIds.join('.'), cookie_config);
             });
 
             /* Add margins to submenu elements to give it a tree look */
@@ -436,7 +436,7 @@ function get_checked_items(target_name) {
 /*
  * jQuery resize event - v1.1 - 3/14/2010
  * http://benalman.com/projects/jquery-resize-plugin/
- * 
+ *
  * Copyright (c) 2010 "Cowboy" Ben Alman
  * Dual licensed under the MIT and GPL licenses.
  * http://benalman.com/about/license/
