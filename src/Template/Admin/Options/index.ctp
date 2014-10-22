@@ -11,7 +11,7 @@
             <div class="tab-content">
                 <div class="tab-pane active">
 
-                <?php echo $this->Form->create(null); ?>
+                <?php echo $this->Form->create($options); ?>
 
                     <div class="box box-solid box-primary">
                         <div class="box-header">
