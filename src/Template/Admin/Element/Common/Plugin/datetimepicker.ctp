@@ -1,9 +1,8 @@
-
-        <?php
-            $this->append('importScript');
-            echo $this->Html->script('plugins/laydate/laydate');
-            $this->end();
-        ?>
+<?php
+    $this->append('importScript');
+    echo $this->Html->script('plugins/laydate/laydate');
+    $this->end();
+?>
 <?php $this->append('pageScript'); ?>
 <script>
     $(function(){

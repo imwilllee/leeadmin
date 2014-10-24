@@ -84,7 +84,7 @@ if (!Configure::read('debug')) {
  * Set server timezone to UTC. You can change it to another timezone of your
  * choice but using UTC makes time calculations / conversions easier.
  */
-date_default_timezone_set('UTC');
+// date_default_timezone_set('UTC');
 
 /**
  * Configure the mbstring extension to use the correct encoding.
@@ -141,6 +141,11 @@ Security::salt(Configure::consume('Security.salt'));
 
 // 缓存项目配置项
 Configure::write('Option', TableRegistry::get('Options')->getCacheOptions());
+
+$timezone = Configure::read('Option.timezone');
+if (!empty($timezone)) {
+	date_default_timezone_set($timezone);
+}
 
 /**
  * Setup detectors for mobile and tablet.

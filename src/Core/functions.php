@@ -16,29 +16,8 @@
 function get_time_zone_list() {
 	$timezoneList = [];
 	foreach (timezone_identifiers_list() as $timezone) {
-		$zone = explode('/', $timezone);
-		if (isset($zone[1])) {
-			$timezoneList[$zone[0]][$timezone] = $zone[1];
-		} else {
-			$timezoneList[$zone[0]][$timezone] = $zone[0];
-		}
+		$timezoneList[$timezone] = $timezone;
 	}
-	// UTC时差
-	$utcRange = range(-12, 5.5, 0.5);
-	$utcRange = array_merge($utcRange, [
-		5.75, 6, 6.5, 7, 7.5, 8, 8.5, 8.75, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.75, 13, 13.75, 14
-	]);
-	foreach ($utcRange as $utc) {
-		if ($utc >= 0) {
-			$utcKey = '+' . $utc;
-		} else {
-			$utcKey = (string)$utc;
-		}
-		$utcKey = 'UTC' . $utcKey;
-		$utcVal = str_replace(['.25', '.5', '.75'], [':15', ':30', ':45'], $utcKey);
-		$timezoneList['UTC'][$utcKey] = $utcVal;
-	}
-
 	return $timezoneList;
 }
 
