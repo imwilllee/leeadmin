@@ -93,7 +93,7 @@ $config = [
 			'prefix' => 'myapp_cake_core_',
 			'path' => CACHE . 'persistent/',
 			'serialize' => true,
-			'duration' => '+30 minutes',
+			'duration' => '+2 minutes',
 		],
 
 	/**
@@ -106,7 +106,7 @@ $config = [
 			'prefix' => 'myapp_cake_model_',
 			'path' => CACHE . 'models/',
 			'serialize' => true,
-			'duration' => '+30 minutes',
+			'duration' => '+2 minutes',
 		],
 	],
 
@@ -137,7 +137,7 @@ $config = [
  */
 	'Error' => [
 		'errorLevel' => E_ALL & ~E_DEPRECATED,
-		'exceptionRenderer' => 'App\Error\ExceptionRenderer',
+		'exceptionRenderer' => 'Cake\Error\ExceptionRenderer',
 		'skipLog' => [],
 		'log' => true,
 		'trace' => true,
@@ -207,9 +207,9 @@ $config = [
 			'driver' => 'Cake\Database\Driver\Mysql',
 			'persistent' => false,
 			'host' => 'localhost',
-			'login' => 'root',
-			'password' => '',
-			'database' => 'leeadmin',
+			'login' => 'my_app',
+			'password' => 'secret',
+			'database' => 'my_app',
 			'encoding' => 'utf8',
 			'timezone' => 'UTC',
 			'cacheMetadata' => true,
@@ -222,7 +222,7 @@ $config = [
 			* decreases performance because each query needs to be traversed and
 			* manipulated before being executed.
 			*/
-			'quoteIdentifiers' => true,
+			'quoteIdentifiers' => false,
 
 			/*
 			* During development, if using MySQL < 5.6, uncommenting the
@@ -282,7 +282,7 @@ $config = [
  * - `cookie` - The name of the cookie to use. Defaults to 'CAKEPHP'.
  * - `cookiePath` - The url path for which session cookie is set. Maps to the
  *   `session.cookie_path` php.ini config. Defaults to base path of app.
- * - `timeout` - The time in minutes the session should be valid for.
+ * - `timeout` - The time in minutes the session should be valid for. 
  *    Pass 0 to disable checking timeout.
  * - `defaults` - The default configuration set to use as a basis for your session.
  *    There are four built-in options: php, cake, cache, database.
@@ -307,7 +307,5 @@ $config = [
  */
 	'Session' => [
 		'defaults' => 'php',
-		'cookie' => 'lasid',
-		'timeout' => 30
 	],
 ];

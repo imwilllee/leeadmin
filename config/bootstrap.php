@@ -49,6 +49,7 @@ use Cake\Network\Request;
 use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Inflector;
 use Cake\Utility\Security;
+use Cake\ORM\TableRegistry;
 
 /**
  * Read configuration file and inject configuration into various
@@ -68,8 +69,8 @@ try {
 // Load an environment local configuration file.
 // You can use a file like app_local.php to provide local overrides to your
 // shared configuration.
-//Configure::load('app_local', 'default');
-Configure::load('common.php', 'default');
+Configure::load('app_local', 'default');
+Configure::load('common', 'default');
 
 // When debug = false the metadata cache should last
 // for a very very long time, as we don't want
@@ -137,6 +138,10 @@ Email::config(Configure::consume('Email'));
 Log::config(Configure::consume('Log'));
 Security::salt(Configure::consume('Security.salt'));
 
+
+// 缓存项目配置项
+Configure::write('Option', TableRegistry::get('Options')->getCacheOptions());
+
 /**
  * Setup detectors for mobile and tablet.
  */
@@ -179,3 +184,4 @@ Plugin::load('Wechat', ['bootstrap' => true, 'autoload' => true]);
 DispatcherFactory::add('Asset');
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');
+

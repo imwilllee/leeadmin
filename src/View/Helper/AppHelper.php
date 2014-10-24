@@ -23,14 +23,14 @@ class AppHelper extends Helper {
  */
 	public function title() {
 		$title = null;
-		$delimiter = Configure::read('Basic.title_delimiter');
+		$delimiter = Configure::read('Option.title_delimiter');
 		if (isset($this->_View->viewVars['mainTitle']) && $this->_View->viewVars['mainTitle'] != '') {
 			$title .= $this->_View->viewVars['mainTitle'];
 		}
 		if (isset($this->_View->viewVars['subTitle']) && $this->_View->viewVars['subTitle'] != '') {
 			$title .= $delimiter . $this->_View->viewVars['subTitle'];
 		}
-		$title .= $delimiter . Configure::read('Basic.title');
+		$title .= $delimiter . Configure::read('Option.title');
 		return h($title);
 	}
 

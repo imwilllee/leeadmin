@@ -63,21 +63,13 @@ class MenuNodeComponent extends Component {
  * @return array
  */
 	public function sidebarMenus() {
-		$cache = Cache::read(self::MENUS_CACHE_KEY);
+		$cache = Cache::read(self::MENUS_CACHE_KEY, 'long');
 		if (empty($cache)) {
 			$menusTable = TableRegistry::get('Menus');
 			$cache = $menusTable->getSidebarMenus();
-			Cache::write(self::MENUS_CACHE_KEY, $cache);
+			Cache::write(self::MENUS_CACHE_KEY, $cache, 'long');
 		}
 		return $cache;
-	}
-
-/**
- * 安装插件菜单节点
- *
- * @return boolean
- */
-	public function installPluginMenuNodes() {
 	}
 
 /**
@@ -119,6 +111,6 @@ class MenuNodeComponent extends Component {
  * @return boolean
  */
 	public function clearCache() {
-		return Cache::delete(self::MENUS_CACHE_KEY);
+		return Cache::delete(self::MENUS_CACHE_KEY, 'long');
 	}
 }

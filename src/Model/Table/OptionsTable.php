@@ -10,10 +10,18 @@
 namespace App\Model\Table;
 
 use App\Model\Table\AppTable;
+use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Validation\Validator;
 
 class OptionsTable extends AppTable {
+
+/**
+ * 缓存key
+ *
+ * @var string
+ */
+	const OPTIONS_CACHE_KEY = 'app_options';
 
 /**
  * 初始化方法
@@ -116,14 +124,62 @@ class OptionsTable extends AppTable {
 	}
 
 /**
+ * SEO设置验证规则
+ *
+ * @param \Cake\Validation\Validator $validator 验证对象
+ * @return \Cake\Validation\Validator
+ */
+	public function validationSeo(Validator $validator) {
+		$validator
+			->validatePresence('robots', 'create', 'Robots项目不存在！')
+			->allowEmpty('robots')
+			->add('robots', [
+				'maxLength' => [
+					'rule' => ['maxLength', 255],
+					'message' => 'Robots超出长度限制！',
+					'last' => true
+				]
+			])
+			->validatePresence('title_delimiter', 'create', '标题分隔符项目不存在！')
+			->allowEmpty('title_delimiter')
+			->add('title_delimiter', [
+				'maxLength' => [
+					'rule' => ['maxLength', 16],
+					'message' => '标题分隔符超出长度限制！',
+					'last' => true
+				]
+			])
+			->validatePresence('keywords', 'create', '关键字项目不存在！')
+			->allowEmpty('keywords')
+			->add('email', [
+				'maxLength' => [
+					'rule' => ['maxLength', 255],
+					'message' => '关键字超出长度限制！',
+					'last' => true
+				]
+			])
+			->validatePresence('description', 'create', '网站描述信息项目不存在！')
+			->allowEmpty('description')
+			->add('description', [
+				'maxLength' => [
+					'rule' => ['maxLength', 255],
+					'message' => '网站描述信息超出长度限制！',
+					'last' => true
+				]
+			]);
+		return $validator;
+	}
+
+
+/**
  * 保存配置项
  *
  * @param App\Model\Entity\Option $options 配置项
- * @param string $plugin 插件名称
+ * @param int $typeId 类别ID
  * @return boolean
  */
-	public function saveOptions($options, $plugin = null) {
-		return $this->connection()->transactional(function () use ($options, $plugin) {
+	public function saveOptions($options, $typeId = null) {
+		return $this->connection()->transactional(function () use ($options, $typeId) {
 			foreach ($options->toArray() as $key => $val) {
 				if ($key == '_csrfToken' || empty($key)) {
 					continue;
@@ -131,13 +187,14 @@ class OptionsTable extends AppTable {
 				$option = [
 					'id' => $key,
 					'value' => $val,
-					'belongs_plugin' => $plugin
+					'type_id' => $typeId
 				];
 				$entity = $this->newEntity($option);
 				if (!$this->save($entity, ['validate' => false])) {
 					return false;
 				}
 			}
+			$this->clearCache();
 			return true;
 		});
 	}
@@ -154,5 +211,47 @@ class OptionsTable extends AppTable {
 			$entity->set($option->id, $option->value);
 		}
 		return $entity;
+	}
+
+/**
+ * 获取对应分类下配置项
+ *
+ * @param int $typeId 类别ID
+ * @return App\Model\Entity\Option;
+ */
+	public function getOptionsByTypeId($typeId = null) {
+		$query = $this->find()->where(['type_id' => $typeId]);
+		$entity = $this->newEntity();
+		foreach ($query as $option) {
+			$entity->set($option->id, $option->value);
+		}
+		return $entity;
+	}
+
+/**
+ * 获取缓存配置项
+ * 如果配置项没有写入缓存则写入
+ *
+ * @return array
+ */
+	public function getCacheOptions() {
+		$cache = Cache::read(self::OPTIONS_CACHE_KEY, 'long');
+		if (empty($cache)) {
+			$options = $this->getAllOptions();
+			if (!empty($options)) {
+				$cache = $options->toArray();
+				Cache::write(self::OPTIONS_CACHE_KEY, $cache, 'long');
+			}
+		}
+		return $cache;
+	}
+
+/**
+ * 清除配置项缓存
+ *
+ * @return boolean
+ */
+	public function clearCache() {
+		return Cache::delete(self::OPTIONS_CACHE_KEY, 'long');
 	}
 }

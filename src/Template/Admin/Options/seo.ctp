@@ -11,7 +11,7 @@
             <div class="tab-content">
                 <div class="tab-pane active">
 
-                <?php echo $this->Form->create(null); ?>
+                <?php echo $this->Form->create($options); ?>
 
                     <div class="box box-solid box-primary">
                         <div class="box-header">
@@ -43,10 +43,10 @@
 
                             <div class="row">
                                 <div class="col-lg-5 col-md-8 col-xs-12">
-                                    <div class="form-group<?php echo $this->Admin->errorClass('Keywords'); ?>">
+                                    <div class="form-group<?php echo $this->Admin->errorClass('keywords'); ?>">
                                         <label>关键字</label>
-                                        <?php echo $this->Form->textarea('Keywords', ['class' => 'form-control', 'placeholder' => '关键字', 'rows' => 3]); ?>
-                                        <?php echo $this->Admin->error('Keywords'); ?>
+                                        <?php echo $this->Form->textarea('keywords', ['class' => 'form-control', 'placeholder' => '关键字', 'rows' => 3]); ?>
+                                        <?php echo $this->Admin->error('keywords'); ?>
                                     </div>
                                 </div>
                             </div>

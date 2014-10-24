@@ -10,6 +10,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
+use Cake\Core\Configure;
 
 class OptionsController extends AppAdminController {
 
@@ -28,11 +29,12 @@ class OptionsController extends AppAdminController {
 	public function index() {
 		$this->_subTitle = '站点信息';
 		$this->loadModel('Options');
-		$options = $this->Options->getAllOptions();
+		$typeId = Configure::read('Common.options.index');
+		$options = $this->Options->getOptionsByTypeId($typeId);
 		if ($this->request->is('post')) {
 			$options = $this->Options->patchEntity($options, $this->request->data());
 			if ($this->Options->validate($options, ['validate' => 'index'])) {
-				if ($this->Options->saveOptions($options)) {
+				if ($this->Options->saveOptions($options, $typeId)) {
 					$this->Flash->success('数据保存成功！');
 					return $this->redirect(['action' => 'index']);
 				}
@@ -49,5 +51,19 @@ class OptionsController extends AppAdminController {
  */
 	public function seo() {
 		$this->_subTitle = 'SEO设置';
+		$this->loadModel('Options');
+		$typeId = Configure::read('Common.options.seo');
+		$options = $this->Options->getOptionsByTypeId($typeId);
+		if ($this->request->is('post')) {
+			$options = $this->Options->patchEntity($options, $this->request->data());
+			if ($this->Options->validate($options, ['validate' => 'seo'])) {
+				if ($this->Options->saveOptions($options, $typeId)) {
+					$this->Flash->success('数据保存成功！');
+					return $this->redirect(['action' => 'seo']);
+				}
+			}
+			$this->Flash->error('数据保存失败！');
+		}
+		$this->set(compact('options'));
 	}
 }
