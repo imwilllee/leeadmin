@@ -37,7 +37,7 @@
                     </div>
                     <div class="box box-primary">
                         <div class="box-body table-responsive no-padding">
-                            <table class="table table-hover">
+                            <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
                                         <th style="width:40px;"><?php echo $this->Paginator->sort('id', '#'); ?></th>

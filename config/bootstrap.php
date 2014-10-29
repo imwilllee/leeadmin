@@ -180,7 +180,7 @@ Request::addDetector('tablet', function ($request) {
  */
 
 // Plugin::load('DebugKit', ['bootstrap' => true]);
-Plugin::load('Wechat', ['bootstrap' => true, 'autoload' => true]);
+// Plugin::load('Wechat', ['bootstrap' => true, 'autoload' => true]);
 
 /**
  * Connect middleware/dispatcher filters.

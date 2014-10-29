@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="box-body table-responsive no-padding">
-                            <table class="table table-hover">
+                            <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
                                         <th style="width:25px;">

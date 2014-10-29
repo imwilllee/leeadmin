@@ -19,6 +19,48 @@ return [
 		]
 	],
 	[
+		'menu_code' => 'explorer',
+		'parent_code' => null,
+		'name' => '网站资源管理',
+		'link' => null,
+		'class' => 'fa fa-file-image-o',
+		'rank' => 0,
+		'display_flg' => true,
+		'menu_nodes' => [
+			['link' => 'admin/Attachments/index', 'name' => '附件一览'],
+			['link' => 'admin/Attachments/upload', 'name' => '上传附件'],
+			['link' => 'admin/FileManager/index', 'name' => '文件管理器'],
+			['link' => 'admin/FileManager/upload', 'name' => '文件上传'],
+		]
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'explorer',
+		'name' => '附件管理',
+		'link' => 'admin/Attachments/index',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'explorer',
+		'name' => '上传附件',
+		'link' => 'admin/Attachments/upload',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'explorer',
+		'name' => '文件管理器',
+		'link' => 'admin/FileManager/index',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
 		'menu_code' => 'user',
 		'parent_code' => null,
 		'name' => '系统管理员',
