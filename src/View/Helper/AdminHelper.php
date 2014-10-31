@@ -23,6 +23,18 @@ class AdminHelper extends AppHelper {
 	public $helpers = ['Html', 'Form', 'Session'];
 
 /**
+ * 文件扩展名图标配置
+ *
+ * @var array
+ */
+	protected $_fileExtIcons = [
+		'jpg' => 'fa fa-1 fa-file-image-o',
+		'jpeg' => 'fa fa-1 fa-file-image-o',
+		'gif' => 'fa fa-1 fa-file-image-o',
+		'png' => 'fa fa-1 fa-file-image-o',
+	];
+
+/**
  * 模板渲染前置回调函数
  *
  * @param \Cake\Event\Event $event 事件对象
@@ -146,5 +158,34 @@ class AdminHelper extends AppHelper {
 			}
 		}
 		return false;
+	}
+
+/**
+ * 获取文件扩展名对应图标
+ *
+ * @param string $filename 文件名
+ * @return string
+ */
+	public function getFileExtIcon($filename) {
+		$ext = $this->getFileExt($filename);
+	}
+
+/**
+ * 判断文件是否为图片
+ *
+ * @param string $filename 文件名
+ * @return boolean
+ */
+	public function checkFileIsImage($filename) {
+	}
+
+/**
+ * 获取文件扩展名
+ *
+ * @param string $filename 文件名
+ * @return string
+ */
+	public function getFileExt($filename) {
+		return strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 	}
 }
