@@ -15,7 +15,7 @@
                                     foreach ($breadcrumbs as $breadcrumb):
                                         $nav .= $nav === null ? $breadcrumb : DS . $breadcrumb;
                                 ?>
-                                    <li><?php echo $this->Html->link($breadcrumb, ['action' => 'index', '?' => ['pwd' => urlencode($nav)]]); ?></li>
+                                    <li><?php echo $this->Html->link($breadcrumb, ['action' => 'index', '?' => ['path' => urlencode($nav)]]); ?></li>
                                 <?php endforeach; ?>
                                 </ol>
                         </div>
@@ -39,24 +39,34 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($files[0] as $dir): ?>
-                                        <?php $path = urlencode($pwd . $dir); ?>
+                                        <?php $param = urlencode($path . $dir); ?>
                                     <tr>
                                         <td><i class="fa fa-1 fa-folder-o"></i></td>
-                                        <td><?php echo $this->Html->link($dir, ['action' => 'index', '?' => ['pwd' => $path]]); ?></td>
+                                        <td><?php echo $this->Html->link($dir, ['action' => 'index', '?' => ['path' => $param]]); ?></td>
                                         <td>
-                                            <?php echo $this->Admin->iconLink('fa fa-1 fa-folder-open', ['action' => 'index', '?' => ['pwd' => $path]], ['data-original-title' => '打开']); ?>
-                                            <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['pwd' => $path]]); ?>
+                                            <?php echo $this->Admin->iconLink('fa fa-1 fa-folder-open', ['action' => 'index', '?' => ['path' => $param]], ['data-original-title' => '打开']); ?>
+                                            <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['path' => $param]]); ?>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
-                                    <?php foreach ($files[1] as $file): ?>
+                                    <?php foreach ($files[1] as $filename): ?>
                                     <tr>
-                                        <td><i class="fa fa-1 fa-file-text-o"></i></td>
-                                        <td><?php echo h($file); ?></td>
+                                        <?php if ($this->Admin->checkImageFile($filename)): ?>
+                                        <?php $href = '/' . $path . $filename; ?>
                                         <td>
-                                            <?php $path = urlencode($pwd . $file); ?>
-                                            <?php echo $this->Admin->iconEditLink(['action' => 'edit', '?' => ['path' => $path]]); ?>
-                                            <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['path' => $path]]); ?>
+                                        <i class="fa fa-1 fa-file-image-o"></i>
+                                        </td>
+                                        <td><?php echo $this->Html->tag('a', $filename, ['href' => $href, 'class' => 'fancybox' ]); ?></td>
+                                        <?php else: ?>
+                                        <td>
+                                        <i class="fa fa-1 fa-file-text-o"></i>
+                                        </td>
+                                        <td><?php echo h($filename); ?></td>
+                                        <?php endif; ?>
+                                        <td>
+                                            <?php $param = urlencode($path . $filename); ?>
+                                            <?php echo $this->Admin->iconEditLink(['action' => 'edit', '?' => ['path' => $param]]); ?>
+                                            <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['path' => $param]]); ?>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -70,3 +80,4 @@
         </div>
     </div>
 </div>
+<?php echo $this->element('Common/Plugin/fancybox'); ?>

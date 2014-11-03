@@ -11,8 +11,8 @@ namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
 use Cake\Core\Configure;
-use Cake\Filesystem\Folder;
 use Cake\Filesystem\File;
+use Cake\Filesystem\Folder;
 
 class FileManagerController extends AppAdminController {
 
@@ -37,17 +37,21 @@ class FileManagerController extends AppAdminController {
  */
 	public function index() {
 		$this->_subTitle = '文件一览';
-		$root = WWW_ROOT;
-		$pwd = urldecode($this->request->query('pwd'));
+		$dir = WWW_ROOT;
+		$path = urldecode($this->request->query('path'));
 		$breadcrumbs = [];
-		if ($pwd) {
-			$root .= $pwd;
-			$breadcrumbs = explode(DS, $pwd);
-			$pwd .= DS;
+		if ($path) {
+			$dir .= $path;
+			$breadcrumbs = explode(DS, $path);
+			$path .= DS;
 		}
-		$folder = new Folder($root);
+		if (!$this->_isEditable($dir)) {
+			$this->Flash->error('无权限访问该路径！');
+			return $this->redirect(['action' => 'index']);
+		}
+		$folder = new Folder($dir);
 		$files = $folder->read(true, ['.git', '.svn']);
-		$this->set(compact('pwd', 'breadcrumbs', 'files'));
+		$this->set(compact('path', 'breadcrumbs', 'files'));
 	}
 
 /**
@@ -67,7 +71,7 @@ class FileManagerController extends AppAdminController {
  */
 	protected function _isEditable($path) {
 		$path = realpath($path);
-		$regex = '/^' . preg_quote(realpath(APP), '/') . '/';
+		$regex = '/^' . preg_quote(realpath(WWW_ROOT), '/') . '/';
 		return preg_match($regex, $path) > 0;
 	}
 }
