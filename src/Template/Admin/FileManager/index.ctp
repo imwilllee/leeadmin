@@ -9,7 +9,7 @@
                 <div class="tab-pane active">
                         <div class="box-header">
                                 <ol class="breadcrumb">
-                                    <li><?php echo $this->Html->link('<i class="fa fa-1 fa-home"></i> wwwroot', ['action' => 'index'], ['escape' => false]); ?></li>
+                                    <li><?php echo $this->Html->link('<i class="fa fa-1 fa-home"></i> 根目录', ['action' => 'index'], ['escape' => false]); ?></li>
                                 <?php
                                     $nav = null;
                                     foreach ($breadcrumbs as $breadcrumb):
@@ -50,24 +50,28 @@
                                     </tr>
                                     <?php endforeach; ?>
                                     <?php foreach ($files[1] as $filename): ?>
+                                        <?php $param = urlencode($path . $filename); ?>
                                     <tr>
                                         <?php if ($this->Admin->checkImageFile($filename)): ?>
-                                        <?php $href = '/' . $path . $filename; ?>
                                         <td>
                                         <i class="fa fa-1 fa-file-image-o"></i>
                                         </td>
-                                        <td><?php echo $this->Html->tag('a', $filename, ['href' => $href, 'class' => 'fancybox' ]); ?></td>
+                                        <td><?php echo $this->Html->link($filename, ['action' => 'preview', '?' => ['path' => $param]], ['class' => 'fancybox', 'target' => '_blank' ]); ?></td>
+                                        <td>
+                                            <?php echo $this->Admin->iconLink('fa fa-1 fa-download', ['action' => 'download', '?' => ['path' => $param]], ['data-original-title' => '下载']); ?>
+                                            <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['path' => $param]]); ?>
+                                        </td>
                                         <?php else: ?>
                                         <td>
                                         <i class="fa fa-1 fa-file-text-o"></i>
                                         </td>
                                         <td><?php echo h($filename); ?></td>
-                                        <?php endif; ?>
                                         <td>
-                                            <?php $param = urlencode($path . $filename); ?>
+                                            <?php echo $this->Admin->iconLink('fa fa-1 fa-download', ['action' => 'download', '?' => ['path' => $param]], ['data-original-title' => '下载']); ?>
                                             <?php echo $this->Admin->iconEditLink(['action' => 'edit', '?' => ['path' => $param]]); ?>
                                             <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['path' => $param]]); ?>
                                         </td>
+                                        <?php endif; ?>
                                     </tr>
                                     <?php endforeach; ?>
                                 </tbody>

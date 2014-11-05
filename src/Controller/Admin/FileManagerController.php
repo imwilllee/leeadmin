@@ -13,6 +13,7 @@ use App\Controller\AppAdminController;
 use Cake\Core\Configure;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
+use Cake\Event\Event;
 
 class FileManagerController extends AppAdminController {
 
@@ -31,13 +32,25 @@ class FileManagerController extends AppAdminController {
 	protected $_mainTitle = '文件管理器';
 
 /**
+ * 控制器操作执行前回调方法
+ *
+ * @param Cake\Event\Event $event 事件对象
+ * @return void
+ */
+	public function beforeFilter(Event $event) {
+		parent::beforeFilter($event);
+		// 文件管理根路径
+		$this->_rootPath = ROOT . DS;
+	}
+
+/**
  * 文件一览
  *
  * @return void
  */
 	public function index() {
 		$this->_subTitle = '文件一览';
-		$dir = WWW_ROOT;
+		$dir = $this->_rootPath;
 		$path = urldecode($this->request->query('path'));
 		$breadcrumbs = [];
 		if ($path) {
@@ -64,6 +77,46 @@ class FileManagerController extends AppAdminController {
 	}
 
 /**
+ * 文件编辑
+ *
+ * @return void
+ */
+	public function edit() {
+	}
+
+/**
+ * 图片预览
+ *
+ * @return void
+ */
+	public function preview() {
+		$path = urldecode($this->request->query('path'));
+		if ($path) {
+			$file = $this->_rootPath . $path;
+			if ($this->_isEditable($file)) {
+				$this->response->file($file);
+			}
+		}
+		return $this->response;
+	}
+
+/**
+ * 文件下载
+ *
+ * @return void
+ */
+	public function download() {
+		$path = urldecode($this->request->query('path'));
+		if ($path) {
+			$file = $this->_rootPath . $path;
+			if ($this->_isEditable($file)) {
+				$this->response->file($file, ['download' => true]);
+			}
+		}
+		return $this->response;
+	}
+
+/**
  * 检查是否为可访问可编辑的目录
  *
  * @param string $path 绝对路径
@@ -71,7 +124,7 @@ class FileManagerController extends AppAdminController {
  */
 	protected function _isEditable($path) {
 		$path = realpath($path);
-		$regex = '/^' . preg_quote(realpath(WWW_ROOT), '/') . '/';
+		$regex = '/^' . preg_quote(realpath($this->_rootPath), '/') . '/';
 		return preg_match($regex, $path) > 0;
 	}
 }
