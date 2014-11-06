@@ -70,6 +70,14 @@ class FileManagerController extends AppAdminController {
 	}
 
 /**
+ * 创建目录
+ *
+ * @return void
+ */
+	public function mkdir() {
+	}
+
+/**
  * 文件编辑
  *
  * @return void

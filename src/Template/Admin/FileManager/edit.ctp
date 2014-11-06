@@ -3,7 +3,6 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li><?php echo $this->Html->link('文件一览', ['action' => 'index']); ?></li>
-                <li><?php echo $this->Html->link('上传文件', ['action' => 'upload']); ?></li>
                 <li class="active"><a href="javascript:;">文件编辑</a></li>
             </ul>
             <div class="tab-content">
