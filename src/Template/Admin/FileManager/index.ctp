@@ -7,19 +7,23 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active">
-                        <div class="box-header">
-                                <ol class="breadcrumb">
-                                    <li><?php echo $this->Html->link('<i class="fa fa-1 fa-home"></i> 根目录', ['action' => 'index'], ['escape' => false]); ?></li>
-                                <?php
-                                    $nav = null;
-                                    foreach ($breadcrumbs as $breadcrumb):
-                                        $nav .= $nav === null ? $breadcrumb : DS . $breadcrumb;
-                                ?>
-                                    <li><?php echo $this->Html->link($breadcrumb, ['action' => 'index', '?' => ['path' => urlencode($nav)]]); ?></li>
-                                <?php endforeach; ?>
-                                </ol>
+                    <div class="box-header">
+                            <ol class="breadcrumb">
+                                <li><?php echo $this->Html->link('<i class="fa fa-1 fa-home"></i> 根目录', ['action' => 'index'], ['escape' => false]); ?></li>
+                            <?php
+                                $nav = null;
+                                foreach ($breadcrumbs as $breadcrumb):
+                                    $nav .= $nav === null ? $breadcrumb : DS . $breadcrumb;
+                            ?>
+                                <li><?php echo $this->Html->link($breadcrumb, ['action' => 'index', '?' => ['path' => urlencode($nav)]]); ?></li>
+                            <?php endforeach; ?>
+                            </ol>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-warning">删除系统目录或文件可能会造成不能正常运行，请慎重删除！</div>
                         </div>
-
+                    </div>
                     <div class="box box-primary">
                         <div class="box-header">
                             <div class="box-tools">
@@ -45,7 +49,7 @@
                                         <td><?php echo $this->Html->link($dir, ['action' => 'index', '?' => ['path' => $param]]); ?></td>
                                         <td>
                                             <?php echo $this->Admin->iconLink('fa fa-1 fa-folder-open', ['action' => 'index', '?' => ['path' => $param]], ['data-original-title' => '打开']); ?>
-                                            <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['path' => $param]]); ?>
+                                            <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['dir' => $param]]); ?>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -59,7 +63,7 @@
                                         <td><?php echo $this->Html->link($filename, ['action' => 'preview', '?' => ['path' => $param]], ['class' => 'fancybox', 'target' => '_blank' ]); ?></td>
                                         <td>
                                             <?php echo $this->Admin->iconLink('fa fa-1 fa-download', ['action' => 'download', '?' => ['path' => $param]], ['data-original-title' => '下载']); ?>
-                                            <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['path' => $param]]); ?>
+                                            <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['file' => $param]]); ?>
                                         </td>
                                         <?php else: ?>
                                         <td>
@@ -69,7 +73,7 @@
                                         <td>
                                             <?php echo $this->Admin->iconLink('fa fa-1 fa-download', ['action' => 'download', '?' => ['path' => $param]], ['data-original-title' => '下载']); ?>
                                             <?php echo $this->Admin->iconEditLink(['action' => 'edit', '?' => ['path' => $param]]); ?>
-                                            <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['path' => $param]]); ?>
+                                            <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['file' => $param]]); ?>
                                         </td>
                                         <?php endif; ?>
                                     </tr>
