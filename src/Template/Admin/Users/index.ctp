@@ -22,7 +22,7 @@
                                             <div class="input-group col-lg-5 col-md-8 col-xs-12">
                                                 <?php echo $this->Form->text('q', ['class' => 'form-control', 'placeholder' => '昵称或邮箱']); ?>
                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-primary btn-flat">数据检索</button>
+                                                    <button class="btn btn-primary btn-flat"><i class="fa fa-search"></i> 数据检索</button>
                                                 </span>
                                             </div>
                                         </div>
@@ -61,15 +61,15 @@
                             </div>
                         </div>
                         <div class="box-footer" style="display: none;">
-                            <button class="btn btn-primary btn-flat">数据检索</button>
+                            <button class="btn btn-primary btn-flat"><i class="fa fa-search"></i> 数据检索</button>
                         </div>
                     <?php echo $this->Form->end(); ?>
                     </div>
                     <div class="box box-primary">
                         <div class="box-header">
                             <div class="box-tools">
-                                <?php echo $this->Html->link('启用', ['action' =>'active', 'enable'], ['class' => 'btn btn-primary btn-flat batch-action']); ?>
-                                <?php echo $this->Html->link('禁用', ['action' =>'active', 'disable'], ['class' => 'btn btn-danger btn-flat batch-action']); ?>
+                                <?php echo $this->Html->link('<i class="fa fa-check"></i> 启用', ['action' =>'active', 'enable'], ['class' => 'btn btn-primary btn-flat batch-action', 'escape' => false]); ?>
+                                <?php echo $this->Html->link('<i class="fa fa-ban"></i> 禁用', ['action' =>'active', 'disable'], ['class' => 'btn btn-danger btn-flat batch-action', 'escape' => false]); ?>
                             </div>
                         </div>
                         <div class="box-body table-responsive no-padding">

@@ -65,8 +65,7 @@
                             </div>
                         </div>
                     </div>
-                    <?php echo $this->Html->link('返回一览', ['action' => 'index'], ['class' => 'btn btn-default btn-flat']); ?>
-                    <button class="btn btn-primary btn-flat">确认保存</button>
+                <?php echo $this->element('Common/submit_btn'); ?>
                 <?php echo $this->Form->end(); ?>
 
                 </div>

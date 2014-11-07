@@ -136,9 +136,7 @@
 <?php endif; ?>
 
                 </div>
-
-                <?php echo $this->Html->link('返回一览', ['action' => 'index'], ['class' => 'btn btn-default btn-flat']); ?>
-                <?php echo $this->Html->link('编辑信息', ['action' => 'edit', $group->id], ['class' => 'btn btn-primary btn-flat']); ?>
+                <?php echo $this->element('Common/view_btn', ['edit_url' => ['action' => 'edit', $group->id]]); ?>
             </div>
         </div>
     </div>

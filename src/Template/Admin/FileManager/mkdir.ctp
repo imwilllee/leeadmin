@@ -10,6 +10,6 @@
             </div>
         </div>
     </div>
-    <button class="btn btn-primary btn-flat">确认保存</button>
-    <a href="javascript:parent.$.fancybox.close();parent.location.reload();" class="btn btn-danger btn-flat">关闭</a>
+    <button class="btn btn-primary btn-flat"><i class="fa fa-save"></i> 保存</button>
+    <a href="javascript:parent.$.fancybox.close();" class="btn btn-danger btn-flat"><i class="fa fa-close"></i> 关闭</a>
 <?php echo $this->Form->end(); ?>

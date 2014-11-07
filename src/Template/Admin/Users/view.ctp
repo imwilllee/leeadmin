@@ -50,7 +50,9 @@
                                 <div class="col-xs-12">
                                     <div class="form-group">
                                         <label>所属用户组</label>
-                                        <p><?php echo $this->Html->link($user->group->name, ['controller' => 'Groups', 'action' => 'view', $user->group_id]); ?></p>
+                                        <p>
+                                        <?php echo h($user->group->name); ?>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -159,8 +161,7 @@
 
                         </div>
                     </div>
-                    <?php echo $this->Html->link('返回一览', ['action' => 'index'], ['class' => 'btn btn-default btn-flat']); ?>
-                    <?php echo $this->Html->link('编辑信息', ['action' => 'edit', $user->id], ['class' => 'btn btn-primary btn-flat']); ?>
+                    <?php echo $this->element('Common/view_btn', ['edit_url' => ['action' => 'edit', $user->id]]); ?>
                 </div>
             </div>
         </div>

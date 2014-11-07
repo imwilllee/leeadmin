@@ -163,20 +163,23 @@ class GroupsController extends AppAdminController {
 		// 数据保存
 		if ($this->request->is(['post', 'put'])) {
 			// 选择的权限节点
-			$access = $this->request->data('menu_node_id');
+			$access = $this->request->data('menu_node_id') ? $this->request->data('menu_node_id') : [];
 			$query = $this->GroupAccesses->query();
 			// 开启事务保存数据
 			$result = $this->GroupAccesses->connection()->transactional(
 				function () use ($query, $access, $id) {
 					// 删除原有权限节点
 					if ($query->delete()->where(['group_id' => $id])->execute()) {
-						$query->insert(['group_id', 'menu_node_id']);
-						foreach ($access as $key => $val) {
-							$query->values(['group_id' => $id, 'menu_node_id' => $val]);
+						if (!empty($access)) {
+							$query->insert(['group_id', 'menu_node_id']);
+							foreach ($access as $key => $val) {
+								$query->values(['group_id' => $id, 'menu_node_id' => $val]);
+							}
+							if (!$query->execute()) {
+								return false;
+							}
 						}
-						if ($query->execute()) {
-							return true;
-						}
+						return true;
 					}
 					return false;
 				}

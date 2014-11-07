@@ -120,7 +120,7 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-primary btn-flat">确认保存</button>
+                    <button class="btn btn-primary btn-flat"><i class="fa fa-save"></i> 保存</button>
                 <?php echo $this->Form->end(); ?>
 
                 </div>

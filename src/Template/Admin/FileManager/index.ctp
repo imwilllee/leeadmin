@@ -19,20 +19,22 @@
                             <div class="box-tools">
                                 <?php
                                     echo $this->Html->link(
-                                            '在此上传文件',
+                                            '<i class="fa fa-upload"></i> 上传文件',
                                             ['action' => 'upload', '?' => ['path' => urlencode($path)]],
                                             [
-                                                'class' => 'btn btn-primary btn-flat'
+                                                'class' => 'btn btn-primary btn-flat',
+                                                'escape' => false
                                             ]
                                         );
                                 ?>
                                 <?php
                                     echo $this->Html->link(
-                                            '在此创建目录',
+                                            '<i class="fa fa-folder-open-o"></i> 创建目录',
                                             ['action' => 'mkdir', '?' => ['path' => urlencode($path)]],
                                             [
                                                 'class' => 'btn btn-default btn-flat iframe',
-                                                'data-fancybox-type' => 'iframe'
+                                                'data-fancybox-type' => 'iframe',
+                                                'escape' => false
                                             ]
                                         );
                                 ?>

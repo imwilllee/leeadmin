@@ -31,7 +31,7 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button class="btn btn-primary btn-flat">数据检索</button>
+                            <button class="btn btn-primary btn-flat"><i class="fa fa-search"></i> 数据检索</button>
                         </div>
                     <?php echo $this->Form->end(); ?>
                     </div>

@@ -69,10 +69,10 @@ class ExceptionRenderer extends Error\ExceptionRenderer {
 		$sidebarParentIds = $sidebarMenus = [];
 		// 登陆后设置左侧菜单
 		if ($this->controller->request->session()->check('Auth.User.id')) {
-			$menusTable = TableRegistry::get('Menus');
-			$sidebarMenus = $menusTable->getSidebarMenus();
-			if (!empty($this->controller->request->cookies['SIDEBAR_PARENT_IDS'])) {
-				$sidebarParentIds = explode('.', $this->controller->request->cookies['SIDEBAR_PARENT_IDS']);
+			$this->controller->loadComponent('MenuNode');
+			$sidebarMenus = $this->controller->MenuNode->sidebarMenus();
+			if (!empty($this->controller->request->cookies['siderbarIds'])) {
+				$sidebarParentIds = explode('.', $this->controller->request->cookies['siderbarIds']);
 			}
 		}
 		$this->controller->set(compact('mainTitle', 'sidebarParentIds', 'sidebarMenus'));

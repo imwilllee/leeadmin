@@ -1,13 +1,11 @@
 <?php
-/*
- * jQuery File Upload Plugin PHP Class 8.2.3
- * https://github.com/blueimp/jQuery-File-Upload
+/**
+ * 文件上传工具
  *
- * Copyright 2010, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * http://www.opensource.org/licenses/MIT
+ * @copyright LeeAdmin
+ * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @author    Will.Lee <im.will.lee@gmail.com>
+ * @package   App.Utility
  */
 namespace App\Utility;
 
