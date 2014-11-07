@@ -24,37 +24,38 @@
                                 <li class="user-header bg-light-blue">
                                     <img src="/img/no_avatar.png" class="img-circle" alt="User Image" />
                                     <p>
-                                        <?php echo $this->Session->read('Auth.User.alias'); ?> - <?php echo $this->Session->read('Auth.User.group.name'); ?>
-                                        <small><?php echo $this->Session->read('Auth.User.email'); ?></small>
+                                        <?php echo h($this->Session->read('Auth.User.alias')); ?>
+                                        <small><?php echo h($this->Session->read('Auth.User.group.name')); ?></small>
                                     </p>
                                 </li>
                                 <li class="user-body">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
+                                    <div class="col-xs-6 text-center">
+                                        <?php
+                                            echo $this->Html->link(
+                                                '个人信息',
+                                                ['plugin' => false, 'controller' => 'Users', 'action' => 'view', $this->Session->read('Auth.User.id')]
+                                            );
+                                        ?>
                                     </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
+                                    <div class="col-xs-6 text-center">
+                                        <?php
+                                            echo $this->Html->link(
+                                                '密码修改',
+                                                ['plugin' => false, 'controller' => 'Users', 'action' => 'change_password']
+                                            );
+                                        ?>
                                     </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
+
                                 </li>
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <?php
-                                            echo $this->Html->link(
-                                                '更改密码',
-                                                ['plugin' => false, 'controller' => 'Users', 'action' => 'change_password'],
-                                                ['class' => 'btn btn-default btn-flat logout']
-                                            );
-                                        ?>
                                     </div>
                                     <div class="pull-right">
                                         <?php
                                             echo $this->Html->link(
-                                                '退出',
+                                                '<i class="fa fa-sign-out"></i> 退出',
                                                 ['plugin' => false, 'controller' => 'Users', 'action' => 'logout'],
-                                                ['class' => 'btn btn-default btn-flat logout']
+                                                ['class' => 'btn btn-default btn-flat logout', 'escape' => false]
                                             );
                                         ?>
                                     </div>

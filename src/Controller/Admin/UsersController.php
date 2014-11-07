@@ -279,6 +279,15 @@ class UsersController extends AppAdminController {
 	}
 
 /**
+ * 密码修改
+ *
+ * @return void
+ */
+	public function change_password() {
+		$this->_subTitle = '密码修改';
+	}
+
+/**
  * 更新用户最后登录信息
  *
  * @param array $user 登录用户信息

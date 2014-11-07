@@ -21,16 +21,14 @@ return [
 	[
 		'menu_code' => 'explorer',
 		'parent_code' => null,
-		'name' => '网站资源管理',
+		'name' => '附件管理',
 		'link' => null,
-		'class' => 'fa fa-file-image-o',
+		'class' => 'fa fa-paperclip',
 		'rank' => 0,
 		'display_flg' => true,
 		'menu_nodes' => [
 			['link' => 'admin/Attachments/index', 'name' => '附件一览'],
-			['link' => 'admin/Attachments/upload', 'name' => '上传附件'],
-			['link' => 'admin/FileManager/index', 'name' => '文件管理器'],
-			['link' => 'admin/FileManager/upload', 'name' => '文件上传'],
+			['link' => 'admin/Attachments/upload', 'name' => '上传附件']
 		]
 	],
 	[
@@ -58,7 +56,16 @@ return [
 		'link' => 'admin/FileManager/index',
 		'class' => null,
 		'rank' => 0,
-		'display_flg' => true
+		'display_flg' => true,
+		'menu_nodes' => [
+			['link' => 'admin/FileManager/index', 'name' => '文件一览'],
+			['link' => 'admin/FileManager/mkdir', 'name' => '创建目录'],
+			['link' => 'admin/FileManager/upload', 'name' => '文件上传'],
+			['link' => 'admin/FileManager/edit', 'name' => '文件编辑'],
+			['link' => 'admin/FileManager/delete', 'name' => '文件删除'],
+			['link' => 'admin/FileManager/preview', 'name' => '文件预览'],
+			['link' => 'admin/FileManager/download', 'name' => '文件下载'],
+		]
 	],
 	[
 		'menu_code' => 'user',
