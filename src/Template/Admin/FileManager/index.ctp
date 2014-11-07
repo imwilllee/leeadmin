@@ -7,16 +7,7 @@
             <div class="tab-content">
                 <div class="tab-pane active">
                     <div class="box-header">
-                            <ol class="breadcrumb">
-                                <li><?php echo $this->Html->link('<i class="fa fa-1 fa-home"></i> 根目录', ['action' => 'index'], ['escape' => false]); ?></li>
-                            <?php
-                                $nav = null;
-                                foreach ($breadcrumbs as $breadcrumb):
-                                    $nav .= $nav === null ? $breadcrumb : DS . $breadcrumb;
-                            ?>
-                                <li><?php echo $this->Html->link($breadcrumb, ['action' => 'index', '?' => ['path' => urlencode($nav)]]); ?></li>
-                            <?php endforeach; ?>
-                            </ol>
+                        <?php echo $this->element('FileManager/breadcrumbs'); ?>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -35,11 +26,21 @@
                                             ]
                                         );
                                 ?>
-                                <a href="#" class="btn btn-default btn-flat" data-toggle="modal" data-target="#upload-modal">在此创建目录</a>
+                                <?php
+                                    echo $this->Html->link(
+                                            '在此创建目录',
+                                            ['action' => 'mkdir', '?' => ['path' => urlencode($path)]],
+                                            [
+                                                'class' => 'btn btn-default btn-flat iframe',
+                                                'data-fancybox-type' => 'iframe'
+                                            ]
+                                        );
+                                ?>
                             </div>
                         </div>
                         <div class="box-body table-responsive no-padding">
                             <table class="table table-hover table-striped">
+                                <?php if (!empty($files[0]) || !empty($files[1])): ?>
                                 <thead>
                                     <tr>
                                         <th style="width:30px;"></th>
@@ -66,7 +67,7 @@
                                         <td>
                                         <i class="fa fa-1 fa-file-image-o"></i>
                                         </td>
-                                        <td><?php echo $this->Html->link($filename, ['action' => 'preview', '?' => ['path' => $param]], ['class' => 'fancybox', 'target' => '_blank' ]); ?></td>
+                                        <td><?php echo $this->Html->link($filename, ['action' => 'preview', '?' => ['path' => $param]], ['class' => 'fancybox-thumb', 'target' => '_blank', 'rel' => 'fancybox-thumb' ]); ?></td>
                                         <td>
                                             <?php echo $this->Admin->iconLink('fa fa-1 fa-download', ['action' => 'download', '?' => ['path' => $param]], ['data-original-title' => '下载']); ?>
                                             <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['file' => $param]]); ?>
@@ -84,7 +85,10 @@
                                         <?php endif; ?>
                                     </tr>
                                     <?php endforeach; ?>
-                                </tbody>
+                                    </tbody>
+                                <?php else: ?>
+                                    <tr><td>该目录下没有内容！</td></tr>
+                                <?php endif; ?>
                             </table>
                         </div>
                     </div>
@@ -95,32 +99,24 @@
     </div>
 </div>
 
-<div class="modal fade" id="upload-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><i class="fa fa-folder-o"></i> 创建目录</h4>
-            </div>
-            <form action="#" method="post">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-8 col-md-8 col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon">TO:</span>
-                                    <input name="email_to" type="email" class="form-control" placeholder="Email TO">
-                                </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer clearfix">
-
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"> 取消</button>
-
-                    <button type="submit" class="btn btn-primary pull-left"> 保存</button>
-                </div>
-            </form>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 <?php echo $this->element('Common/Plugin/fancybox'); ?>
+
+<?php $this->append('pageScript'); ?>
+<script>
+    $(document).ready(function() {
+        $('.fancybox-thumb').fancybox({
+            prevEffect  : 'none',
+            nextEffect  : 'none'
+        });
+        $('.iframe').fancybox({
+            type: 'iframe',
+            width: 500,
+            iframe:{
+                scrolling : 'auto',
+                preload : true
+            },
+            'autoScale':false
+        });
+    });
+</script>
+<?php $this->end(); ?>

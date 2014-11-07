@@ -10,10 +10,13 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
+use App\Utility\UploadHandler;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
+use Cake\Routing\Router;
+use Cake\Validation\Validator;
 
 class FileManagerController extends AppAdminController {
 
@@ -31,6 +34,7 @@ class FileManagerController extends AppAdminController {
  * @return void
  */
 	public function beforeFilter(Event $event) {
+		$this->Security->config('unlockedActions', ['upload']);
 		parent::beforeFilter($event);
 		// 文件管理根路径
 		$this->_rootPath = ROOT . DS;
@@ -66,7 +70,41 @@ class FileManagerController extends AppAdminController {
  * @return void
  */
 	public function upload() {
-		$this->_subTitle = '上传文件';
+		if ($this->request->is('post')) {
+			$this->autoRender = false;
+			$path = urldecode($this->request->data('path'));
+			if ($path) {
+				$fullPath = $this->__fullPath($path);
+			} else {
+				$fullPath = WWW_ROOT;
+			}
+			$options = [
+				'upload_dir' => $fullPath . DS,
+				'upload_url' => Router::url(['action' => 'preview']) . '?path=' . $path,
+				'script_url' => Router::url(['action' => 'upload']),
+				//'accept_file_types' => '/\.(gif|jpe?g|png)$/i',
+				'param_name' => 'files',
+				'user_dirs' => false,
+				//'image_versions' => [],
+				'max_file_size' => 10 * 1024 * 1024
+			];
+			$upload = new UploadHandler($options);
+		} else {
+			$this->_subTitle = '上传文件';
+			$path = urldecode($this->request->query('path'));
+			$breadcrumbs = [];
+			if ($path) {
+				$breadcrumbs = explode(DS, rtrim($path, DS));
+				$fullPath = $this->__fullPath($path);
+			} else {
+				$fullPath = $this->_rootPath;
+			}
+			if (!$this->__inPath($fullPath)) {
+				$this->Flash->error('无权限访问该路径！');
+				return $this->redirect(['action' => 'index']);
+			}
+			$this->set(compact('path', 'breadcrumbs'));
+		}
 	}
 
 /**
@@ -75,6 +113,47 @@ class FileManagerController extends AppAdminController {
  * @return void
  */
 	public function mkdir() {
+		$this->layout = 'popup';
+		$this->_subTitle = '创建目录';
+		$path = $errors = null;
+		if ($this->request->is('post')) {
+			$path = $this->request->data('path');
+			$fullPath = $this->__fullPath(urldecode($path) . $this->request->data('dir_name'));
+			$validator = new Validator();
+			$validator
+				->validatePresence('path', true, '创建路径项目不存在！')
+				->allowEmpty('path')
+				->validatePresence('dir_name', true, '目录名称项目不存在！')
+				->notEmpty('dir_name', '目录名称必须填写！')
+				->add('dir_name', [
+					'custom' => [
+						'rule' => function ($value, $context) {
+							return !strpbrk($value, '\\/?%*:|\"<>');
+						},
+						'message' => '目录名称格式错误！',
+						'last' => true
+					],
+					'exist' => [
+						'rule' => function ($value, $context) use ($fullPath) {
+							return !is_dir($fullPath);
+						},
+						'message' => '目录名称已存在！',
+						'last' => true
+					]
+				]);
+			$errors = $validator->errors($this->request->data());
+			if (empty($errors)) {
+				$folder = new Folder();
+				if ($folder->create($fullPath, 0755)) {
+					$this->Flash->success('目录创建成功！');
+				} else {
+					$this->Flash->error('目录创建失败！');
+				}
+			}
+		} else {
+			$path = $this->request->query('path');
+		}
+		$this->set(compact('path', 'errors'));
 	}
 
 /**
@@ -207,6 +286,7 @@ class FileManagerController extends AppAdminController {
 		if (empty($path)) {
 			return false;
 		}
-		return $this->_rootPath . $path;
+		$folder = new Folder();
+		return $folder->realpath($this->_rootPath . $path);
 	}
 }
