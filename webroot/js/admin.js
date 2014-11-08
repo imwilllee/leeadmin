@@ -7,6 +7,18 @@ var box_show_text = "显示";
 var box_hide_text = "隐藏";
 var cookie_config = {path: "/"}
 
+var formatFileSize = function (bytes) {
+    if (typeof bytes !== 'number') {
+        return '';
+    }
+    if (bytes >= 1000000000) {
+        return (bytes / 1000000000).toFixed(2) + ' GB';
+    }
+    if (bytes >= 1000000) {
+        return (bytes / 1000000).toFixed(2) + ' MB';
+    }
+    return (bytes / 1000).toFixed(2) + ' KB';
+}
 $(function() {
     "use strict";
 
@@ -38,9 +50,9 @@ $(function() {
     $("[data-toggle='tooltip']").tooltip({placement:'bottom'});
 
     // Ajax Error
-    $(document).ajaxError(function(event, xhr, settings, thrownError) {
-        location.replace(location.href);
-    });
+    // $(document).ajaxError(function(event, xhr, settings, thrownError) {
+    //     alert('异步请求发生异常！');
+    // });
 
     /*
      * Add collapse and remove events to boxes

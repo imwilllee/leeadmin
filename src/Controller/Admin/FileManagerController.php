@@ -53,7 +53,6 @@ class FileManagerController extends AppAdminController {
 		if ($path) {
 			$fullPath = $this->__fullPath($path);
 			$breadcrumbs = explode(DS, $path);
-			$path .= DS;
 		}
 		if (!$this->__inPath($fullPath)) {
 			$this->Flash->error('无权限访问该路径！');
@@ -80,10 +79,11 @@ class FileManagerController extends AppAdminController {
 			}
 			$options = [
 				'upload_dir' => $fullPath . DS,
-				'upload_url' => Router::url(['action' => 'preview']) . '?path=' . $path,
+				'upload_url' => Router::url(['action' => 'preview']) . '?path=' . $path . DS,
 				'script_url' => Router::url(['action' => 'upload']),
-				//'accept_file_types' => '/\.(gif|jpe?g|png)$/i',
+				'accept_file_types' => '/\.(gif|jpe?g|png)$/i',
 				'param_name' => 'files',
+				'delete_type' => 'GET',
 				'user_dirs' => false,
 				//'image_versions' => [],
 				'max_file_size' => 10 * 1024 * 1024
@@ -94,7 +94,7 @@ class FileManagerController extends AppAdminController {
 			$path = urldecode($this->request->query('path'));
 			$breadcrumbs = [];
 			if ($path) {
-				$breadcrumbs = explode(DS, rtrim($path, DS));
+				$breadcrumbs = explode(DS, $path);
 				$fullPath = $this->__fullPath($path);
 			} else {
 				$fullPath = $this->_rootPath;
@@ -118,7 +118,7 @@ class FileManagerController extends AppAdminController {
 		$path = $errors = null;
 		if ($this->request->is('post')) {
 			$path = $this->request->data('path');
-			$fullPath = $this->__fullPath(urldecode($path) . $this->request->data('dir_name'));
+			$fullPath = $this->__fullPath(urldecode($path) . DS . $this->request->data('dir_name'));
 			$validator = new Validator();
 			$validator
 				->validatePresence('path', true, '创建路径项目不存在！')

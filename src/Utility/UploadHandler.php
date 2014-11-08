@@ -16,29 +16,29 @@ class UploadHandler {
 	// PHP File Upload error message codes:
 	// http://php.net/manual/en/features.file-upload.errors.php
 	protected $error_messages = array(
-		1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-		2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-		3 => 'The uploaded file was only partially uploaded',
-		4 => 'No file was uploaded',
-		6 => 'Missing a temporary folder',
-		7 => 'Failed to write file to disk',
-		8 => 'A PHP extension stopped the file upload',
-		'post_max_size' => 'The uploaded file exceeds the post_max_size directive in php.ini',
-		'max_file_size' => 'File is too big',
-		'min_file_size' => 'File is too small',
-		'accept_file_types' => 'Filetype not allowed',
-		'max_number_of_files' => 'Maximum number of files exceeded',
-		'max_width' => 'Image exceeds maximum width',
-		'min_width' => 'Image requires a minimum width',
-		'max_height' => 'Image exceeds maximum height',
-		'min_height' => 'Image requires a minimum height',
-		'abort' => 'File upload aborted',
-		'image_resize' => 'Failed to resize image'
+		1 => '上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值。',
+		2 => '上传文件的大小超过了 HTML 表单中 MAX_FILE_SIZE 选项指定的值。',
+		3 => '文件只有部分被上传。',
+		4 => '没有文件被上传。',
+		6 => '找不到临时文件夹。',
+		7 => '文件写入失败。',
+		8 => 'php扩展导致上传终止。',
+		'post_max_size' => '上传的文件超过了 php.ini 中的 MAX_FILE_SIZE 选项指定的值。',
+		'max_file_size' => '上传文件超出最大限制。',
+		'min_file_size' => '上传文件低于最小限制。',
+		'accept_file_types' => '上传文件不在允许类型之内。',
+		'max_number_of_files' => '超出最大文件数。',
+		'max_width' => '上传图片超过最大宽度。',
+		'min_width' => '上传图片低于最小宽度。',
+		'max_height' => '上传图片超过最大高度。',
+		'min_height' => '上传图片低于最小高度。',
+		'abort' => '文件上传被终止。',
+		'image_resize' => '调整图片尺寸失败。'
 	);
 
 	protected $image_objects = array();
 
-	function __construct($options = null, $initialize = true, $error_messages = null) {
+	public function __construct($options = null, $initialize = true, $error_messages = null) {
 		$this->response = array();
 		$this->options = array(
 			'script_url' => $this->get_full_url().'/',

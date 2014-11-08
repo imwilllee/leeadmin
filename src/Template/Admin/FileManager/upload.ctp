@@ -18,38 +18,46 @@
                     <div class="box box-primary">
                         <div class="box-header">
                             <div class="box-tools">
-                                <div class="row fileupload-buttonbar">
-                                    <div class="col-lg-7">
-                                        <span class="btn btn-success btn-flat fileinput-button">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <?php
+                                            echo $this->Html->link(
+                                                    '<i class="fa fa-reply"></i> 返回目录',
+                                                    ['action' => 'index', '?' => ['path' => urlencode($path)]],
+                                                    ['class' => 'btn btn-default btn-flat', 'escape' => false]
+                                                );
+                                        ?>
+                                        <span class="btn btn-primary btn-flat fileinput-button">
                                             <i class="fa fa-plus"></i>
                                             <span>添加文件</span>
                                             <?php echo $this->Form->file('files[]', ['multiple' => true]); ?>
                                         </span>
-                                        <button type="submit" class="btn btn-primary btn-flat start">
+                                        <button type="button" class="btn btn-success btn-flat start-all">
                                             <i class="fa fa-upload"></i>
-                                            <span>开始上传</span>
+                                            <span>全部上传</span>
                                         </button>
-                                        <button type="reset" class="btn btn-warning btn-flat cancel">
+                                        <button type="button" class="btn btn-danger btn-flat delete-all">
                                             <i class="fa fa-ban"></i>
-                                            <span>取消上传</span>
+                                            <span>全部删除</span>
                                         </button>
-                                        <button type="button" class="btn btn-danger btn-flat delete">
-                                            <i class="fa fa-trash"></i>
-                                            <span>删除</span>
-                                        </button>
-                                        <span class="fileupload-process"></span>
-                                    </div>
-                                    <div class="col-lg-5 fileupload-progress fade">
-                                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                                            <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-                                        </div>
-                                        <div class="progress-extended">&nbsp;</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="box-body table-responsive no-padding">
-                            <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>文件名</th>
+                                        <th>文件类型</th>
+                                        <th>大小</th>
+                                        <th>上传进度</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="files"></tbody>
+                            </table>
                         </div>
                     </div>
                     <?php echo $this->Form->end(); ?>
@@ -61,85 +69,161 @@
 </div>
 
 <?php echo $this->element('Common/Plugin/fancybox'); ?>
-<?php echo $this->element('Common/Plugin/fileupload'); ?>
+<?php echo $this->element('Common/Plugin/fileupload_more'); ?>
 <?php $this->append('pageScript'); ?>
-<!-- The template to display files available for upload -->
+<!-- 上传文件预览模板 -->
 <script id="template-upload" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-upload fade">
+    <tr>
         <td>
-            <span class="preview"></span>
+            {%=file.name%}
+            {% if (file.error) { %}
+            <p class="text-red">{%=file.error%}</p>
+            {% } %}
         </td>
         <td>
-            <p class="name">{%=file.name%}</p>
-            <strong class="error text-danger"></strong>
+            {%=file.type%}
         </td>
         <td>
-            <p class="size">Processing...</p>
-            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+            {%=formatFileSize(file.size)%}
         </td>
         <td>
-            {% if (!i && !o.options.autoUpload) { %}
-                <button class="btn btn-primary btn-flat start" disabled>
+            {% if (!file.error) { %}
+
+            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+            </div>
+            {% } %}
+        </td>
+        <td>
+            {% if (!i) { %}
+                {% if (!file.error) { %}
+                <button type="button" class="btn btn-primary btn-sm btn-flat start">
                     <i class="fa fa-upload"></i>
                     <span>上传</span>
                 </button>
-            {% } %}
-            {% if (!i) { %}
-                <button class="btn btn-warning btn-flat cancel">
+                {% } %}
+                <button type="button" class="btn btn-danger btn-sm btn-flat delete">
                     <i class="fa fa-ban"></i>
-                    <span>取消</span>
-                </button>
-            {% } %}
-        </td>
-    </tr>
-{% } %}
-</script>
-<!-- The template to display files available for download -->
-<script id="template-download" type="text/x-tmpl">
-{% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download fade">
-        <td>
-            <span class="preview">
-                {% if (file.thumbnailUrl) { %}
-                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
-                {% } %}
-            </span>
-        </td>
-        <td>
-            <p class="name">
-                {% if (file.url) { %}
-                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
-                {% } else { %}
-                    <span>{%=file.name%}</span>
-                {% } %}
-            </p>
-            {% if (file.error) { %}
-                <div><span class="label label-danger">Error</span> {%=file.error%}</div>
-            {% } %}
-        </td>
-        <td>
-            <span class="size">{%=o.formatFileSize(file.size)%}</span>
-        </td>
-        <td>
-            {% if (file.deleteUrl) { %}
-                <button class="btn btn-danger btn-flat delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                    <i class="fa fa-trash"></i>
                     <span>删除</span>
                 </button>
+            {% } %}
+        </td>
+    </tr>
+{% } %}
+</script>
+
+<!-- 上传完毕文件模板 -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr>
+        <td>
+            {% if (file.url) { %}
+                <a href="{%=file.url%}" class="preview" title="{%=file.name%}">{%=file.name%}</a>
             {% } else { %}
-                <button class="btn btn-warning btn-flat cancel">
+                {%=file.name%}
+            {% } %}
+            {% if (file.error) { %}
+            <p class="text-red">{%=file.error%}</p>
+            {% } %}
+        </td>
+        <td>
+            {%=file.type%}
+        </td>
+        <td>
+            {%=formatFileSize(file.size)%}
+        </td>
+        <td>
+            {% if (file.error) { %}
+                <span class="label label-danger">上传失败</span>
+            {% } else { %}
+                <span class="label label-primary">上传成功</span>
+            {% } %}
+        </td>
+
+        <td>
+            {% if (file.error) { %}
+                <button type="button" class="btn btn-danger btn-sm btn-flat delete">
                     <i class="fa fa-ban"></i>
-                    <span>取消</span>
+                    <span>删除</span>
                 </button>
             {% } %}
         </td>
     </tr>
 {% } %}
 </script>
+
 <script>
-    $(function() {
-        $('#fileupload').fileupload();
+    $(function(){
+        $('.start-all').on('click', function(e) {
+            e.preventDefault();
+            $('.start').trigger('click');
+        });
+        $('.delete-all').on('click', function(e) {
+            e.preventDefault();
+            $('.delete').trigger('click');
+        });
+
+        $('#fileupload').fileupload({
+            url: '<?php echo Router::url(['action' => 'upload']); ?>',
+            dataType: 'json',
+            autoUpload: false,
+            //acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            //maxFileSize: 5000000
+        }).on('fileuploadadd', function (e, data) {
+            // TODO
+        }).on('fileuploadprocessalways', function (e, data) {
+            data.context = $(tmpl('template-upload', data));
+
+            data.context.find('.delete').on('click', function (e) {
+                e.preventDefault();
+                data.context.fadeOut('slow', function(){
+                    data.context.remove();
+                })
+            });
+            data.context.find('.start').on('click', function (e) {
+                e.preventDefault();
+                $(this).prop('disabled', true);
+                data.submit();
+            });
+            data.context.fadeIn('slow').appendTo('.files');
+        }).on('fileuploadprogress', function (e, data) {
+            if (e.isDefaultPrevented()) {
+                return false;
+            }
+            var progress = Math.floor(data.loaded / data.total * 100);
+            if (data.context) {
+                data.context.each(function () {
+                    $(this).find('.progress')
+                        .attr('aria-valuenow', progress)
+                        .children().first().css('width', progress + '%');
+                });
+            }
+        }).on('fileuploaddone', function (e, data) {
+            var tpl = $(tmpl('template-download', data.result));
+            tpl.find('.delete').click(function (e) {
+                e.preventDefault();
+                tpl.fadeOut('slow', function(){
+                    tpl.remove();
+                });
+            });
+            tpl.find('.preview').fancybox({
+                helpers: {
+                  title : {
+                      type : 'float'
+                  }
+                }
+            });
+            data.context.replaceWith(tpl);
+            data.context = tpl;
+        }).on('fileuploadfail', function (e, data) {
+            data.context.find('.start').remove();
+            $.each(data.files, function (i) {
+                $(data.context.find('td:eq(0)')[i]).append($('<p class="text-red"/>').text('上传发生错误！'));
+                $(data.context.find('td:eq(3)')[i]).html($('<span class="label label-danger"/>').text('上传失败'));
+            });
+        });
     });
 </script>
+
 <?php $this->end(); ?>

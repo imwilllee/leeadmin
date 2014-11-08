@@ -38,11 +38,22 @@
                                             ]
                                         );
                                 ?>
+                                <?php
+                                    echo $this->Html->link(
+                                            '<i class="fa fa-refresh"></i> 刷新目录',
+                                            ['action' => 'index', '?' => ['path' => urlencode($path)]],
+                                            [
+                                                'class' => 'btn btn-default btn-flat',
+                                                'escape' => false
+                                            ]
+                                        );
+                                ?>
                             </div>
                         </div>
                         <div class="box-body table-responsive no-padding">
                             <table class="table table-hover table-striped">
                                 <?php if (!empty($files[0]) || !empty($files[1])): ?>
+                                <?php $path = $path ? $path . DS : $path; ?>
                                 <thead>
                                     <tr>
                                         <th style="width:30px;"></th>
