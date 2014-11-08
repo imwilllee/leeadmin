@@ -33,11 +33,11 @@
 
                             <div class="row">
                                 <div class="col-lg-5 col-md-8 col-xs-12">
-                                    <div class="form-group<?php echo $this->Admin->errorClass('password'); ?>">
+                                    <div class="form-group<?php echo $this->Admin->errorClass('user_password'); ?>">
                                         <label>密码</label>
-                                        <?php echo $this->Form->password('password', ['class' => 'form-control', 'placeholder' => '密码']); ?>
+                                        <?php echo $this->Form->password('user_password', ['class' => 'form-control', 'placeholder' => '密码']); ?>
                                         <span class="text-light-blue">长度6-18位，允许英文字母、数字、下划线。</span>
-                                        <?php echo $this->Admin->error('password'); ?>
+                                        <?php echo $this->Admin->error('user_password'); ?>
                                     </div>
                                 </div>
                             </div>

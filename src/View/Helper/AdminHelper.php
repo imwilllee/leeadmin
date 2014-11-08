@@ -134,7 +134,7 @@ class AdminHelper extends AppHelper {
  */
 	public function checkMenuAccess($menu) {
 		// 创始人排除
-		if ($this->Session->read('Auth.User.id') == INIT_GROUP_ID) {
+		if ($this->Session->read('Auth.User.group_id') == INIT_GROUP_ID) {
 			return true;
 		}
 		$userAccess = $this->Session->read('Auth.Access');

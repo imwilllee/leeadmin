@@ -45,8 +45,8 @@ class UsersTable extends AppTable {
  * @return boolean
  */
 	public function beforeSave(Event $event, Entity $entity, $options = []) {
-		if ($entity->has('password')) {
-			$entity->set('password', (new DefaultPasswordHasher)->hash($entity->password));
+		if ($entity->has('user_password')) {
+			$entity->set('password', $entity->user_password);
 		}
 		return parent::beforeSave($event, $entity, $options);
 	}
@@ -81,9 +81,9 @@ class UsersTable extends AppTable {
 					'provider' => 'table'
 				]
 			])
-			->validatePresence('password', 'create', '密码项目不存在！')
-			->notEmpty('password', '密码必须填写！')
-			->add('password', [
+			->validatePresence('user_password', 'create', '密码项目不存在！')
+			->notEmpty('user_password', '密码必须填写！')
+			->add('user_password', [
 				'custom' => [
 					'rule' => function ($value, $context) {
 						if (preg_match('/^[_0-9a-zA-Z]{6,18}$/i', $value)) {
@@ -100,7 +100,7 @@ class UsersTable extends AppTable {
 			->add('confirm_password', [
 				'confirm' => [
 					'rule' => function ($value, $context) {
-						return $value === $context['data']['password'];
+						return $value === $context['data']['user_password'];
 					},
 					'message' => '两次密码输入不一致！',
 					'last' => true
@@ -162,6 +162,55 @@ class UsersTable extends AppTable {
 				'maxLength' => [
 					'rule' => ['maxLength', 250],
 					'message' => '备注说明超出长度限制！'
+				]
+			]);
+		return $validator;
+	}
+
+/**
+ * 密码修改验证规则
+ *
+ * @param \Cake\Validation\Validator $validator 验证对象
+ * @return \Cake\Validation\Validator
+ */
+	public function validationChangePassword(Validator $validator) {
+		$validator
+			->validatePresence('id', true, '用户ID项目不存在！')
+			->notEmpty('id', '用户ID不能为空！')
+			->validatePresence('old_password', true, '原始密码项目不存在！')
+			->notEmpty('old_password', '原始密码必须填写！')
+			->add('old_password', [
+				'custom' => [
+					'rule' => function ($value, $context) {
+						return (new DefaultPasswordHasher)->check($value, $context['data']['password']);
+					},
+					'message' => '原始密码不正确！',
+					'last' => true
+				]
+			])
+			->validatePresence('user_password', true, '密码项目不存在！')
+			->notEmpty('user_password', '密码必须填写！')
+			->add('user_password', [
+				'custom' => [
+					'rule' => function ($value, $context) {
+						if (preg_match('/^[_0-9a-zA-Z]{6,18}$/i', $value)) {
+							return true;
+						}
+						return false;
+					},
+					'message' => '密码格式错误！',
+					'last' => true
+				]
+			])
+			->validatePresence('confirm_password', true, '确认密码项目不存在！')
+			->notEmpty('confirm_password', '确认密码必须填写！')
+			->add('confirm_password', [
+				'confirm' => [
+					'rule' => function ($value, $context) {
+						return $value === $context['data']['user_password'];
+					},
+					'message' => '两次密码输入不一致！',
+					'last' => true
 				]
 			]);
 		return $validator;

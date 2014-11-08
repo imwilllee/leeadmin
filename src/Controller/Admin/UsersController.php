@@ -185,7 +185,7 @@ class UsersController extends AppAdminController {
 	public function add() {
 		$this->_subTitle = '创建管理员';
 		$this->loadModel('Users');
-		$user = $this->Users->newEntity($this->request->data);
+		$user = $this->Users->newEntity($this->request->data());
 		if ($this->request->is('post')) {
 			if ($this->Users->save($user)) {
 				$this->Flash->success('数据保存成功！');
@@ -212,10 +212,10 @@ class UsersController extends AppAdminController {
 		// 去除密码项
 		$user->unsetProperty('password');
 		if ($this->request->is(['post', 'put'])) {
+			$user = $this->Users->patchEntity($user, $this->request->data());
 			if ($this->request->data('change_password')) {
-				$this->request->data['password'] = $this->request->data['change_password'];
+				$user->set('user_password', $this->request->data('change_password'));
 			}
-			$user = $this->Users->patchEntity($user, $this->request->data);
 			if ($this->Users->save($user)) {
 				$this->Flash->success('数据保存成功！');
 				return $this->redirect(['action' => 'index']);
@@ -285,6 +285,22 @@ class UsersController extends AppAdminController {
  */
 	public function change_password() {
 		$this->_subTitle = '密码修改';
+		$user = null;
+		if ($this->request->is(['post', 'put'])){
+			$this->loadModel('Users');
+			$id = $this->request->session()->read('Auth.User.id');
+			$user = $this->Users->patchEntity(
+				$this->Users->get($id, ['contain' => false]),
+				$this->request->data()
+			);
+			if ($this->Users->save($user, ['validate' => 'changePassword'])) {
+				$this->Flash->success('密码修改成功，请重新登录系统！');
+				return $this->redirect($this->Auth->logout());
+			} else {
+				$this->Flash->error('密码修改失败！');
+			}
+		}
+		$this->set(compact('user'));
 	}
 
 /**

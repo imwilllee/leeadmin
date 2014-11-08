@@ -94,7 +94,7 @@ class GroupsController extends AppAdminController {
 	public function add() {
 		$this->_subTitle = '创建用户组';
 		$this->loadModel('Groups');
-		$group = $this->Groups->newEntity($this->request->data);
+		$group = $this->Groups->newEntity($this->request->data());
 		if ($this->request->is('post')) {
 			if ($this->Groups->save($group)) {
 				$this->Flash->success('数据保存成功！');
@@ -118,7 +118,7 @@ class GroupsController extends AppAdminController {
 		$this->loadModel('Groups');
 		$group = $this->Groups->get($id, ['contain' => false]);
 		if ($this->request->is(['post', 'put'])) {
-			$group = $this->Groups->patchEntity($group, $this->request->data);
+			$group = $this->Groups->patchEntity($group, $this->request->data());
 			if ($this->Groups->save($group)) {
 				$this->Flash->success('数据保存成功！');
 				return $this->redirect(['action' => 'index']);
