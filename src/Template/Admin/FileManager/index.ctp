@@ -20,7 +20,7 @@
                                 <?php
                                     echo $this->Html->link(
                                             '<i class="fa fa-upload"></i> 上传文件',
-                                            ['action' => 'upload', '?' => ['path' => urlencode($path)]],
+                                            ['action' => 'upload', '?' => ['path' => url_encode($path)]],
                                             [
                                                 'class' => 'btn btn-primary btn-flat',
                                                 'escape' => false
@@ -30,7 +30,7 @@
                                 <?php
                                     echo $this->Html->link(
                                             '<i class="fa fa-folder-open-o"></i> 创建目录',
-                                            ['action' => 'mkdir', '?' => ['path' => urlencode($path)]],
+                                            ['action' => 'mkdir', '?' => ['path' => url_encode($path)]],
                                             [
                                                 'class' => 'btn btn-default btn-flat iframe',
                                                 'data-fancybox-type' => 'iframe',
@@ -41,7 +41,7 @@
                                 <?php
                                     echo $this->Html->link(
                                             '<i class="fa fa-refresh"></i> 刷新目录',
-                                            ['action' => 'index', '?' => ['path' => urlencode($path)]],
+                                            ['action' => 'index', '?' => ['path' => url_encode($path)]],
                                             [
                                                 'class' => 'btn btn-default btn-flat',
                                                 'escape' => false
@@ -63,7 +63,7 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($files[0] as $dir): ?>
-                                        <?php $param = urlencode($path . $dir); ?>
+                                        <?php $param = url_encode($path . $dir); ?>
                                     <tr>
                                         <td><i class="fa fa-1 fa-folder-o"></i></td>
                                         <td><?php echo $this->Html->link($dir, ['action' => 'index', '?' => ['path' => $param]]); ?></td>
@@ -74,7 +74,7 @@
                                     </tr>
                                     <?php endforeach; ?>
                                     <?php foreach ($files[1] as $filename): ?>
-                                        <?php $param = urlencode($path . $filename); ?>
+                                        <?php $param = url_encode($path . $filename); ?>
                                     <tr>
                                         <?php if ($this->Admin->checkImageFile($filename)): ?>
                                         <td>

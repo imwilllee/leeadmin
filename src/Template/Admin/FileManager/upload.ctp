@@ -14,7 +14,7 @@
                         <?php echo $this->element('FileManager/breadcrumbs'); ?>
                     </div>
                     <?php echo $this->Form->create(null, ['url' => ['action' => 'upload'], 'id' => 'fileupload', 'type' => 'file']); ?>
-                    <?php echo $this->Form->hidden('path', ['value' => urlencode($path)]); ?>
+                    <?php echo $this->Form->hidden('path', ['value' => url_encode($path)]); ?>
                     <div class="box box-primary">
                         <div class="box-header">
                             <div class="box-tools">
@@ -23,7 +23,7 @@
                                         <?php
                                             echo $this->Html->link(
                                                     '<i class="fa fa-reply"></i> 返回目录',
-                                                    ['action' => 'index', '?' => ['path' => urlencode($path)]],
+                                                    ['action' => 'index', '?' => ['path' => url_encode($path)]],
                                                     ['class' => 'btn btn-default btn-flat', 'escape' => false]
                                                 );
                                         ?>

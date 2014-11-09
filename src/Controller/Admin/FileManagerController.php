@@ -48,7 +48,7 @@ class FileManagerController extends AppAdminController {
 	public function index() {
 		$this->_subTitle = '文件一览';
 		$fullPath = $this->_rootPath;
-		$path = urldecode($this->request->query('path'));
+		$path = url_decode($this->request->query('path'));
 		$breadcrumbs = [];
 		if ($path) {
 			$fullPath = $this->__fullPath($path);
@@ -71,7 +71,7 @@ class FileManagerController extends AppAdminController {
 	public function upload() {
 		if ($this->request->is('post')) {
 			$this->autoRender = false;
-			$path = urldecode($this->request->data('path'));
+			$path = url_decode($this->request->data('path'));
 			if ($path) {
 				$fullPath = $this->__fullPath($path);
 			} else {
@@ -91,7 +91,7 @@ class FileManagerController extends AppAdminController {
 			$upload = new UploadHandler($options);
 		} else {
 			$this->_subTitle = '上传文件';
-			$path = urldecode($this->request->query('path'));
+			$path = url_decode($this->request->query('path'));
 			$breadcrumbs = [];
 			if ($path) {
 				$breadcrumbs = explode(DS, $path);
@@ -118,7 +118,7 @@ class FileManagerController extends AppAdminController {
 		$path = $errors = null;
 		if ($this->request->is('post')) {
 			$path = $this->request->data('path');
-			$fullPath = $this->__fullPath(urldecode($path) . DS . $this->request->data('dir_name'));
+			$fullPath = $this->__fullPath(url_decode($path) . DS . $this->request->data('dir_name'));
 			$validator = new Validator();
 			$validator
 				->validatePresence('path', true, '创建路径项目不存在！')
@@ -164,9 +164,9 @@ class FileManagerController extends AppAdminController {
 	public function edit() {
 		$content = null;
 		if ($this->request->is('get')) {
-			$path = urldecode($this->request->query('path'));
+			$path = url_decode($this->request->query('path'));
 		} else {
-			$path = urldecode($this->request->data('path'));
+			$path = url_decode($this->request->data('path'));
 		}
 		$breadcrumbs = [];
 		$fullPath = $this->__fullPath($path);
@@ -200,9 +200,9 @@ class FileManagerController extends AppAdminController {
 		$this->request->allowMethod('post', 'delete');
 		$path = false;
 		if ($this->request->query('file')) {
-			$path = urldecode($this->request->query('file'));
+			$path = url_decode($this->request->query('file'));
 		} elseif ($this->request->query('dir')) {
-			$path = urldecode($this->request->query('dir'));
+			$path = url_decode($this->request->query('dir'));
 		}
 		$fullPath = $this->__fullPath($path);
 		if (!$path || !$this->__inPath($fullPath)) {
@@ -233,7 +233,7 @@ class FileManagerController extends AppAdminController {
  * @return void
  */
 	public function preview() {
-		$path = urldecode($this->request->query('path'));
+		$path = url_decode($this->request->query('path'));
 		if ($path) {
 			$fullPath = $this->__fullPath($path);
 			if ($this->__inPath($fullPath)) {
@@ -249,7 +249,7 @@ class FileManagerController extends AppAdminController {
  * @return void
  */
 	public function download() {
-		$path = urldecode($this->request->query('path'));
+		$path = url_decode($this->request->query('path'));
 		if ($path) {
 			$fullPath = $this->__fullPath($path);
 			if ($this->__inPath($fullPath)) {

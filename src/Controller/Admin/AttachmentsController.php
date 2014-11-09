@@ -10,6 +10,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
+use App\Utility\FileUpload;
 use Cake\Core\Configure;
 
 class AttachmentsController extends AppAdminController {
@@ -37,5 +38,15 @@ class AttachmentsController extends AppAdminController {
  */
 	public function upload() {
 		$this->_subTitle = '上传附件';
+		if ($this->request->is('post')) {
+			$options = [
+				'accept_file_types' => '/\.(gif|jpe?g|png)$/i',
+				'param_name' => 'files',
+				//'image_versions' => [],
+				'max_file_size' => 10 * 1024 * 1024
+			];
+			$upload = new FileUpload($options);
+			pr($upload->saveFiles());
+		}
 	}
 }

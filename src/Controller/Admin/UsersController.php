@@ -126,10 +126,10 @@ class UsersController extends AppAdminController {
 	private function __markQuery($query) {
 		if ($this->request->is('post')) {
 			if ($this->request->data('q') != '') {
-				$this->request->query['q'] = urlencode($this->request->data('q'));
+				$this->request->query['q'] = url_encode($this->request->data('q'));
 			}
 			if ($this->request->data('email') != '') {
-				$this->request->query['email'] = urlencode($this->request->data('email'));
+				$this->request->query['email'] = url_encode($this->request->data('email'));
 			}
 			if ($this->request->data('group_id') != '') {
 				$this->request->query['group_id'] = $this->request->data('group_id');
@@ -139,7 +139,7 @@ class UsersController extends AppAdminController {
 			}
 		}
 		if ($this->request->query('q') != '') {
-			$this->request->data['q'] = urldecode($this->request->query('q'));
+			$this->request->data['q'] = url_decode($this->request->query('q'));
 			$query->andWhere(function ($exp) {
 				return $exp->or_([
 					'Users.alias LIKE' => '%' . $this->request->data['q'] . '%',
@@ -286,7 +286,7 @@ class UsersController extends AppAdminController {
 	public function change_password() {
 		$this->_subTitle = '密码修改';
 		$user = null;
-		if ($this->request->is(['post', 'put'])){
+		if ($this->request->is(['post', 'put'])) {
 			$this->loadModel('Users');
 			$id = $this->request->session()->read('Auth.User.id');
 			$user = $this->Users->patchEntity(

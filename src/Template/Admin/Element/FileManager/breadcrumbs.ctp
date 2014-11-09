@@ -7,7 +7,7 @@
                                 <?php foreach ($breadcrumbs as $key => $breadcrumb): ?>
                                 <?php if ($key !== $length): ?>
                                     <?php $nav .= $nav === null ? $breadcrumb : DS . $breadcrumb; ?>
-                                    <li><?php echo $this->Html->link($breadcrumb, ['action' => 'index', '?' => ['path' => urlencode($nav)]]); ?></li>
+                                    <li><?php echo $this->Html->link($breadcrumb, ['action' => 'index', '?' => ['path' => url_encode($nav)]]); ?></li>
                                 <?php else:?>
                                     <li class="active"><?php echo h($breadcrumb); ?></li>
                                 <?php endif;?>
