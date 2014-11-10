@@ -40,6 +40,8 @@ class AttachmentsController extends AppAdminController {
 		$this->_subTitle = '上传附件';
 		if ($this->request->is('post')) {
 			$options = [
+				'upload_dir' => UPLOAD_DIR . date('Y') . DS . date('m') . DS . date('d') . DS,
+				//'save_rule' => 'uniqid',
 				'accept_file_types' => '/\.(gif|jpe?g|png)$/i',
 				'param_name' => 'files',
 				//'image_versions' => [],

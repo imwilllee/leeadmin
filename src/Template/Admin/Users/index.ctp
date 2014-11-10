@@ -135,7 +135,7 @@
                             </table>
                         </div>
                         <div class="box-footer clearfix">
-            <?php echo $this->element('Common/pagination'); ?>
+            <?php echo $this->element('Admin/Common/pagination'); ?>
                         </div>
                     </div>
 

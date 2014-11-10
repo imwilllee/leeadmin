@@ -7,7 +7,7 @@
             <div class="tab-content">
                 <div class="tab-pane active">
                     <div class="box-header">
-                        <?php echo $this->element('FileManager/breadcrumbs'); ?>
+                        <?php echo $this->element('Explorer.Admin/breadcrumbs'); ?>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -18,9 +18,26 @@
                         <div class="box-header">
                             <div class="box-tools">
                                 <?php
+                                    if ($path):
+                                        if (isset($breadcrumbs[1])):
+                                            $parentPath = dirname($path);
+                                        else:
+                                            $parentPath = null;
+                                        endif;
+                                        echo $this->Html->link(
+                                            '<i class="fa fa-reply"></i> 上级目录',
+                                            ['action' => 'index', '?' => ['path' => $parentPath]],
+                                            [
+                                                'class' => 'btn btn-default btn-flat',
+                                                'escape' => false
+                                            ]
+                                        );
+                                    endif;
+                                ?>
+                                <?php
                                     echo $this->Html->link(
                                             '<i class="fa fa-upload"></i> 上传文件',
-                                            ['action' => 'upload', '?' => ['path' => url_encode($path)]],
+                                            ['action' => 'upload', '?' => ['path' => $path]],
                                             [
                                                 'class' => 'btn btn-primary btn-flat',
                                                 'escape' => false
@@ -30,7 +47,7 @@
                                 <?php
                                     echo $this->Html->link(
                                             '<i class="fa fa-folder-open-o"></i> 创建目录',
-                                            ['action' => 'mkdir', '?' => ['path' => url_encode($path)]],
+                                            ['action' => 'mkdir', '?' => ['path' => $path]],
                                             [
                                                 'class' => 'btn btn-default btn-flat iframe',
                                                 'data-fancybox-type' => 'iframe',
@@ -41,7 +58,7 @@
                                 <?php
                                     echo $this->Html->link(
                                             '<i class="fa fa-refresh"></i> 刷新目录',
-                                            ['action' => 'index', '?' => ['path' => url_encode($path)]],
+                                            ['action' => 'index', '?' => ['path' => $path]],
                                             [
                                                 'class' => 'btn btn-default btn-flat',
                                                 'escape' => false
@@ -53,7 +70,7 @@
                         <div class="box-body table-responsive no-padding">
                             <table class="table table-hover table-striped">
                                 <?php if (!empty($files[0]) || !empty($files[1])): ?>
-                                <?php $path = $path ? $path . DS : $path; ?>
+                                <?php $path = $path ? $path . '/' : $path; ?>
                                 <thead>
                                     <tr>
                                         <th style="width:30px;"></th>
@@ -63,10 +80,10 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($files[0] as $dir): ?>
-                                        <?php $param = url_encode($path . $dir); ?>
+                                        <?php $param = $path . $dir; ?>
                                     <tr>
                                         <td><i class="fa fa-1 fa-folder-o"></i></td>
-                                        <td><?php echo $this->Html->link($dir, ['action' => 'index', '?' => ['path' => $param]]); ?></td>
+                                        <td><?php echo $this->Html->link(url_decode($dir), ['action' => 'index', '?' => ['path' => $param]]); ?></td>
                                         <td>
                                             <?php echo $this->Admin->iconLink('fa fa-1 fa-folder-open', ['action' => 'index', '?' => ['path' => $param]], ['data-original-title' => '打开']); ?>
                                             <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['dir' => $param]]); ?>
@@ -74,13 +91,13 @@
                                     </tr>
                                     <?php endforeach; ?>
                                     <?php foreach ($files[1] as $filename): ?>
-                                        <?php $param = url_encode($path . $filename); ?>
+                                        <?php $param = $path . $filename; ?>
                                     <tr>
                                         <?php if ($this->Admin->checkImageFile($filename)): ?>
                                         <td>
                                         <i class="fa fa-1 fa-file-image-o"></i>
                                         </td>
-                                        <td><?php echo $this->Html->link($filename, ['action' => 'preview', '?' => ['path' => $param]], ['class' => 'fancybox-thumb', 'target' => '_blank', 'rel' => 'fancybox-thumb' ]); ?></td>
+                                        <td><?php echo $this->Html->link(url_decode($filename), ['action' => 'preview', '?' => ['path' => $param]], ['class' => 'fancybox-thumb', 'target' => '_blank', 'rel' => 'fancybox-thumb' ]); ?></td>
                                         <td>
                                             <?php echo $this->Admin->iconLink('fa fa-1 fa-download', ['action' => 'download', '?' => ['path' => $param]], ['data-original-title' => '下载']); ?>
                                             <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['file' => $param]]); ?>
@@ -89,7 +106,7 @@
                                         <td>
                                         <i class="fa fa-1 fa-file-text-o"></i>
                                         </td>
-                                        <td><?php echo h($filename); ?></td>
+                                        <td><?php echo h(url_decode($filename)); ?></td>
                                         <td>
                                             <?php echo $this->Admin->iconLink('fa fa-1 fa-download', ['action' => 'download', '?' => ['path' => $param]], ['data-original-title' => '下载']); ?>
                                             <?php echo $this->Admin->iconEditLink(['action' => 'edit', '?' => ['path' => $param]]); ?>
@@ -112,7 +129,7 @@
     </div>
 </div>
 
-<?php echo $this->element('Common/Plugin/fancybox'); ?>
+<?php echo $this->element('Admin/Common/Plugin/fancybox'); ?>
 
 <?php $this->append('pageScript'); ?>
 <script>

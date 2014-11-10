@@ -7,10 +7,10 @@
  * @author    Will.Lee <im.will.lee@gmail.com>
  * @package   App.Controller.Admin
  */
-namespace App\Controller\Admin;
+namespace Explorer\Controller\Admin;
 
 use App\Controller\AppAdminController;
-use App\Utility\UploadHandler;
+use App\Utility\FileUpload;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Filesystem\File;
@@ -48,11 +48,9 @@ class FileManagerController extends AppAdminController {
 	public function index() {
 		$this->_subTitle = '文件一览';
 		$fullPath = $this->_rootPath;
-		$path = url_decode($this->request->query('path'));
-		$breadcrumbs = [];
+		$path = $this->__formatPath($this->request->query('path'));
 		if ($path) {
 			$fullPath = $this->__fullPath($path);
-			$breadcrumbs = explode(DS, $path);
 		}
 		if (!$this->__inPath($fullPath)) {
 			$this->Flash->error('无权限访问该路径！');
@@ -60,7 +58,8 @@ class FileManagerController extends AppAdminController {
 		}
 		$folder = new Folder($fullPath);
 		$files = $folder->read(true, ['.git', '.svn']);
-		$this->set(compact('path', 'breadcrumbs', 'files'));
+		$this->__setBreadcrumbs($path);
+		$this->set(compact('path', 'files'));
 	}
 
 /**
@@ -71,30 +70,25 @@ class FileManagerController extends AppAdminController {
 	public function upload() {
 		if ($this->request->is('post')) {
 			$this->autoRender = false;
-			$path = url_decode($this->request->data('path'));
+			$path = $this->__formatPath($this->request->data('path'));
 			if ($path) {
 				$fullPath = $this->__fullPath($path);
 			} else {
 				$fullPath = WWW_ROOT;
 			}
-			$options = [
+			$options = Configure::read('Explorer.upload_options');
+			$options = array_merge($options, [
 				'upload_dir' => $fullPath . DS,
-				'upload_url' => Router::url(['action' => 'preview']) . '?path=' . $path . DS,
-				'script_url' => Router::url(['action' => 'upload']),
-				'accept_file_types' => '/\.(gif|jpe?g|png)$/i',
-				'param_name' => 'files',
-				'delete_type' => 'GET',
-				'user_dirs' => false,
-				//'image_versions' => [],
-				'max_file_size' => 10 * 1024 * 1024
-			];
-			$upload = new UploadHandler($options);
+				'preview_url' => Router::url(['action' => 'preview']) . '?path=' . url_encode($path . '/'),
+			]);
+			$upload = new FileUpload($options);
+			$this->response->body(json_encode($upload->saveFiles()));
+			$this->response->type('json');
+			return $this->response;
 		} else {
 			$this->_subTitle = '上传文件';
-			$path = url_decode($this->request->query('path'));
-			$breadcrumbs = [];
+			$path = $this->__formatPath($this->request->query('path'));
 			if ($path) {
-				$breadcrumbs = explode(DS, $path);
 				$fullPath = $this->__fullPath($path);
 			} else {
 				$fullPath = $this->_rootPath;
@@ -103,7 +97,8 @@ class FileManagerController extends AppAdminController {
 				$this->Flash->error('无权限访问该路径！');
 				return $this->redirect(['action' => 'index']);
 			}
-			$this->set(compact('path', 'breadcrumbs'));
+			$this->__setBreadcrumbs($path);
+			$this->set(compact('path'));
 		}
 	}
 
@@ -117,22 +112,16 @@ class FileManagerController extends AppAdminController {
 		$this->_subTitle = '创建目录';
 		$path = $errors = null;
 		if ($this->request->is('post')) {
-			$path = $this->request->data('path');
-			$fullPath = $this->__fullPath(url_decode($path) . DS . $this->request->data('dir_name'));
+			$path = $this->__formatPath($this->request->data('path'));
+			$this->request->data['create_dir_name'] = url_encode($this->request->data('dir_name'));
+			$fullPath = $this->__fullPath($path . '/' . $this->request->data('create_dir_name'));
 			$validator = new Validator();
 			$validator
 				->validatePresence('path', true, '创建路径项目不存在！')
 				->allowEmpty('path')
-				->validatePresence('dir_name', true, '目录名称项目不存在！')
-				->notEmpty('dir_name', '目录名称必须填写！')
-				->add('dir_name', [
-					'custom' => [
-						'rule' => function ($value, $context) {
-							return !strpbrk($value, '\\/?%*:|\"<>');
-						},
-						'message' => '目录名称格式错误！',
-						'last' => true
-					],
+				->validatePresence('create_dir_name', true, '目录名称项目不存在！')
+				->notEmpty('create_dir_name', '目录名称必须填写！')
+				->add('create_dir_name', [
 					'exist' => [
 						'rule' => function ($value, $context) use ($fullPath) {
 							return !is_dir($fullPath);
@@ -140,7 +129,8 @@ class FileManagerController extends AppAdminController {
 						'message' => '目录名称已存在！',
 						'last' => true
 					]
-				]);
+				]
+			);
 			$errors = $validator->errors($this->request->data());
 			if (empty($errors)) {
 				$folder = new Folder();
@@ -151,7 +141,7 @@ class FileManagerController extends AppAdminController {
 				}
 			}
 		} else {
-			$path = $this->request->query('path');
+			$path = $this->__formatPath($this->request->query('path'));
 		}
 		$this->set(compact('path', 'errors'));
 	}
@@ -164,15 +154,14 @@ class FileManagerController extends AppAdminController {
 	public function edit() {
 		$content = null;
 		if ($this->request->is('get')) {
-			$path = url_decode($this->request->query('path'));
+			$path = $this->request->query('path');
 		} else {
-			$path = url_decode($this->request->data('path'));
+			$path = $this->request->data('path');
 		}
-		$breadcrumbs = [];
+		$path = $this->__formatPath($path);
 		$fullPath = $this->__fullPath($path);
 		if ($path && $this->__inPath($fullPath)) {
 			$file = new File($fullPath);
-			$breadcrumbs = explode(DS, $path);
 			if ($this->request->is('post')) {
 				$content = $this->request->data('content');
 				if ($file->write($content)) {
@@ -188,7 +177,8 @@ class FileManagerController extends AppAdminController {
 			$this->Flash->error('参数错误或无权限访问该路径！');
 			return $this->redirect(['action' => 'index']);
 		}
-		$this->set(compact('path', 'breadcrumbs', 'content'));
+		$this->__setBreadcrumbs($path);
+		$this->set(compact('path', 'content'));
 	}
 
 /**
@@ -200,10 +190,11 @@ class FileManagerController extends AppAdminController {
 		$this->request->allowMethod('post', 'delete');
 		$path = false;
 		if ($this->request->query('file')) {
-			$path = url_decode($this->request->query('file'));
+			$path = $this->request->query('file');
 		} elseif ($this->request->query('dir')) {
-			$path = url_decode($this->request->query('dir'));
+			$path = $this->request->query('dir');
 		}
+		$path = $this->__formatPath($path);
 		$fullPath = $this->__fullPath($path);
 		if (!$path || !$this->__inPath($fullPath)) {
 			$this->Flash->error('无权限访问该路径！');
@@ -233,7 +224,8 @@ class FileManagerController extends AppAdminController {
  * @return void
  */
 	public function preview() {
-		$path = url_decode($this->request->query('path'));
+		$path = $this->__formatPath($this->request->query('path'));
+		pr($path);
 		if ($path) {
 			$fullPath = $this->__fullPath($path);
 			if ($this->__inPath($fullPath)) {
@@ -249,11 +241,12 @@ class FileManagerController extends AppAdminController {
  * @return void
  */
 	public function download() {
-		$path = url_decode($this->request->query('path'));
+		$path = $this->__formatPath($this->request->query('path'));
 		if ($path) {
 			$fullPath = $this->__fullPath($path);
 			if ($this->__inPath($fullPath)) {
-				$this->response->file($fullPath, ['download' => true]);
+				$name = url_decode(basename($fullPath));
+				$this->response->file($fullPath, ['download' => true, 'name' => $name]);
 			}
 		}
 		return $this->response;
@@ -288,5 +281,35 @@ class FileManagerController extends AppAdminController {
 		}
 		$folder = new Folder();
 		return $folder->realpath($this->_rootPath . $path);
+	}
+
+/**
+ * 路径格式化
+ * 去除左右两边的斜杠 右斜杠替换成左斜杠
+ *
+ * @param string $path 路径
+ * @return string
+ */
+	private function __formatPath($path) {
+		if ($path) {
+			$path = str_replace('\\', '/', $path);
+			$path = preg_replace('/\/+/', '/', $path);
+			return trim($path, '/');
+		}
+		return null;
+	}
+
+/**
+ * 设置当前位置
+ *
+ * @param string $path 路径
+ * @return void
+ */
+	private function __setBreadcrumbs($path) {
+		$breadcrumbs = [];
+		if ($path) {
+			$breadcrumbs = explode('/', $path);
+		}
+		$this->set(compact('breadcrumbs'));
 	}
 }

@@ -60,3 +60,13 @@ function url_encode($url) {
 function url_decode($url) {
 	return rawurldecode($url);
 }
+
+/**
+ * 获取文件扩展名
+ *
+ * @param string $filename 文件名
+ * @return string
+ */
+function get_file_ext($filename) {
+	return strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+}

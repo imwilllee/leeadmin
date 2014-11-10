@@ -161,17 +161,7 @@ class AdminHelper extends AppHelper {
  * @return boolean
  */
 	public function checkImageFile($filename) {
-		$ext = $this->getFileExt($filename);
+		$ext = get_file_ext($filename);
 		return in_array($ext, ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'ico']);
-	}
-
-/**
- * 获取文件扩展名
- *
- * @param string $filename 文件名
- * @return string
- */
-	public function getFileExt($filename) {
-		return strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 	}
 }

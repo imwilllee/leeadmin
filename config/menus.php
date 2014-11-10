@@ -50,24 +50,6 @@ return [
 		'display_flg' => true
 	],
 	[
-		'menu_code' => null,
-		'parent_code' => 'explorer',
-		'name' => '文件管理器',
-		'link' => 'admin/FileManager/index',
-		'class' => null,
-		'rank' => 0,
-		'display_flg' => true,
-		'menu_nodes' => [
-			['link' => 'admin/FileManager/index', 'name' => '文件一览'],
-			['link' => 'admin/FileManager/mkdir', 'name' => '创建目录'],
-			['link' => 'admin/FileManager/upload', 'name' => '文件上传'],
-			['link' => 'admin/FileManager/edit', 'name' => '文件编辑'],
-			['link' => 'admin/FileManager/delete', 'name' => '文件删除'],
-			['link' => 'admin/FileManager/preview', 'name' => '文件预览'],
-			['link' => 'admin/FileManager/download', 'name' => '文件下载'],
-		]
-	],
-	[
 		'menu_code' => 'user',
 		'parent_code' => null,
 		'name' => '系统管理员',

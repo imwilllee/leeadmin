@@ -11,10 +11,11 @@
             <div class="tab-content">
                 <div class="tab-pane active">
                     <div class="box-header">
-                        <?php echo $this->element('FileManager/breadcrumbs'); ?>
+                        <?php echo $this->element('Explorer.Admin/breadcrumbs'); ?>
                     </div>
                     <?php echo $this->Form->create(null, ['url' => ['action' => 'upload'], 'id' => 'fileupload', 'type' => 'file']); ?>
-                    <?php echo $this->Form->hidden('path', ['value' => url_encode($path)]); ?>
+                    <?php echo $this->Form->unlockField('files'); ?>
+                    <?php echo $this->Form->hidden('path', ['value' => $path]); ?>
                     <div class="box box-primary">
                         <div class="box-header">
                             <div class="box-tools">
@@ -23,7 +24,7 @@
                                         <?php
                                             echo $this->Html->link(
                                                     '<i class="fa fa-reply"></i> 返回目录',
-                                                    ['action' => 'index', '?' => ['path' => url_encode($path)]],
+                                                    ['action' => 'index', '?' => ['path' => $path]],
                                                     ['class' => 'btn btn-default btn-flat', 'escape' => false]
                                                 );
                                         ?>
@@ -68,8 +69,8 @@
     </div>
 </div>
 
-<?php echo $this->element('Common/Plugin/fancybox'); ?>
-<?php echo $this->element('Common/Plugin/fileupload_more'); ?>
+<?php echo $this->element('Admin/Common/Plugin/fancybox'); ?>
+<?php echo $this->element('Admin/Common/Plugin/fileupload_more'); ?>
 <?php $this->append('pageScript'); ?>
 <!-- 上传文件预览模板 -->
 <script id="template-upload" type="text/x-tmpl">
@@ -118,10 +119,10 @@
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr>
         <td>
-            {% if (file.url) { %}
-                <a href="{%=file.url%}" class="preview" title="{%=file.name%}">{%=file.name%}</a>
+            {% if (file.previewUrl) { %}
+                <a href="{%=file.previewUrl%}" class="preview" title="{%=rawurldecode(file.name)%}">{%=rawurldecode(file.name)%}</a>
             {% } else { %}
-                {%=file.name%}
+                {%=rawurldecode(file.name)%}
             {% } %}
             {% if (file.error) { %}
             <p class="text-red">{%=file.error%}</p>

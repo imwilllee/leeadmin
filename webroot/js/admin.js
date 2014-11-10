@@ -8,211 +8,228 @@ var box_hide_text = "隐藏";
 var cookie_config = {path: "/"}
 
 var formatFileSize = function (bytes) {
-    if (typeof bytes !== 'number') {
-        return '';
-    }
-    if (bytes >= 1000000000) {
-        return (bytes / 1000000000).toFixed(2) + ' GB';
-    }
-    if (bytes >= 1000000) {
-        return (bytes / 1000000).toFixed(2) + ' MB';
-    }
-    return (bytes / 1000).toFixed(2) + ' KB';
+	if (typeof bytes !== 'number') {
+		return '';
+	}
+	if (bytes >= 1000000000) {
+		return (bytes / 1000000000).toFixed(2) + ' GB';
+	}
+	if (bytes >= 1000000) {
+		return (bytes / 1000000).toFixed(2) + ' MB';
+	}
+	return (bytes / 1000).toFixed(2) + ' KB';
 }
+var rawurlencode = function (str) {
+	str = (str + '').toString();
+	return encodeURIComponent(str)
+		.replace(/!/g, '%21')
+		.replace(/'/g, '%27')
+		.replace(/\(/g, '%28')
+		.replace(/\)/g, '%29')
+		.replace(/\*/g, '%2A');
+}
+
+var rawurldecode = function (str) {
+	return decodeURIComponent((str + '')
+		.replace(/%(?![\da-f]{2})/gi, function() {
+			return '%25';
+		}));
+}
+
 $(function() {
-    "use strict";
+	"use strict";
 
-    //Enable sidebar toggle
-    $("[data-toggle='offcanvas']").click(function(e) {
-        e.preventDefault();
+	//Enable sidebar toggle
+	$("[data-toggle='offcanvas']").click(function(e) {
+		e.preventDefault();
 
-        //If window is small enough, enable sidebar push menu
-        if ($(window).width() <= 992) {
-            $('.row-offcanvas').toggleClass('active');
-            $('.left-side').removeClass("collapse-left");
-            $(".right-side").removeClass("strech");
-            $('.row-offcanvas').toggleClass("relative");
-        } else {
-            //Else, enable content streching
-            $('.left-side').toggleClass("collapse-left");
-            $(".right-side").toggleClass("strech");
-        }
-    });
+		//If window is small enough, enable sidebar push menu
+		if ($(window).width() <= 992) {
+			$('.row-offcanvas').toggleClass('active');
+			$('.left-side').removeClass("collapse-left");
+			$(".right-side").removeClass("strech");
+			$('.row-offcanvas').toggleClass("relative");
+		} else {
+			//Else, enable content streching
+			$('.left-side').toggleClass("collapse-left");
+			$(".right-side").toggleClass("strech");
+		}
+	});
 
-    //Add hover support for touch devices
-    $('.btn').bind('touchstart', function() {
-        $(this).addClass('hover');
-    }).bind('touchend', function() {
-        $(this).removeClass('hover');
-    });
+	//Add hover support for touch devices
+	$('.btn').bind('touchstart', function() {
+		$(this).addClass('hover');
+	}).bind('touchend', function() {
+		$(this).removeClass('hover');
+	});
 
-    //Activate tooltips
-    $("[data-toggle='tooltip']").tooltip({placement:'bottom'});
+	//Activate tooltips
+	$("[data-toggle='tooltip']").tooltip({placement:'bottom'});
 
-    // Ajax Error
-    // $(document).ajaxError(function(event, xhr, settings, thrownError) {
-    //     alert('异步请求发生异常！');
-    // });
+	// Ajax Error
+	// $(document).ajaxError(function(event, xhr, settings, thrownError) {
+	//     alert('异步请求发生异常！');
+	// });
 
-    /*
-     * Add collapse and remove events to boxes
-     */
-    $("[data-widget='collapse']").click(function() {
-        //Find the box parent
-        var ts = $(this);
-        var tooltipText = ts.attr("data-original-title");
-        if (tooltipText == box_show_text) {
-            tooltipText = box_hide_text;
-        } else {
-            tooltipText = box_show_text;
-        }
+	/*
+	 * Add collapse and remove events to boxes
+	 */
+	$("[data-widget='collapse']").click(function() {
+		//Find the box parent
+		var ts = $(this);
+		var tooltipText = ts.attr("data-original-title");
+		if (tooltipText == box_show_text) {
+			tooltipText = box_hide_text;
+		} else {
+			tooltipText = box_show_text;
+		}
 
-        ts.attr("data-original-title", tooltipText);
-        var box = ts.parents(".box").first();
-        //Find the body and the footer
-        var bf = box.find(".box-body, .box-footer");
-        if (!box.hasClass("collapsed-box")) {
-            box.addClass("collapsed-box");
-            //Convert minus into plus
-            ts.children(".fa-minus").removeClass("fa-minus").addClass("fa-plus");
-            bf.slideUp(150);
-            if (ts.prop('id')) {
-                $.cookie("boxStatus", "hide", cookie_config);
-            }
-        } else {
-            box.removeClass("collapsed-box");
-            //Convert plus into minus
-            ts.children(".fa-plus").removeClass("fa-plus").addClass("fa-minus");
-            bf.slideDown(150);
-            if (ts.prop('id')) {
-                $.cookie("boxStatus", "show", cookie_config);
-            }
-        }
-    });
+		ts.attr("data-original-title", tooltipText);
+		var box = ts.parents(".box").first();
+		//Find the body and the footer
+		var bf = box.find(".box-body, .box-footer");
+		if (!box.hasClass("collapsed-box")) {
+			box.addClass("collapsed-box");
+			//Convert minus into plus
+			ts.children(".fa-minus").removeClass("fa-minus").addClass("fa-plus");
+			bf.slideUp(150);
+			if (ts.prop('id')) {
+				$.cookie("boxStatus", "hide", cookie_config);
+			}
+		} else {
+			box.removeClass("collapsed-box");
+			//Convert plus into minus
+			ts.children(".fa-plus").removeClass("fa-plus").addClass("fa-minus");
+			bf.slideDown(150);
+			if (ts.prop('id')) {
+				$.cookie("boxStatus", "show", cookie_config);
+			}
+		}
+	});
 
-    // 自动显示隐藏box
-    var showboxStatus = $.cookie('boxStatus');
-    if (typeof(showboxStatus) != "undefined" && showboxStatus == "show") {
-        var ts = $("#box-collapse");
-        var box = ts.parents(".box").first();
-        ts.attr("data-original-title", box_hide_text);
-        ts.children(".fa-plus").removeClass("fa-plus").addClass("fa-minus");
-        box.removeClass("collapsed-box");
-        box.find(".box-body, .box-footer").show();
-    }
-    // checkbox 选择
-    $("#checkbox-selector").on("ifChanged", function(){
-        var selector = $(this).attr("data-target-selector");
-        var checkbox = $('input[name="' + selector + '"]');
-        if ($(this).prop("checked")) {
-            checkbox.iCheck("check");
-        } else {
-            checkbox.iCheck("uncheck");
-        }
-    });
+	// 自动显示隐藏box
+	var showboxStatus = $.cookie('boxStatus');
+	if (typeof(showboxStatus) != "undefined" && showboxStatus == "show") {
+		var ts = $("#box-collapse");
+		var box = ts.parents(".box").first();
+		ts.attr("data-original-title", box_hide_text);
+		ts.children(".fa-plus").removeClass("fa-plus").addClass("fa-minus");
+		box.removeClass("collapsed-box");
+		box.find(".box-body, .box-footer").show();
+	}
+	// checkbox 选择
+	$("#checkbox-selector").on("ifChanged", function(){
+		var selector = $(this).attr("data-target-selector");
+		var checkbox = $('input[name="' + selector + '"]');
+		if ($(this).prop("checked")) {
+			checkbox.iCheck("check");
+		} else {
+			checkbox.iCheck("uncheck");
+		}
+	});
 
-    // 退出登录确认
-    $(".logout").on("click", function(){
-        if (confirm("确认退出系统？")) {
-            $.removeCookie('siderbarIds', cookie_config);
-            $.removeCookie('boxStatus', cookie_config);
-            return true;
-        }
-        return false;
-    });
+	// 退出登录确认
+	$(".logout").on("click", function(){
+		if (confirm("确认退出系统？")) {
+			$.removeCookie('siderbarIds', cookie_config);
+			$.removeCookie('boxStatus', cookie_config);
+			return true;
+		}
+		return false;
+	});
 
-    /*
-     * ADD SLIMSCROLL TO THE TOP NAV DROPDOWNS
-     * ---------------------------------------
-     */
-    $(".navbar .menu").slimscroll({
-        height: "200px",
-        alwaysVisible: false,
-        size: "3px"
-    }).css("width", "100%");
+	/*
+	 * ADD SLIMSCROLL TO THE TOP NAV DROPDOWNS
+	 * ---------------------------------------
+	 */
+	$(".navbar .menu").slimscroll({
+		height: "200px",
+		alwaysVisible: false,
+		size: "3px"
+	}).css("width", "100%");
 
-    /*
-     * INITIALIZE BUTTON TOGGLE
-     * ------------------------
-     */
-    $('.btn-group[data-toggle="btn-toggle"]').each(function() {
-        var group = $(this);
-        $(this).find(".btn").click(function(e) {
-            group.find(".btn.active").removeClass("active");
-            $(this).addClass("active");
-            e.preventDefault();
-        });
+	/*
+	 * INITIALIZE BUTTON TOGGLE
+	 * ------------------------
+	 */
+	$('.btn-group[data-toggle="btn-toggle"]').each(function() {
+		var group = $(this);
+		$(this).find(".btn").click(function(e) {
+			group.find(".btn.active").removeClass("active");
+			$(this).addClass("active");
+			e.preventDefault();
+		});
 
-    });
+	});
 
-    $("[data-widget='remove']").click(function() {
-        //Find the box parent
-        var box = $(this).parents(".box").first();
-        box.slideUp(150);
-    });
+	$("[data-widget='remove']").click(function() {
+		//Find the box parent
+		var box = $(this).parents(".box").first();
+		box.slideUp(150);
+	});
 
-    /* Sidebar tree view */
-    $(".sidebar .treeview").tree();
+	/* Sidebar tree view */
+	$(".sidebar .treeview").tree();
 
-    /*
-     * Make sure that the sidebar is streched full height
-     * ---------------------------------------------
-     * We are gonna assign a min-height value every time the
-     * wrapper gets resized and upon page load. We will use
-     * Ben Alman's method for detecting the resize event.
-     *
-     **/
-    function _fix() {
-        //Get window height and the wrapper height
-        var height = $(window).height() - $("body > .header").height() - ($("body > .footer").outerHeight() || 0);
-        $(".wrapper").css("min-height", height + "px");
-        var content = $(".wrapper").height();
-        //If the wrapper height is greater than the window
-        if (content > height)
-            //then set sidebar height to the wrapper
-            $(".left-side, html, body").css("min-height", content + "px");
-        else {
-            //Otherwise, set the sidebar to the height of the window
-            $(".left-side, html, body").css("min-height", height + "px");
-        }
-    }
-    //Fire upon load
-    _fix();
-    //Fire when wrapper is resized
-    $(".wrapper").resize(function() {
-        _fix();
-        fix_sidebar();
-    });
-    $(window).resize(function() {
-        _fix();
-        fix_sidebar();
-    });
+	/*
+	 * Make sure that the sidebar is streched full height
+	 * ---------------------------------------------
+	 * We are gonna assign a min-height value every time the
+	 * wrapper gets resized and upon page load. We will use
+	 * Ben Alman's method for detecting the resize event.
+	 *
+	 **/
+	function _fix() {
+		//Get window height and the wrapper height
+		var height = $(window).height() - $("body > .header").height() - ($("body > .footer").outerHeight() || 0);
+		$(".wrapper").css("min-height", height + "px");
+		var content = $(".wrapper").height();
+		//If the wrapper height is greater than the window
+		if (content > height)
+			//then set sidebar height to the wrapper
+			$(".left-side, html, body").css("min-height", content + "px");
+		else {
+			//Otherwise, set the sidebar to the height of the window
+			$(".left-side, html, body").css("min-height", height + "px");
+		}
+	}
+	//Fire upon load
+	_fix();
+	//Fire when wrapper is resized
+	$(".wrapper").resize(function() {
+		_fix();
+		fix_sidebar();
+	});
+	$(window).resize(function() {
+		_fix();
+		fix_sidebar();
+	});
 
-    //Fix the fixed layout sidebar scroll bug
-    fix_sidebar();
+	//Fix the fixed layout sidebar scroll bug
+	fix_sidebar();
 
-    /*
-     * We are gonna initialize all checkbox and radio inputs to
-     * iCheck plugin in.
-     * You can find the documentation at http://fronteed.com/iCheck/
-     */
-    $("input[type='checkbox']:not(.simple), input[type='radio']:not(.simple)").iCheck({
-        checkboxClass: 'icheckbox_minimal',
-        radioClass: 'iradio_minimal'
-    });
+	/*
+	 * We are gonna initialize all checkbox and radio inputs to
+	 * iCheck plugin in.
+	 * You can find the documentation at http://fronteed.com/iCheck/
+	 */
+	$("input[type='checkbox']:not(.simple), input[type='radio']:not(.simple)").iCheck({
+		checkboxClass: 'icheckbox_minimal',
+		radioClass: 'iradio_minimal'
+	});
 
 });
 function fix_sidebar() {
-    //Make sure the body tag has the .fixed class
-    if (!$("body").hasClass("fixed")) {
-        return;
-    }
+	//Make sure the body tag has the .fixed class
+	if (!$("body").hasClass("fixed")) {
+		return;
+	}
 
-    //Add slimscroll
-    $(".sidebar").slimscroll({
-        height: ($(window).height() - $(".header").height()) + "px",
-        color: "rgba(0,0,0,0.2)"
-    });
+	//Add slimscroll
+	$(".sidebar").slimscroll({
+		height: ($(window).height() - $(".header").height()) + "px",
+		color: "rgba(0,0,0,0.2)"
+	});
 }
 
 /**
@@ -222,14 +239,14 @@ function fix_sidebar() {
  * @return array
  */
 function get_checked_items(target_name) {
-    var items = [];
-    var checkbox = $('input[name="' + target_name + '"]');
-    checkbox.each(function(){
-        if ($(this).prop("checked")) {
-            items.push($(this).val());
-        }
-    });
-    return items;
+	var items = [];
+	var checkbox = $('input[name="' + target_name + '"]');
+	checkbox.each(function(){
+		if ($(this).prop("checked")) {
+			items.push($(this).val());
+		}
+	});
+	return items;
 }
 
 /*
@@ -242,71 +259,71 @@ function get_checked_items(target_name) {
  *  $("#box-widget").boxRefresh( options );
  * */
 (function($) {
-    "use strict";
+	"use strict";
 
-    $.fn.boxRefresh = function(options) {
+	$.fn.boxRefresh = function(options) {
 
-        // Render options
-        var settings = $.extend({
-            //Refressh button selector
-            trigger: ".refresh-btn",
-            //File source to be loaded (e.g: ajax/src.php)
-            source: "",
-            //Callbacks
-            onLoadStart: function(box) {
-            }, //Right after the button has been clicked
-            onLoadDone: function(box) {
-            } //When the source has been loaded
+		// Render options
+		var settings = $.extend({
+			//Refressh button selector
+			trigger: ".refresh-btn",
+			//File source to be loaded (e.g: ajax/src.php)
+			source: "",
+			//Callbacks
+			onLoadStart: function(box) {
+			}, //Right after the button has been clicked
+			onLoadDone: function(box) {
+			} //When the source has been loaded
 
-        }, options);
+		}, options);
 
-        //The overlay
-        var overlay = $('<div class="overlay"></div><div class="loading-img"></div>');
+		//The overlay
+		var overlay = $('<div class="overlay"></div><div class="loading-img"></div>');
 
-        return this.each(function() {
-            //if a source is specified
-            if (settings.source === "") {
-                if (console) {
-                    console.log("Please specify a source first - boxRefresh()");
-                }
-                return;
-            }
-            //the box
-            var box = $(this);
-            //the button
-            var rBtn = box.find(settings.trigger).first();
+		return this.each(function() {
+			//if a source is specified
+			if (settings.source === "") {
+				if (console) {
+					console.log("Please specify a source first - boxRefresh()");
+				}
+				return;
+			}
+			//the box
+			var box = $(this);
+			//the button
+			var rBtn = box.find(settings.trigger).first();
 
-            //On trigger click
-            rBtn.click(function(e) {
-                e.preventDefault();
-                //Add loading overlay
-                start(box);
+			//On trigger click
+			rBtn.click(function(e) {
+				e.preventDefault();
+				//Add loading overlay
+				start(box);
 
-                //Perform ajax call
-                box.find(".box-body").load(settings.source, function() {
-                    done(box);
-                });
+				//Perform ajax call
+				box.find(".box-body").load(settings.source, function() {
+					done(box);
+				});
 
 
-            });
+			});
 
-        });
+		});
 
-        function start(box) {
-            //Add overlay and loading img
-            box.append(overlay);
+		function start(box) {
+			//Add overlay and loading img
+			box.append(overlay);
 
-            settings.onLoadStart.call(box);
-        }
+			settings.onLoadStart.call(box);
+		}
 
-        function done(box) {
-            //Remove overlay and loading img
-            box.find(overlay).remove();
+		function done(box) {
+			//Remove overlay and loading img
+			box.find(overlay).remove();
 
-            settings.onLoadDone.call(box);
-        }
+			settings.onLoadDone.call(box);
+		}
 
-    };
+	};
 
 })(jQuery);
 
@@ -335,58 +352,58 @@ function get_checked_items(target_name) {
  * on page load. See above for an example.
  */
 (function($) {
-    "use strict";
+	"use strict";
 
-    $.fn.tree = function() {
+	$.fn.tree = function() {
 
-        return this.each(function() {
-            var btn = $(this).children("a").first();
-            var menu = $(this).children(".treeview-menu").first();
-            var isActive = $(this).hasClass('active');
+		return this.each(function() {
+			var btn = $(this).children("a").first();
+			var menu = $(this).children(".treeview-menu").first();
+			var isActive = $(this).hasClass('active');
 
-            //initialize already active menus
-            if (isActive) {
-                menu.show();
-                btn.children(".fa-angle-left").first().removeClass("fa-angle-left").addClass("fa-angle-down");
-            }
-            //Slide open or close the menu on link click
-            btn.click(function(e) {
-                e.preventDefault();
-                if (isActive) {
-                    //Slide up to close menu
-                    menu.slideUp(150);
-                    isActive = false;
-                    btn.children(".fa-angle-down").first().removeClass("fa-angle-down").addClass("fa-angle-left");
-                    btn.parent("li").removeClass("active");
-                } else {
-                    //Slide down to open menu
-                    menu.slideDown(150);
-                    isActive = true;
-                    btn.children(".fa-angle-left").first().removeClass("fa-angle-left").addClass("fa-angle-down");
-                    btn.parent("li").addClass("active");
-                }
-                var parentIds = [];
-                $('ul.sidebar-menu > li').each(function(){
-                    if ($(this).hasClass('active')) {
-                        var parentId = $(this).attr('data-parent-id');
-                        if (parentId != '') {
-                            parentIds.push(parentId);
-                        }
-                    }
-                });
-                $.cookie('siderbarIds', parentIds.join('.'), cookie_config);
-            });
+			//initialize already active menus
+			if (isActive) {
+				menu.show();
+				btn.children(".fa-angle-left").first().removeClass("fa-angle-left").addClass("fa-angle-down");
+			}
+			//Slide open or close the menu on link click
+			btn.click(function(e) {
+				e.preventDefault();
+				if (isActive) {
+					//Slide up to close menu
+					menu.slideUp(150);
+					isActive = false;
+					btn.children(".fa-angle-down").first().removeClass("fa-angle-down").addClass("fa-angle-left");
+					btn.parent("li").removeClass("active");
+				} else {
+					//Slide down to open menu
+					menu.slideDown(150);
+					isActive = true;
+					btn.children(".fa-angle-left").first().removeClass("fa-angle-left").addClass("fa-angle-down");
+					btn.parent("li").addClass("active");
+				}
+				var parentIds = [];
+				$('ul.sidebar-menu > li').each(function(){
+					if ($(this).hasClass('active')) {
+						var parentId = $(this).attr('data-parent-id');
+						if (parentId != '') {
+							parentIds.push(parentId);
+						}
+					}
+				});
+				$.cookie('siderbarIds', parentIds.join('.'), cookie_config);
+			});
 
-            /* Add margins to submenu elements to give it a tree look */
-            menu.find("li > a").each(function() {
-                var pad = parseInt($(this).css("margin-left")) + 10;
+			/* Add margins to submenu elements to give it a tree look */
+			menu.find("li > a").each(function() {
+				var pad = parseInt($(this).css("margin-left")) + 10;
 
-                $(this).css({"margin-left": pad + "px"});
-            });
+				$(this).css({"margin-left": pad + "px"});
+			});
 
-        });
+		});
 
-    };
+	};
 
 
 }(jQuery));
@@ -397,52 +414,52 @@ function get_checked_items(target_name) {
  * This plugin depends on iCheck plugin for checkbox and radio inputs
  */
 (function($) {
-    "use strict";
+	"use strict";
 
-    $.fn.todolist = function(options) {
-        // Render options
-        var settings = $.extend({
-            //When the user checks the input
-            onCheck: function(ele) {
-            },
-            //When the user unchecks the input
-            onUncheck: function(ele) {
-            }
-        }, options);
+	$.fn.todolist = function(options) {
+		// Render options
+		var settings = $.extend({
+			//When the user checks the input
+			onCheck: function(ele) {
+			},
+			//When the user unchecks the input
+			onUncheck: function(ele) {
+			}
+		}, options);
 
-        return this.each(function() {
-            $('input', this).on('ifChecked', function(event) {
-                var ele = $(this).parents("li").first();
-                ele.toggleClass("done");
-                settings.onCheck.call(ele);
-            });
+		return this.each(function() {
+			$('input', this).on('ifChecked', function(event) {
+				var ele = $(this).parents("li").first();
+				ele.toggleClass("done");
+				settings.onCheck.call(ele);
+			});
 
-            $('input', this).on('ifUnchecked', function(event) {
-                var ele = $(this).parents("li").first();
-                ele.toggleClass("done");
-                settings.onUncheck.call(ele);
-            });
-        });
-    };
+			$('input', this).on('ifUnchecked', function(event) {
+				var ele = $(this).parents("li").first();
+				ele.toggleClass("done");
+				settings.onUncheck.call(ele);
+			});
+		});
+	};
 
 }(jQuery));
 
 /* CENTER ELEMENTS */
 (function($) {
-    "use strict";
-    jQuery.fn.center = function(parent) {
-        if (parent) {
-            parent = this.parent();
-        } else {
-            parent = window;
-        }
-        this.css({
-            "position": "absolute",
-            "top": ((($(parent).height() - this.outerHeight()) / 2) + $(parent).scrollTop() + "px"),
-            "left": ((($(parent).width() - this.outerWidth()) / 2) + $(parent).scrollLeft() + "px")
-        });
-        return this;
-    }
+	"use strict";
+	jQuery.fn.center = function(parent) {
+		if (parent) {
+			parent = this.parent();
+		} else {
+			parent = window;
+		}
+		this.css({
+			"position": "absolute",
+			"top": ((($(parent).height() - this.outerHeight()) / 2) + $(parent).scrollTop() + "px"),
+			"left": ((($(parent).width() - this.outerWidth()) / 2) + $(parent).scrollLeft() + "px")
+		});
+		return this;
+	}
 }(jQuery));
 
 /*

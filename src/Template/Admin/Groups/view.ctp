@@ -136,7 +136,7 @@
 <?php endif; ?>
 
                 </div>
-                <?php echo $this->element('Common/view_btn', ['edit_url' => ['action' => 'edit', $group->id]]); ?>
+                <?php echo $this->element('Admin/Common/view_btn', ['edit_url' => ['action' => 'edit', $group->id]]); ?>
             </div>
         </div>
     </div>

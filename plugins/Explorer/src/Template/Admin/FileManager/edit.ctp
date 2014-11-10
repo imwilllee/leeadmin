@@ -8,7 +8,7 @@
             <div class="tab-content">
                 <div class="tab-pane active">
                         <div class="box-header">
-                            <?php echo $this->element('FileManager/breadcrumbs'); ?>
+                            <?php echo $this->element('Explorer.Admin/breadcrumbs'); ?>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
@@ -45,7 +45,16 @@
 
                             </div>
                         </div>
-                        <?php echo $this->element('Common/submit_btn'); ?>
+                        <?php
+                            if ($path):
+                                if (isset($breadcrumbs[1])):
+                                    $parentPath = dirname($path);
+                                else:
+                                    $parentPath = null;
+                                endif;
+                            endif;
+                        ?>
+                        <?php echo $this->element('Admin/Common/submit_btn', ['returnUrl' => ['action' => 'index', '?' => ['path' => $parentPath]]]); ?>
                     <?php echo $this->Form->end(); ?>
 
                 </div>

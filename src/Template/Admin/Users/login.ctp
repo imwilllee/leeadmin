@@ -5,7 +5,7 @@
 <?php $this->end(); ?>
 <!DOCTYPE html>
 <html>
-<?php echo $this->element('Common/head'); ?>
+<?php echo $this->element('Admin/Common/head'); ?>
     <body>
         <div class="form-box">
             <div class="header">管理员登陆</div>

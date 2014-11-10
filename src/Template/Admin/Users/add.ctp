@@ -149,7 +149,7 @@
 
                         </div>
                     </div>
-                <?php echo $this->element('Common/submit_btn'); ?>
+                <?php echo $this->element('Admin/Common/submit_btn'); ?>
                 <?php echo $this->Form->end(); ?>
 
                 </div>
@@ -158,4 +158,4 @@
     </div>
 </div>
 
-<?php echo $this->element('Common/Plugin/datetimepicker'); ?>
+<?php echo $this->element('Admin/Common/Plugin/datetimepicker'); ?>

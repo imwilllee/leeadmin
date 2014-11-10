@@ -22,7 +22,6 @@ require __DIR__ . '/defines.php';
 
 // Use composer to load the autoloader.
 require ROOT . DS . 'vendor' . DS . 'autoload.php';
-require APP . 'Core' . DS . 'functions.php';
 
 /**
  * Bootstrap CakePHP.
@@ -46,10 +45,10 @@ use Cake\Error\ErrorHandler;
 use Cake\Log\Log;
 use Cake\Network\Email\Email;
 use Cake\Network\Request;
+use Cake\ORM\TableRegistry;
 use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Inflector;
 use Cake\Utility\Security;
-use Cake\ORM\TableRegistry;
 
 /**
  * Read configuration file and inject configuration into various
@@ -181,7 +180,7 @@ Request::addDetector('tablet', function ($request) {
 
 // Plugin::load('DebugKit', ['bootstrap' => true]);
 // Plugin::load('Wechat', ['bootstrap' => true, 'autoload' => true]);
-
+Plugin::load('Explorer', ['bootstrap' => true, 'autoload' => true]);
 /**
  * Connect middleware/dispatcher filters.
  */

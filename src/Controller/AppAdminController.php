@@ -69,11 +69,13 @@ class AppAdminController extends AppController {
 				],
 			],
 			'loginAction' => [
+				'plugin' => false,
 				'controller' => 'Users',
 				'action' => 'login',
 				'prefix' => 'admin'
 			],
 			'loginRedirect' => [
+				'plugin' => false,
 				'controller' => 'Dashboard',
 				'action' => 'index',
 				'prefix' => 'admin'

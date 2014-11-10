@@ -9,6 +9,7 @@
  */
 namespace App\Utility;
 
+use Intervention\Image\ImageManagerStatic as Image;
 use stdClass;
 
 class FileUpload {
@@ -20,7 +21,7 @@ class FileUpload {
  */
 	public $options = [
 		// 上传文件保存目录
-		'upload_dir' => UPLOAD_PATH,
+		'upload_dir' => UPLOAD_DIR,
 		// 上传后访问url
 		'preview_url' => '/uploads/',
 		// 创建目录权限
@@ -40,27 +41,37 @@ class FileUpload {
 		// 图片类型定义
 		'image_file_types' => '/\.(gif|jpe?g|png)$/i',
 		// 缩略图生成规则 默认不生成缩略图
-		// 数组key会生成目录 当key为original时替换原图
+		// 数组key会生成目录 当key为空时替换原图
 		'thumbnail_rule' => [
 			/*
 			'small' => [
 				// 缩略图保存路径(默认为当前图片路径下对应文件夹内)
-				'upload_dir' => UPLOAD_PATH,
+				//'upload_dir' => UPLOAD_DIR,
 				// 缩略图访问url(默认为当前图片路径下对应文件夹内)
-				'upload_url' => '/uploads/thumb/',
+				// 'preview_url' => '/uploads/small-test/',
 				// 自动旋转方向
-				'auto_orient' => true,
+				'orientate' => true,
 				// 是否裁剪
-				'crop' => true,
+				//'crop' => true,
 				// 最大宽度
 				'max_width' => 80,
 				// 最大高度
 				'max_height' => 80
+			],
+			'' => [
+				// 自动旋转方向
+				'orientate' => true,
+				// 是否裁剪
+				'crop' => true,
+				// 最大宽度
+				'max_width' => 340,
+				// 最大高度
+				'max_height' => 340
 			]
 			*/
 		],
-		// 生成缩略图引擎
-		// 'thumbnail_engine' => 1,
+		// 生成缩略图引擎 支持gd、imagick
+		'thumbnail_driver' => 'gd',
 	];
 
 /**
@@ -82,7 +93,8 @@ class FileUpload {
 		'accept_file_types' => '上传文件不在允许类型之内。',
 		'move_uploaded_file' => '文件上传目录失败，请检查目录权限。',
 		'abort' => '文件上传被终止。',
-		'image_resize' => '调整图片尺寸失败。'
+		'mkdir_thumbnail' => '缩略图保存目录创建失败。',
+		'make_thumbnail' => '缩略图生成失败。'
 	];
 
 /**
@@ -138,14 +150,22 @@ class FileUpload {
  * @return void
  */
 	public function saveFiles() {
-		foreach ($this->fileObjects as $file) {
+		foreach ($this->fileObjects['files'] as $file) {
+			// 上传文件验证
 			if ($this->_validate($file)) {
-				$this->_moveFileToUploadDir($file);
+				// 移动文件到保存目录
+				if ($this->_moveFileToUploadDir($file)) {
+					// 生成缩略图
+					$this->_makeThumbnail($file);
+				}
 			}
-			if (is_file($file->tmp_name)) {
-				unlink($file->tmp_name);
+			if (isset($file->uploadPath)) {
+				unset($file->uploadPath);
 			}
-			unset($file->tmp_name);
+			if (is_file($file->tmpName)) {
+				unlink($file->tmpName);
+			}
+			unset($file->tmpName);
 		}
 		return $this->fileObjects;
 	}
@@ -160,42 +180,140 @@ class FileUpload {
 		$uploadDir = $this->_getUploadDir();
 		if (!is_dir($uploadDir)) {
 			if (!mkdir($uploadDir, $this->options['mkdir_mode'], true)) {
-				$file->error_message = $this->_getErrorMessage('mkdir');
+				$file->error = $this->_getErrorMessage('mkdir');
 				return false;
 			}
 		}
 		$this->_setFileSaveName($uploadDir, $file);
-		$uploadPath = $uploadDir . DS . $file->name;
-		if (is_uploaded_file($file->tmp_name)) {
-			if (!move_uploaded_file($file->tmp_name, $uploadPath)) {
-				$file->error_message = $this->_getErrorMessage('move_uploaded_file');
+		$uploadPath = $uploadDir . $file->name;
+		if (is_uploaded_file($file->tmpName)) {
+			if (!move_uploaded_file($file->tmpName, $uploadPath)) {
+				$file->error = $this->_getErrorMessage('move_uploaded_file');
 				return false;
 			}
+			$file->uploadPath = $uploadPath;
+			$file->previewUrl = $this->options['preview_url'] . rawurlencode($file->name);
 		} else {
-			$file->error_message = $this->_getErrorMessage('abort');
+			$file->error = $this->_getErrorMessage('abort');
 			return false;
 		}
 		return true;
 	}
 
 /**
- * 取得文件保存目录
+ * 移动文件到保存目录
  *
- * @param string $tr 缩略图配置项索引
- * @return string
+ * @param stdClass $file 文件对象
+ * @return void
  */
-	protected function _getUploadDir($tr = null) {
-		if ($tr) {
-			$thumbnailRule = isset($this->options['thumbnail_rule'][$tr]) ? $this->options['thumbnail_rule'][$tr] : null;
-			if ($thumbnailRule && $tr != 'original') {
-				if (isset($thumbnailRule['upload_dir']) && $thumbnailRule['upload_dir'] != '') {
-					return $thumbnailRule['upload_dir'];
-				} else {
-					return $this->options['upload_dir'] . $tr . DS;
+	protected function _makeThumbnail($file) {
+		// 判断是否是图片类型的文件
+		if (preg_match($this->options['image_file_types'], $file->name)) {
+			$file->isImage = true;
+			if (!empty($this->options['thumbnail_rule'])) {
+				foreach ($this->options['thumbnail_rule'] as $rule => $option) {
+					// 最大高宽参数
+					$maxHeight = isset($option['max_height']) ? $option['max_height'] : null;
+					$maxWidth = isset($option['max_width']) ? $option['max_width'] : null;
+					if (!$maxHeight && !$maxWidth) {
+						$file->error = $this->_getErrorMessage('make_thumbnail');
+						break;
+					}
+					$thumbnailDir = $this->_getThumbnailDir($rule);
+					if (!is_dir($thumbnailDir)) {
+						if (!mkdir($thumbnailDir, $this->options['mkdir_mode'], true)) {
+							$file->error = $this->_getErrorMessage('mkdir_thumbnail');
+							break;
+						}
+					}
+					// 缩略图保存路径
+					$thumbnailPath = $thumbnailDir . $file->name;
+					// 使用imagick扩展
+					if ($this->options['thumbnail_driver'] === 'imagick') {
+						Image::configure(array('driver' => 'imagick'));
+					}
+					$img = Image::make($file->uploadPath);
+					// 原始图片高宽
+					$height = $img->height();
+					$width = $img->width();
+					if ($height < $maxHeight) {
+						$maxHeight = $height;
+					}
+					if ($width < $maxWidth) {
+						$maxWidth = $width;
+					}
+					if (isset($option['orientate']) && $option['orientate']) {
+						$img->orientate();
+					}
+					if (isset($option['crop']) && $option['crop']) {
+						$img->crop($maxWidth, $maxHeight);
+					} else {
+						$img->resize($maxWidth, $maxHeight);
+					}
+
+					if ($img->save($thumbnailPath)) {
+						if ($rule !== '') {
+							$file->{$rule . 'Url'} = $this->_getThumbnailPreviewUrl($file, $rule) . rawurlencode($file->name);
+						}
+					} else {
+						$file->error = $this->_getErrorMessage('make_thumbnail');
+						break;
+					}
 				}
 			}
 		}
+	}
+
+/**
+ * 取得缩略图保存目录
+ *
+ * @param string $rule 缩略图生成规则索引
+ * @return string
+ */
+	protected function _getThumbnailDir($rule = '') {
+		$uploadDir = $this->_getUploadDir();
+		$option = isset($this->options['thumbnail_rule'][$rule]) ? $this->options['thumbnail_rule'][$rule] : null;
+		if ($option) {
+			if ($rule !== '') {
+				if (isset($option['upload_dir']) && $option['upload_dir'] != '') {
+					return $option['upload_dir'];
+				} else {
+					return $uploadDir . $rule . DS;
+				}
+			}
+		}
+		return $uploadDir;
+	}
+
+/**
+ * 取得文件保存目录
+ *
+ * @return string
+ */
+	protected function _getUploadDir() {
 		return $this->options['upload_dir'];
+	}
+
+/**
+ * 取得缩略图预览url
+ *
+ * @param stdClass $file 文件对象
+ * @param string $rule 缩略图生成规则索引
+ * @return string
+ */
+	protected function _getThumbnailPreviewUrl($file, $rule = '') {
+		$previewUrl = $this->options['preview_url'];
+		$option = isset($this->options['thumbnail_rule'][$rule]) ? $this->options['thumbnail_rule'][$rule] : null;
+		if ($option) {
+			if ($rule !== '') {
+				if (isset($option['preview_url']) && $option['preview_url'] != '') {
+					return $option['preview_url'];
+				} else {
+					return $previewUrl . $rule . '/';
+				}
+			}
+		}
+		return $previewUrl;
 	}
 
 /**
@@ -246,26 +364,26 @@ class FileUpload {
  */
 	protected function _validate($file) {
 		if ($file->error) {
-			$file->error_message = $this->_getErrorMessage($file->error);
+			$file->error = $this->_getErrorMessage($file->error);
 			return false;
 		}
 		// 文件最大限制
 		if ($this->options['max_file_size']) {
 			if ($file->size > $this->options['max_file_size']) {
-				$file->error_message = $this->_getErrorMessage('max_file_size');
+				$file->error = $this->_getErrorMessage('max_file_size');
 				return false;
 			}
 		}
 		// 文件最小限制
 		if ($this->options['min_file_size']) {
 			if ($file->size < $this->options['min_file_size']) {
-				$file->error_message = $this->_getErrorMessage('min_file_size');
+				$file->error = $this->_getErrorMessage('min_file_size');
 				return false;
 			}
 		}
 		// 文件类型限制
 		if (!preg_match($this->options['accept_file_types'], $file->name)) {
-			$file->error_message = $this->_getErrorMessage('accept_file_types');
+			$file->error = $this->_getErrorMessage('accept_file_types');
 			return false;
 		}
 		return true;
@@ -295,12 +413,12 @@ class FileUpload {
 	protected function _addendToFileObjects($name, $tmpName, $size, $type, $error, $index = null) {
 		$file = new stdClass();
 		$file->name = rawurlencode($name);
-		$file->tmp_name = $tmpName;
+		$file->tmpName = $tmpName;
 		$file->size = $size;
 		$file->type = $type;
 		$file->error = $error;
 		$file->hash = md5_file($tmpName);
 		$file->index = $index;
-		$this->fileObjects[] = $file;
+		$this->fileObjects['files'][] = $file;
 	}
 }

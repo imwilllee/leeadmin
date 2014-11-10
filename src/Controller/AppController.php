@@ -28,7 +28,7 @@ class AppController extends Controller {
  * @return void
  */
 	public function initialize() {
-		$this->loadComponent('Flash');
+		$this->loadComponent('Flash', ['className' => 'AppFlash']);
 		$this->loadComponent('Csrf');
 		$this->loadComponent('Security');
 	}
@@ -41,7 +41,7 @@ class AppController extends Controller {
  */
 	public function beforeFilter(Event $event) {
 		parent::beforeFilter($event);
-		// 路由前缀写入配置,方便Table里调用
+		// url前缀写入配置 方便其他处调用
 		Configure::write('prefix', $this->request->params['prefix']);
 	}
 
