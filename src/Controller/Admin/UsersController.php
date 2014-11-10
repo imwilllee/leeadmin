@@ -126,10 +126,10 @@ class UsersController extends AppAdminController {
 	private function __markQuery($query) {
 		if ($this->request->is('post')) {
 			if ($this->request->data('q') != '') {
-				$this->request->query['q'] = url_encode($this->request->data('q'));
+				$this->request->query['q'] = $this->request->data('q');
 			}
 			if ($this->request->data('email') != '') {
-				$this->request->query['email'] = url_encode($this->request->data('email'));
+				$this->request->query['email'] = $this->request->data('email');
 			}
 			if ($this->request->data('group_id') != '') {
 				$this->request->query['group_id'] = $this->request->data('group_id');
@@ -139,7 +139,7 @@ class UsersController extends AppAdminController {
 			}
 		}
 		if ($this->request->query('q') != '') {
-			$this->request->data['q'] = url_decode($this->request->query('q'));
+			$this->request->data['q'] = $this->request->query('q');
 			$query->andWhere(function ($exp) {
 				return $exp->or_([
 					'Users.alias LIKE' => '%' . $this->request->data['q'] . '%',

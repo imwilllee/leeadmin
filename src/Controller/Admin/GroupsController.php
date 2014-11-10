@@ -49,14 +49,14 @@ class GroupsController extends AppAdminController {
 	private function __markQuery($query) {
 		if ($this->request->is('post')) {
 			if ($this->request->data('name') != '') {
-				$this->request->query['name'] = url_encode($this->request->data('name'));
+				$this->request->query['name'] = $this->request->data('name');
 			}
 			if ($this->request->data('status') != '') {
 				$this->request->query['status'] = implode('_', $this->request->data('status'));
 			}
 		}
 		if ($this->request->query('name') != '') {
-			$this->request->data['name'] = url_decode($this->request->query('name'));
+			$this->request->data['name'] = $this->request->query('name');
 			$query->where(['name LIKE' => '%' . $this->request->data['name'] . '%']);
 		}
 		if ($this->request->query('status') != '') {
