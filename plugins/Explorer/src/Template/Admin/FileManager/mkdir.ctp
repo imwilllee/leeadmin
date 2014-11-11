@@ -2,11 +2,11 @@
     <?php echo $this->Form->hidden('path', ['value' => $path]); ?>
     <div class="row">
         <div class="col-xs-12">
-            <div class="form-group<?php echo $this->Admin->errorClass('create_dir_name', $errors); ?>">
+            <div class="form-group<?php echo $this->Admin->errorClass('dir_name', $errors); ?>">
                 <label>目录名称</label>
                 <?php echo $this->Form->text('dir_name', ['class' => 'form-control', 'placeholder' => '目录名称']); ?>
-                <span class="text-light-blue">请不要使用中文或者特殊字符作为目录名称。</span>
-                <?php echo $this->Admin->error('create_dir_name', $errors); ?>
+                <span class="text-light-blue">不支持中文或者特殊字符作为目录名称。</span>
+                <?php echo $this->Admin->error('dir_name', $errors); ?>
             </div>
         </div>
     </div>

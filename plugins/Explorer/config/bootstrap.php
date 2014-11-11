@@ -25,8 +25,11 @@ Router::plugin('Explorer', function ($plugin) {
  * 上传配置
  */
 Configure::write('Explorer', [
+	// 目录创建规则
+	'check_mkdir_name' => '/^[~!@$&)(\-_=0-9a-zA-Z]{1,32}$/i',
 	'upload_options' => [
-		'accept_file_types' => '/\.(gif|jpe?g|png)$/i',
+		'check_file_name' => '/^[~!@$&)(\-_=0-9a-zA-Z]{1,254}$/i',
+		'accept_file_types' => '/\.(gif|jpe?g|png|html|txt)$/i',
 		'param_name' => 'files',
 		'max_file_size' => 10 * 1024 * 1024
 	]

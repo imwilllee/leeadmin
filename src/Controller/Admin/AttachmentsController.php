@@ -40,12 +40,27 @@ class AttachmentsController extends AppAdminController {
 		$this->_subTitle = '上传附件';
 		if ($this->request->is('post')) {
 			$options = [
-				'upload_dir' => UPLOAD_DIR . date('Y') . DS . date('m') . DS . date('d') . DS,
-				//'save_rule' => 'uniqid',
-				'accept_file_types' => '/\.(gif|jpe?g|png)$/i',
+				//'upload_dir' => UPLOAD_DIR,
+				//'save_rule' => 'logo',
+				// 'accept_file_types' => '/\.(gif|jpe?g|png)$/i',
 				'param_name' => 'files',
 				//'image_versions' => [],
-				'max_file_size' => 10 * 1024 * 1024
+				'max_file_size' => 10 * 1024 * 1024,
+				'thumbnail_rule' => [
+					// 'big_340' => [
+					// 	'max_width' => 340,
+					// 	// 最大高度
+					// 	'max_height' => 340,
+					// 	'suffix' => '_340x340'
+					// ],
+					// 'small' => [
+					// 	'upload_dir' => UPLOAD_DIR,
+					// 	'max_width' => 120,
+					// 	// 最大高度
+					// 	'max_height' => 120,
+					// 	'prefix' => '120x120_'
+					// ]
+				]
 			];
 			$upload = new FileUpload($options);
 			pr($upload->saveFiles());

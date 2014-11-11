@@ -74,12 +74,12 @@ class FileManagerController extends AppAdminController {
 			if ($path) {
 				$fullPath = $this->__fullPath($path);
 			} else {
-				$fullPath = WWW_ROOT;
+				$fullPath = $this->_rootPath;
 			}
 			$options = Configure::read('Explorer.upload_options');
 			$options = array_merge($options, [
 				'upload_dir' => $fullPath . DS,
-				'preview_url' => Router::url(['action' => 'preview']) . '?path=' . url_encode($path . '/'),
+				'preview_url' => Router::url(['action' => 'preview', '?' => ['path' => $path . '/']]),
 			]);
 			$upload = new FileUpload($options);
 			$this->response->body(json_encode($upload->saveFiles()));
@@ -113,15 +113,26 @@ class FileManagerController extends AppAdminController {
 		$path = $errors = null;
 		if ($this->request->is('post')) {
 			$path = $this->__formatPath($this->request->data('path'));
-			$this->request->data['create_dir_name'] = url_encode($this->request->data('dir_name'));
-			$fullPath = $this->__fullPath($path . '/' . $this->request->data('create_dir_name'));
+			$fullPath = $this->__fullPath($path . '/' . $this->request->data('dir_name'));
 			$validator = new Validator();
 			$validator
 				->validatePresence('path', true, '创建路径项目不存在！')
 				->allowEmpty('path')
-				->validatePresence('create_dir_name', true, '目录名称项目不存在！')
-				->notEmpty('create_dir_name', '目录名称必须填写！')
-				->add('create_dir_name', [
+				->validatePresence('dir_name', true, '目录名称项目不存在！')
+				->notEmpty('dir_name', '目录名称必须填写！')
+				->add('dir_name', [
+					'custom' => [
+						'rule' => function ($value, $context) {
+							if (Configure::read('Explorer.check_mkdir_name')) {
+								if (!preg_match(Configure::read('Explorer.check_mkdir_name'), $value)) {
+									return false;
+								}
+							}
+							return true;
+						},
+						'message' => '目录名称命名错误！',
+						'last' => true
+					],
 					'exist' => [
 						'rule' => function ($value, $context) use ($fullPath) {
 							return !is_dir($fullPath);
@@ -215,7 +226,12 @@ class FileManagerController extends AppAdminController {
 				}
 			}
 		}
-		return $this->redirect(['action' => 'index']);
+		$parentPath = dirname($path);
+		$path = explode('/', $parentPath);
+		if (!isset($path[1])) {
+			$parentPath = null;
+		}
+		return $this->redirect(['action' => 'index', '?' => ['path' => $parentPath]]);
 	}
 
 /**
@@ -245,7 +261,7 @@ class FileManagerController extends AppAdminController {
 		if ($path) {
 			$fullPath = $this->__fullPath($path);
 			if ($this->__inPath($fullPath)) {
-				$name = url_decode(basename($fullPath));
+				$name = basename($fullPath);
 				$this->response->file($fullPath, ['download' => true, 'name' => $name]);
 			}
 		}

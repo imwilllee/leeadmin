@@ -83,7 +83,7 @@
                                         <?php $param = $path . $dir; ?>
                                     <tr>
                                         <td><i class="fa fa-1 fa-folder-o"></i></td>
-                                        <td><?php echo $this->Html->link(url_decode($dir), ['action' => 'index', '?' => ['path' => $param]]); ?></td>
+                                        <td><?php echo $this->Html->link($dir, ['action' => 'index', '?' => ['path' => $param]]); ?></td>
                                         <td>
                                             <?php echo $this->Admin->iconLink('fa fa-1 fa-folder-open', ['action' => 'index', '?' => ['path' => $param]], ['data-original-title' => '打开']); ?>
                                             <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['dir' => $param]]); ?>
@@ -97,7 +97,7 @@
                                         <td>
                                         <i class="fa fa-1 fa-file-image-o"></i>
                                         </td>
-                                        <td><?php echo $this->Html->link(url_decode($filename), ['action' => 'preview', '?' => ['path' => $param]], ['class' => 'fancybox-thumb', 'target' => '_blank', 'rel' => 'fancybox-thumb' ]); ?></td>
+                                        <td><?php echo $this->Html->link($filename, ['action' => 'preview', '?' => ['path' => $param]], ['class' => 'fancybox-thumb', 'target' => '_blank', 'rel' => 'fancybox-thumb' ]); ?></td>
                                         <td>
                                             <?php echo $this->Admin->iconLink('fa fa-1 fa-download', ['action' => 'download', '?' => ['path' => $param]], ['data-original-title' => '下载']); ?>
                                             <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', '?' => ['file' => $param]]); ?>
@@ -106,7 +106,7 @@
                                         <td>
                                         <i class="fa fa-1 fa-file-text-o"></i>
                                         </td>
-                                        <td><?php echo h(url_decode($filename)); ?></td>
+                                        <td><?php echo h($filename); ?></td>
                                         <td>
                                             <?php echo $this->Admin->iconLink('fa fa-1 fa-download', ['action' => 'download', '?' => ['path' => $param]], ['data-original-title' => '下载']); ?>
                                             <?php echo $this->Admin->iconEditLink(['action' => 'edit', '?' => ['path' => $param]]); ?>

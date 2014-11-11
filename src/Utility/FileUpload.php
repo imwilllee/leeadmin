@@ -9,6 +9,7 @@
  */
 namespace App\Utility;
 
+use Cake\Utility\Inflector;
 use Intervention\Image\ImageManagerStatic as Image;
 use stdClass;
 
@@ -29,7 +30,10 @@ class FileUpload {
 		// 文件名保存规则 默认以原名保存
 		// hash 文件hash值
 		// uniqid 唯一ID
+		// 传入其他值则以该值为文件名 不需要传入扩展名
 		'save_rule' => null,
+		// 上传文件名验证 如果不符合规则文件名则以文件hash值重命名
+		'check_file_name' => null,
 		// 上传文件对象参数名
 		'param_name' => 'files',
 		// 允许上传文件 正则表达式
@@ -56,7 +60,11 @@ class FileUpload {
 				// 最大宽度
 				'max_width' => 80,
 				// 最大高度
-				'max_height' => 80
+				'max_height' => 80,
+				// 缩略图命名前缀
+				'prefix' => null,
+				// 缩略图命名后缀缀
+				'suffix' => null
 			],
 			'' => [
 				// 自动旋转方向
@@ -185,14 +193,14 @@ class FileUpload {
 			}
 		}
 		$this->_setFileSaveName($uploadDir, $file);
-		$uploadPath = $uploadDir . $file->name;
+		$uploadPath = $uploadDir . $file->saveName;
 		if (is_uploaded_file($file->tmpName)) {
 			if (!move_uploaded_file($file->tmpName, $uploadPath)) {
 				$file->error = $this->_getErrorMessage('move_uploaded_file');
 				return false;
 			}
 			$file->uploadPath = $uploadPath;
-			$file->previewUrl = $this->options['preview_url'] . rawurlencode($file->name);
+			$file->previewUrl = $this->options['preview_url'] . $file->saveName;
 		} else {
 			$file->error = $this->_getErrorMessage('abort');
 			return false;
@@ -208,7 +216,7 @@ class FileUpload {
  */
 	protected function _makeThumbnail($file) {
 		// 判断是否是图片类型的文件
-		if (preg_match($this->options['image_file_types'], $file->name)) {
+		if (preg_match($this->options['image_file_types'], $file->saveName)) {
 			$file->isImage = true;
 			if (!empty($this->options['thumbnail_rule'])) {
 				foreach ($this->options['thumbnail_rule'] as $rule => $option) {
@@ -226,8 +234,10 @@ class FileUpload {
 							break;
 						}
 					}
+					// 缩略图保存名称
+					$thumbnailFileName = $this->_getThumbnailFileName($file, $option);
 					// 缩略图保存路径
-					$thumbnailPath = $thumbnailDir . $file->name;
+					$thumbnailPath = $thumbnailDir . $thumbnailFileName;
 					// 使用imagick扩展
 					if ($this->options['thumbnail_driver'] === 'imagick') {
 						Image::configure(array('driver' => 'imagick'));
@@ -253,7 +263,9 @@ class FileUpload {
 
 					if ($img->save($thumbnailPath)) {
 						if ($rule !== '') {
-							$file->{$rule . 'Url'} = $this->_getThumbnailPreviewUrl($file, $rule) . rawurlencode($file->name);
+							$keyName = Inflector::camelize($rule);
+							$file->{'previewUrl' . $keyName} = $this->_getThumbnailPreviewUrl($file, $rule) . $thumbnailFileName;
+							$file->{'saveName' . $keyName} = $thumbnailFileName;
 						}
 					} else {
 						$file->error = $this->_getErrorMessage('make_thumbnail');
@@ -262,6 +274,27 @@ class FileUpload {
 				}
 			}
 		}
+	}
+
+/**
+ * 取得缩略文件名称
+ *
+ * @param stdClass $file 文件对象
+ * @param array $option 缩略图生成规则
+ * @return string
+ */
+	protected function _getThumbnailFileName($file, $option) {
+		$thumbnailFileName = $file->fileName;
+		if (isset($option['prefix']) && $option['prefix'] != '') {
+			$thumbnailFileName = $option['prefix'] . $thumbnailFileName;
+		}
+		if (isset($option['suffix']) && $option['suffix'] != '') {
+			$thumbnailFileName .= $option['suffix'];
+		}
+		if ($file->ext) {
+			$thumbnailFileName .= '.' . $file->ext;
+		}
+		return $thumbnailFileName;
 	}
 
 /**
@@ -278,7 +311,7 @@ class FileUpload {
 				if (isset($option['upload_dir']) && $option['upload_dir'] != '') {
 					return $option['upload_dir'];
 				} else {
-					return $uploadDir . $rule . DS;
+					return $uploadDir . $rule . '/';
 				}
 			}
 		}
@@ -309,7 +342,9 @@ class FileUpload {
 				if (isset($option['preview_url']) && $option['preview_url'] != '') {
 					return $option['preview_url'];
 				} else {
-					return $previewUrl . $rule . '/';
+					if (!isset($option['upload_dir']) || ($option['upload_dir'] != $this->options['upload_dir'])) {
+						return $previewUrl . $rule . '/';
+					}
 				}
 			}
 		}
@@ -325,8 +360,18 @@ class FileUpload {
  */
 	protected function _setFileSaveName($uploadDir, $file) {
 		$fileInfo = pathinfo($file->name);
+		// 扩展名
+		$file->ext = isset($fileInfo['extension']) ? strtolower($fileInfo['extension']) : null;
+		$ext = $file->ext ? '.' . $file->ext : null;
+		// 文件命名规则
 		if (!$this->options['save_rule']) {
 			$filename = $fileInfo['filename'];
+			if ($this->options['check_file_name']) {
+				// 如果文件名不符合规则 就用文件hash值命名
+				if (!preg_match($this->options['check_file_name'], $file->name)) {
+					$filename = $file->hash;
+				}
+			}
 		} else {
 			switch ($this->options['save_rule']) {
 				case 'hash':
@@ -336,24 +381,30 @@ class FileUpload {
 					$filename = str_replace('.', '', uniqid($file->index, true));
 					break;
 				default:
-					$filename = $file->hash;
+					$filename = $this->options['save_rule'];
 					break;
 			}
 		}
-		$basename = sprintf('%s.%s', $filename, $fileInfo['extension']);
+		// 不包含扩展名的文件名
+		$file->fileName = $filename;
+		// 包含扩展名的文件名
+		$basename = $filename . $ext;
 		// 如果文件存在重复命名
 		if (is_file($uploadDir . $basename)) {
+			if ($filename != '') {
+				$filename = $filename . '-';
+			}
 			$i = 0;
 			while (true) {
-				$basename = sprintf('%s-%s.%s', $filename, $i, $fileInfo['extension']);
+				$basename = sprintf('%s%s%s', $filename, $i, $ext);
 				if (!is_file($uploadDir . $basename)) {
-					$file->name = $basename;
+					$file->saveName = $basename;
 					break;
 				}
 				$i++;
 			}
 		}
-		$file->name = $basename;
+		$file->saveName = $basename;
 	}
 
 /**
@@ -412,12 +463,15 @@ class FileUpload {
  */
 	protected function _addendToFileObjects($name, $tmpName, $size, $type, $error, $index = null) {
 		$file = new stdClass();
-		$file->name = rawurlencode($name);
+		$file->name = $name;
 		$file->tmpName = $tmpName;
 		$file->size = $size;
 		$file->type = $type;
 		$file->error = $error;
-		$file->hash = md5_file($tmpName);
+		// 上传文件存在生成文件hash
+		if ($tmpName) {
+			$file->hash = md5_file($tmpName);
+		}
 		$file->index = $index;
 		$this->fileObjects['files'][] = $file;
 	}

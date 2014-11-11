@@ -50,7 +50,8 @@
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th>文件名</th>
+                                        <th>上传文件名</th>
+                                        <th>保存文件名</th>
                                         <th>文件类型</th>
                                         <th>大小</th>
                                         <th>上传进度</th>
@@ -82,6 +83,7 @@
             <p class="text-red">{%=file.error%}</p>
             {% } %}
         </td>
+        <td></td>
         <td>
             {%=file.type%}
         </td>
@@ -90,7 +92,6 @@
         </td>
         <td>
             {% if (!file.error) { %}
-
             <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
                 <div class="progress-bar progress-bar-success" style="width:0%;"></div>
             </div>
@@ -119,13 +120,16 @@
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr>
         <td>
-            {% if (file.previewUrl) { %}
-                <a href="{%=file.previewUrl%}" class="preview" title="{%=rawurldecode(file.name)%}">{%=rawurldecode(file.name)%}</a>
-            {% } else { %}
-                {%=rawurldecode(file.name)%}
-            {% } %}
+            {%=file.name%}
             {% if (file.error) { %}
             <p class="text-red">{%=file.error%}</p>
+            {% } %}
+        </td>
+        <td>
+            {% if (file.previewUrl && file.isImage) { %}
+            <a href="{%=file.previewUrl%}" class="preview" target="_blank" title="{%=file.saveName%}">{%=file.saveName%}</a>
+            {% } else { %}
+            {%=file.saveName%}
             {% } %}
         </td>
         <td>
