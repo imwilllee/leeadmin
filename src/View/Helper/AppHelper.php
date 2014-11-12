@@ -41,15 +41,23 @@ class AppHelper extends Helper {
  * 基本格式:controller/action 和 prefix/controller/action
  *
  * @param string $url url地址
+ * @param string $param 参数 json_encode后的字符串
  * @return array
  */
-	public function parseUrl($url) {
+	public function parseUrl($url, $param = null) {
 		list($plugin, $link) = pluginSplit($url);
 		$link = explode('/', $link);
 		if (isset($link[2])) {
-			return ['plugin' => $plugin, 'controller' => $link[1], 'action' => $link[2], 'prefix' => $link[0]];
+			$url = ['plugin' => $plugin, 'controller' => $link[1], 'action' => $link[2], 'prefix' => $link[0]];
 		} else {
-			return ['plugin' => $plugin, 'controller' => $link[0], 'action' => $link[1], 'prefix' => false];
+			$url = ['plugin' => $plugin, 'controller' => $link[0], 'action' => $link[1], 'prefix' => false];
 		}
+		if ($param) {
+			$param = json_decode($param, true);
+			if (is_array($param) && !empty($param)) {
+				return array_merge($url, $param);
+			}
+		}
+		return $url;
 	}
 }

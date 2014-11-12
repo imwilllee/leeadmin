@@ -19,6 +19,47 @@ return [
 		]
 	],
 	[
+		'menu_code' => 'article',
+		'parent_code' => null,
+		'name' => '文章管理',
+		'link' => null,
+		'class' => 'fa fa-file-text',
+		'rank' => 0,
+		'display_flg' => true,
+		'menu_nodes' => [
+			['link' => 'admin/Articles/index', 'name' => '文章一览'],
+			['link' => 'admin/Articles/add', 'name' => '添加文章']
+		]
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'article',
+		'name' => '文章一览',
+		'link' => 'admin/Articles/index',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'article',
+		'name' => '添加文章',
+		'link' => 'admin/Articles/add',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'article',
+		'name' => '文章分类管理',
+		'link' => 'admin/Categories/index',
+		'param' => ['article'],
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
 		'menu_code' => 'explorer',
 		'parent_code' => null,
 		'name' => '附件管理',

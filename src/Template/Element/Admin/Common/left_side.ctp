@@ -18,7 +18,7 @@
                             <?php
                                 echo $this->Html->link(
                                     sprintf('<i class="%s"></i> <span>%s</span>', $menu['class'], $menu['name']),
-                                    $this->Admin->parseUrl($menu['link']),
+                                    $this->Admin->parseUrl($menu['link'], $menu['param']),
                                     ['escape' => false]
                                 );
                             ?>
@@ -39,7 +39,7 @@
                                 <?php
                                     echo $this->Html->link(
                                         sprintf('<i class="fa fa-angle-double-right"></i> %s', $sub['name']),
-                                        $this->Admin->parseUrl($sub['link']),
+                                        $this->Admin->parseUrl($sub['link'], $sub['param']),
                                         ['escape' => false]
                                     );
                                 ?>

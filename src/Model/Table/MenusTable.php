@@ -39,7 +39,7 @@ class MenusTable extends AppTable {
 	public function getSidebarMenus() {
 		$sidebars = [];
 		$query = $this->find()
-					->select(['id', 'plugin_code', 'menu_code', 'parent_code', 'name', 'link', 'class'])
+					->select(['id', 'plugin_code', 'menu_code', 'parent_code', 'name', 'param', 'link', 'class'])
 					->where(['display_flg' => true])
 					->order(['rank' => 'ASC']);
 		foreach ($query as $menu) {
@@ -70,6 +70,10 @@ class MenusTable extends AppTable {
 				// 存在子节点
 				if (isset($menu['menu_nodes'])) {
 					$menu['has_nodes'] = true;
+				}
+				// 存在参数
+				if (isset($menu['param'])) {
+					$menu['param'] = json_encode($menu['param']);
 				}
 				$entity = $this->newEntity($menu);
 				if (!$this->save($entity, ['associated' => ['MenuNodes']])) {
