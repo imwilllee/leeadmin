@@ -37,7 +37,7 @@ class FileManagerController extends AppAdminController {
 		$this->Security->config('unlockedActions', ['upload']);
 		parent::beforeFilter($event);
 		// 文件管理根路径
-		$this->_rootPath = ROOT . DS;
+		$this->_rootPath = Configure::read('Explorer.root_path');
 	}
 
 /**

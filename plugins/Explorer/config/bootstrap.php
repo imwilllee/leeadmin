@@ -25,6 +25,8 @@ Router::plugin('Explorer', function ($plugin) {
  * 上传配置
  */
 Configure::write('Explorer', [
+	// 根目录设置
+	'root_path' => ROOT . DS,
 	// 目录创建规则
 	'check_mkdir_name' => '/^[~!@$&)(\-_=0-9a-zA-Z]{1,32}$/i',
 	'upload_options' => [

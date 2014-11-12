@@ -34,7 +34,7 @@ return [
 	[
 		'menu_code' => null,
 		'parent_code' => 'explorer',
-		'name' => '附件管理',
+		'name' => '附件一览',
 		'link' => 'admin/Attachments/index',
 		'class' => null,
 		'rank' => 0,
