@@ -1,6 +1,6 @@
 <?php
 /**
- * 分类表
+ * 文章分类表
  *
  * @copyright LeeAdmin
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -11,7 +11,7 @@ namespace App\Model\Table;
 
 use App\Model\Table\AppTable;
 
-class CategoriesTable extends AppTable {
+class ArticleCategoriesTable extends AppTable {
 
 /**
  * 初始化方法
@@ -20,23 +20,9 @@ class CategoriesTable extends AppTable {
  * @return void
  */
 	public function initialize(array $config) {
-		$this->table('categories');
+		$this->table('article_categories');
 		$this->primaryKey('id');
 		parent::initialize($config);
 		$this->addBehavior('Tree');
-	}
-
-/**
- * 根据分类代码获取分类信息
- *
- * @param string $categoryCode 分类代码
- * @return boolean
- */
-	public function getCategoryByCode($categoryCode = null) {
-		if ($categoryCode) {
-			$query = $this->find('all')->select(['id'])->where(['category_code' => $categoryCode])->first();
-			return $query;
-		}
-		return false;
 	}
 }

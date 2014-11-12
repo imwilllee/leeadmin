@@ -1,6 +1,6 @@
 <?php
 /**
- * 分类管理控制器
+ * 文章分类管理控制器
  *
  * @copyright LeeAdmin
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -13,40 +13,23 @@ use App\Controller\AppAdminController;
 use Cake\Core\Configure;
 use Cake\Network\Exception\NotFoundException;
 
-class CategoriesController extends AppAdminController {
+class ArticleCategoriesController extends AppAdminController {
 
 /**
  * 主标题
  *
  * @var string
  */
-	protected $_mainTitle = '分类管理';
+	protected $_mainTitle = '文章分类管理';
 
 /**
  * 分类一览
  *
- * @param string $categoryCode 分类代码
  * @return void
  */
-	public function index($categoryCode = null) {
-		$type = Configure::read('Category.type.' . $categoryCode);
-		if (!$type) {
-			throw new NotFoundException('分类类型不存在。');
-		}
-		$this->_subTitle = $type['name'];
-		$this->loadModel('Categories');
-		$category = $this->Categories->getCategoryByCode($categoryCode);
-		if (!$category) {
-			$category = $this->Categories->newEntity([
-				'category_code' => $categoryCode,
-				'name' => $type['name'],
-				'type_id' => $type['type_id']
-			]);
-			if ($this->Categories->save($category)) {
-				$this->Flash->success('分类初始化成功。');
-			}
-		}
-		$categories = $this->Categories->find('children', ['for' => $category->id]);
+	public function index() {
+		$this->_subTitle = '分类一览';
+		$categories = [];
 		$this->set(compact('categories'));
 	}
 

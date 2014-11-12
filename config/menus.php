@@ -54,27 +54,35 @@ return [
 	[
 		'menu_code' => null,
 		'parent_code' => 'article',
-		'name' => '分类管理',
-		'link' => 'admin/Categories/index',
-		'param' => ['article'],
+		'name' => '文章分类管理',
+		'link' => 'admin/ArticleCategories/index',
 		'class' => null,
 		'rank' => 0,
 		'display_flg' => true
 	],
 	[
-		'menu_code' => 'category',
+		'menu_code' => null,
+		'parent_code' => 'article',
+		'name' => '添加文章分类',
+		'link' => 'admin/ArticleCategories/add',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
+		'menu_code' => 'article_category',
 		'parent_code' => null,
-		'name' => '分类管理',
+		'name' => '文章分类管理',
 		'link' => null,
 		'class' => null,
 		'rank' => 0,
 		'display_flg' => false,
 		'menu_nodes' => [
-			['link' => 'admin/Categories/index', 'name' => '分类一览'],
-			['link' => 'admin/Categories/add', 'name' => '添加分类'],
-			['link' => 'admin/Categories/edit', 'name' => '分类编辑'],
-			['link' => 'admin/Categories/delete', 'name' => '分类删除'],
-			['link' => 'admin/Categories/rank', 'name' => '分类排序']
+			['link' => 'admin/ArticleCategories/index', 'name' => '分类一览'],
+			['link' => 'admin/ArticleCategories/add', 'name' => '添加分类'],
+			['link' => 'admin/ArticleCategories/edit', 'name' => '分类编辑'],
+			['link' => 'admin/ArticleCategories/delete', 'name' => '分类删除'],
+			['link' => 'admin/ArticleCategories/rank', 'name' => '分类排序']
 		]
 	],
 

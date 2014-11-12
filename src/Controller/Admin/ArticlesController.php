@@ -29,4 +29,13 @@ class ArticlesController extends AppAdminController {
 	public function index() {
 		$this->_subTitle = '文章一览';
 	}
+
+/**
+ * 添加文章
+ *
+ * @return void
+ */
+	public function add() {
+		$this->_subTitle = '添加文章';
+	}
 }

@@ -28,20 +28,5 @@ $config = [
 			'index' => 1,
 			'seo' => 2
 		]
-	],
-/**
- * 分类配置
- */
-	'Category' => [
-		'type' => [
-			'article' => [
-				'type_id' => 1,
-				'name' => '文章分类'
-			],
-			'product' => [
-				'type_id' => 2,
-				'name' => '产品分类'
-			]
-		]
 	]
 ];
