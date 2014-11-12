@@ -12,6 +12,7 @@ namespace App\Controller\Admin;
 use App\Controller\AppAdminController;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Network\Exception\NotFoundException;
 use DateTime;
 
 class UsersController extends AppAdminController {

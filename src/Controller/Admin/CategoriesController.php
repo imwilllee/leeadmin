@@ -11,6 +11,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
 use Cake\Core\Configure;
+use Cake\Network\Exception\NotFoundException;
 
 class CategoriesController extends AppAdminController {
 
@@ -28,7 +29,25 @@ class CategoriesController extends AppAdminController {
  * @return void
  */
 	public function index($categoryCode = null) {
-		$this->_subTitle = '分类一览';
+		$type = Configure::read('Category.type.' . $categoryCode);
+		if (!$type) {
+			throw new NotFoundException('分类类型不存在。');
+		}
+		$this->_subTitle = $type['name'];
+		$this->loadModel('Categories');
+		$category = $this->Categories->getCategoryByCode($categoryCode);
+		if (!$category) {
+			$category = $this->Categories->newEntity([
+				'category_code' => $categoryCode,
+				'name' => $type['name'],
+				'type_id' => $type['type_id']
+			]);
+			if ($this->Categories->save($category)) {
+				$this->Flash->success('分类初始化成功。');
+			}
+		}
+		$categories = $this->Categories->find('children', ['for' => $category->id]);
+		$this->set(compact('categories'));
 	}
 
 /**

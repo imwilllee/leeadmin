@@ -33,11 +33,7 @@ class GroupsController extends AppAdminController {
 		$query = $this->Groups->find()->select(['id', 'name', 'status', 'explain']);
 		$this->__markQuery($query);
 		$this->paginate = array_merge($this->paginate, ['sortWhitelist' => ['id', 'status']]);
-		try {
-			$this->set('groups', $this->paginate($query));
-		} catch (NotFoundException $e) {
-			return $this->redirect(['action' => 'index']);
-		}
+		$this->set('groups', $this->paginate($query));
 	}
 
 /**

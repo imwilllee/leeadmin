@@ -28,7 +28,9 @@ return [
 		'display_flg' => true,
 		'menu_nodes' => [
 			['link' => 'admin/Articles/index', 'name' => '文章一览'],
-			['link' => 'admin/Articles/add', 'name' => '添加文章']
+			['link' => 'admin/Articles/add', 'name' => '添加文章'],
+			['link' => 'admin/Articles/edit', 'name' => '文章编辑'],
+			['link' => 'admin/Articles/delete', 'name' => '文章删除']
 		]
 	],
 	[
@@ -52,13 +54,30 @@ return [
 	[
 		'menu_code' => null,
 		'parent_code' => 'article',
-		'name' => '文章分类管理',
+		'name' => '分类管理',
 		'link' => 'admin/Categories/index',
 		'param' => ['article'],
 		'class' => null,
 		'rank' => 0,
 		'display_flg' => true
 	],
+	[
+		'menu_code' => 'category',
+		'parent_code' => null,
+		'name' => '分类管理',
+		'link' => null,
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => false,
+		'menu_nodes' => [
+			['link' => 'admin/Categories/index', 'name' => '分类一览'],
+			['link' => 'admin/Categories/add', 'name' => '添加分类'],
+			['link' => 'admin/Categories/edit', 'name' => '分类编辑'],
+			['link' => 'admin/Categories/delete', 'name' => '分类删除'],
+			['link' => 'admin/Categories/rank', 'name' => '分类排序']
+		]
+	],
+
 	[
 		'menu_code' => 'explorer',
 		'parent_code' => null,
@@ -99,12 +118,12 @@ return [
 		'rank' => 0,
 		'display_flg' => true,
 		'menu_nodes' => [
-			['link' => 'admin/Users/add', 'name' => '创建'],
-			['link' => 'admin/Users/index', 'name' => '查看'],
-			['link' => 'admin/Users/view', 'name' => '详细'],
-			['link' => 'admin/Users/edit', 'name' => '编辑'],
+			['link' => 'admin/Users/index', 'name' => '管理员一览'],
+			['link' => 'admin/Users/add', 'name' => '创建管理员'],
+			['link' => 'admin/Users/view', 'name' => '管理员详细'],
+			['link' => 'admin/Users/edit', 'name' => '管理员编辑'],
 			['link' => 'admin/Users/active', 'name' => '状态变更'],
-			['link' => 'admin/Users/delete', 'name' => '删除']
+			['link' => 'admin/Users/delete', 'name' => '管理员删除']
 		]
 	],
 	[
@@ -134,11 +153,11 @@ return [
 		'rank' => 0,
 		'display_flg' => true,
 		'menu_nodes' => [
-			['link' => 'admin/Groups/add', 'name' => '创建'],
-			['link' => 'admin/Groups/index', 'name' => '查看'],
-			['link' => 'admin/Groups/view', 'name' => '详细'],
-			['link' => 'admin/Groups/edit', 'name' => '编辑'],
-			['link' => 'admin/Groups/delete', 'name' => '删除'],
+			['link' => 'admin/Groups/index', 'name' => '用户组一览'],
+			['link' => 'admin/Groups/add', 'name' => '创建用户组'],
+			['link' => 'admin/Groups/view', 'name' => '用户组详细'],
+			['link' => 'admin/Groups/edit', 'name' => '用户组编辑'],
+			['link' => 'admin/Groups/delete', 'name' => '用户组删除'],
 			['link' => 'admin/Groups/active', 'name' => '状态变更'],
 			['link' => 'admin/Groups/access', 'name' => '访问权限'],
 		]
