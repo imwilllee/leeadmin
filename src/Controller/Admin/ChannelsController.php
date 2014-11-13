@@ -11,6 +11,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
 use Cake\Core\Configure;
+use Cake\ORM\Exception\RecordNotFoundException;
 
 class ChannelsController extends AppAdminController {
 
@@ -28,8 +29,18 @@ class ChannelsController extends AppAdminController {
  */
 	public function index() {
 		$this->_subTitle = '栏目一览';
-		$channels = [];
-		$this->set(compact('channels'));
+		$this->loadModel('Channels');
+		try {
+			$channels = $this->Channels->find('children', ['for' => 1])->select(['id', 'name', 'channel_code', 'level']);
+			$this->set(compact('channels'));
+		} catch (RecordNotFoundException $e) {
+			if ($this->_initChannel()) {
+				$this->Flash->success('初始化栏目成功！');
+			} else {
+				$this->Flash->error('初始化栏目失败！');
+			}
+			return $this->redirect(['action' => 'index']);
+		}
 	}
 
 /**
@@ -41,18 +52,27 @@ class ChannelsController extends AppAdminController {
 	public function add($id = null) {
 		$this->_subTitle = '添加栏目';
 		$this->loadModel('Channels');
+		$parentChannel = false;
 		if ($id) {
-			$this->Channels->get($id);
-			$this->request->data['parent_id'] = $id;
+			$parentChannel = $this->Channels->get($id);
+			$id = $parentChannel->id;
 		}
-		$channel = $this->Channels->newEntity($this->request->data());
 		if ($this->request->is('post')) {
+			$channel = $this->Channels->newEntity($this->request->data());
+			if ($parentChannel && $parentChannel->id > 1) {
+				$channel->set('level', $parentChannel->level + 1);
+				$channel->set('parent_id', $parentChannel->id);
+			} else {
+				$channel->set('parent_id', 1);
+			}
 			if ($this->Channels->save($channel)) {
 				$this->Flash->success('数据保存成功！');
 				return $this->redirect(['action' => 'index']);
 			} else {
 				$this->Flash->error('数据保存失败！');
 			}
+		} else {
+			$channel = $this->Channels->newEntity();
 		}
 		$this->set(compact('channel', 'id'));
 	}
@@ -84,5 +104,24 @@ class ChannelsController extends AppAdminController {
  * @return void
  */
 	public function rank($id = null, $action = 'up') {
+		$this->loadModel('Channels');
+		$channel = $this->Channels->get($id);
+		if ($action === 'up') {
+			$this->Channels->moveUp($channel);
+		} else {
+			$this->Channels->moveDown($channel);
+		}
+		$this->Flash->success('排序成功！');
+		return $this->redirect(['action' => 'index']);
+	}
+
+/**
+ * 初始化栏目
+ *
+ * @return boolean
+ */
+	protected function _initChannel() {
+		$channel = $this->Channels->newEntity(['name' => '首页', 'channel_code' => 'Home']);
+		return $this->Channels->save($channel, ['validate' => false]);
 	}
 }

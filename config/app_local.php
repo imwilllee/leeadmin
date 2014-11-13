@@ -30,7 +30,22 @@ $config = [
 			'prefix' => 'la_long_cache_',
 			'serialize' => true,
 			'duration' => '+999 days',
-		]
+		],
+		// 核心缓存
+		'_cake_core_' => [
+			'className' => 'File',
+			'prefix' => 'myapp_cake_core_',
+			'path' => CACHE . 'persistent/',
+			'serialize' => true,
+			'duration' => '+60 minutes',
+		],
+		'_cake_model_' => [
+			'className' => 'File',
+			'prefix' => 'myapp_cake_model_',
+			'path' => CACHE . 'models/',
+			'serialize' => true,
+			'duration' => '+60 minutes',
+		],
 	],
 
 /**
