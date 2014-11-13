@@ -11,7 +11,7 @@
 return [
 	[
 		'menu_code' => null,
-		'parent_code' => 'explorer',
+		'parent_code' => 'attachment',
 		'name' => '文件管理器',
 		'link' => 'Explorer.admin/FileManager/index',
 		'class' => null,

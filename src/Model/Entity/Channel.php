@@ -1,6 +1,6 @@
 <?php
 /**
- * 文章分类表实体
+ * 栏目表实体
  *
  * @copyright LeeAdmin
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -11,5 +11,5 @@ namespace App\Model\Entity;
 
 use App\Model\Entity\AppEntity;
 
-class ArticleCategory extends AppEntity {
+class Channel extends AppEntity {
 }

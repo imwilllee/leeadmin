@@ -19,6 +19,40 @@ return [
 		]
 	],
 	[
+		'menu_code' => 'channels',
+		'parent_code' => null,
+		'name' => '栏目管理',
+		'link' => null,
+		'class' => 'fa fa-th-list',
+		'rank' => 0,
+		'display_flg' => true,
+		'menu_nodes' => [
+			['link' => 'admin/Channels/index', 'name' => '栏目一览'],
+			['link' => 'admin/Channels/add', 'name' => '添加栏目'],
+			['link' => 'admin/Channels/edit', 'name' => '栏目编辑'],
+			['link' => 'admin/Channels/delete', 'name' => '栏目删除'],
+			['link' => 'admin/Channels/rank', 'name' => '栏目排序']
+		]
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'channels',
+		'name' => '栏目一览',
+		'link' => 'admin/Channels/index',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'channels',
+		'name' => '添加栏目',
+		'link' => 'admin/Channels/add',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
 		'menu_code' => 'article',
 		'parent_code' => null,
 		'name' => '文章管理',
@@ -52,42 +86,7 @@ return [
 		'display_flg' => true
 	],
 	[
-		'menu_code' => null,
-		'parent_code' => 'article',
-		'name' => '文章分类管理',
-		'link' => 'admin/ArticleCategories/index',
-		'class' => null,
-		'rank' => 0,
-		'display_flg' => true
-	],
-	[
-		'menu_code' => null,
-		'parent_code' => 'article',
-		'name' => '添加文章分类',
-		'link' => 'admin/ArticleCategories/add',
-		'class' => null,
-		'rank' => 0,
-		'display_flg' => true
-	],
-	[
-		'menu_code' => 'article_category',
-		'parent_code' => null,
-		'name' => '文章分类管理',
-		'link' => null,
-		'class' => null,
-		'rank' => 0,
-		'display_flg' => false,
-		'menu_nodes' => [
-			['link' => 'admin/ArticleCategories/index', 'name' => '分类一览'],
-			['link' => 'admin/ArticleCategories/add', 'name' => '添加分类'],
-			['link' => 'admin/ArticleCategories/edit', 'name' => '分类编辑'],
-			['link' => 'admin/ArticleCategories/delete', 'name' => '分类删除'],
-			['link' => 'admin/ArticleCategories/rank', 'name' => '分类排序']
-		]
-	],
-
-	[
-		'menu_code' => 'explorer',
+		'menu_code' => 'attachment',
 		'parent_code' => null,
 		'name' => '附件管理',
 		'link' => null,
@@ -101,7 +100,7 @@ return [
 	],
 	[
 		'menu_code' => null,
-		'parent_code' => 'explorer',
+		'parent_code' => 'attachment',
 		'name' => '附件一览',
 		'link' => 'admin/Attachments/index',
 		'class' => null,
@@ -110,7 +109,7 @@ return [
 	],
 	[
 		'menu_code' => null,
-		'parent_code' => 'explorer',
+		'parent_code' => 'attachment',
 		'name' => '上传附件',
 		'link' => 'admin/Attachments/upload',
 		'class' => null,
