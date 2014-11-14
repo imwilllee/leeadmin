@@ -31,7 +31,8 @@ class ChannelsController extends AppAdminController {
 		$this->_subTitle = '栏目一览';
 		$this->loadModel('Channels');
 		try {
-			$channels = $this->Channels->find('children', ['for' => 1])->select(['id', 'name', 'channel_code', 'level']);
+			$channels = $this->Channels->find('children', ['for' => 1])
+				->select(['id', 'parent_id', 'name', 'channel_code', 'level', 'is_core', 'display_flg', 'article_count']);
 			$this->set(compact('channels'));
 		} catch (RecordNotFoundException $e) {
 			if ($this->_initChannel()) {
@@ -53,17 +54,11 @@ class ChannelsController extends AppAdminController {
 		$this->_subTitle = '添加栏目';
 		$this->loadModel('Channels');
 		$parentChannel = false;
-		if ($id) {
-			$parentChannel = $this->Channels->get($id);
-			$id = $parentChannel->id;
-		}
 		if ($this->request->is('post')) {
+			$parentChannel = $this->Channels->get($this->request->data('parent_id'));
 			$channel = $this->Channels->newEntity($this->request->data());
 			if ($parentChannel && $parentChannel->id > 1) {
 				$channel->set('level', $parentChannel->level + 1);
-				$channel->set('parent_id', $parentChannel->id);
-			} else {
-				$channel->set('parent_id', 1);
 			}
 			if ($this->Channels->save($channel)) {
 				$this->Flash->success('数据保存成功！');
@@ -73,8 +68,12 @@ class ChannelsController extends AppAdminController {
 			}
 		} else {
 			$channel = $this->Channels->newEntity();
+			if ($id) {
+				$channel->set('parent_id', $id);
+			}
 		}
-		$this->set(compact('channel', 'id'));
+		$parentChannelList = $this->Channels->find('treeList');
+		$this->set(compact('channel', 'parentChannelList'));
 	}
 
 /**
@@ -85,6 +84,26 @@ class ChannelsController extends AppAdminController {
  */
 	public function edit($id = null) {
 		$this->_subTitle = '栏目编辑';
+		$this->loadModel('Channels');
+		$channel = $this->Channels->get($id);
+		if ($this->request->is(['post', 'put'])) {
+			$channelParentId = $channel->parent_id;
+			$channel = $this->Channels->patchEntity($channel, $this->request->data());
+			if ($channelParentId != $this->request->data('parent_id')) {
+				$parentChannel = $this->Channels->get($channelParentId);
+				if ($parentChannel->id > 1) {
+					$channel->set('level', $parentChannel->level + 1);
+				}
+			}
+			if ($this->Channels->save($channel)) {
+				$this->Flash->success('数据保存成功！');
+				return $this->redirect(['action' => 'index']);
+			} else {
+				$this->Flash->error('数据保存失败！');
+			}
+		}
+		$parentChannelList = $this->Channels->find('treeList');
+		$this->set(compact('channel', 'parentChannelList'));
 	}
 
 /**
@@ -94,6 +113,19 @@ class ChannelsController extends AppAdminController {
  * @return void
  */
 	public function delete($id = null) {
+		$this->request->allowMethod('post', 'delete');
+		$this->loadModel('Channels');
+		$channel = $this->Channels->get($id);
+		if (!$channel->is_core) {
+			if ($this->Channels->delete($channel)) {
+				$this->Flash->success('栏目删除成功！');
+			} else {
+				$this->Flash->error('栏目删除失败！');
+			}
+		} else {
+			$this->Flash->error('不能删除核心栏目！');
+		}
+		return $this->redirect(['action' => 'index']);
 	}
 
 /**
@@ -121,7 +153,7 @@ class ChannelsController extends AppAdminController {
  * @return boolean
  */
 	protected function _initChannel() {
-		$channel = $this->Channels->newEntity(['name' => '首页', 'channel_code' => 'Home']);
+		$channel = $this->Channels->newEntity(['name' => '顶级栏目']);
 		return $this->Channels->save($channel, ['validate' => false]);
 	}
 }

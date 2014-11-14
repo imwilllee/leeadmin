@@ -7,7 +7,7 @@ var box_show_text = "显示";
 var box_hide_text = "隐藏";
 var cookie_config = {path: "/"}
 
-var formatFileSize = function (bytes) {
+var size_format = function (bytes) {
 	if (typeof bytes !== 'number') {
 		return '';
 	}
@@ -34,6 +34,21 @@ var rawurldecode = function (str) {
 		.replace(/%(?![\da-f]{2})/gi, function() {
 			return '%25';
 		}));
+}
+var str_repeat = function (input, multiplier) {
+	var y = '';
+	while (true) {
+		if (multiplier & 1) {
+			y += input;
+		}
+		multiplier >>= 1;
+		if (multiplier) {
+			input += input;
+		} else {
+			break;
+		}
+	}
+	return y;
 }
 
 $(function() {

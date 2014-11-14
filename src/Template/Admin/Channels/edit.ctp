@@ -1,12 +1,11 @@
-<?php
-    use Cake\Core\Configure;
-?>
 <div class="row">
     <div class="col-md-12">
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li><?php echo $this->Html->link('栏目一览', ['action' => 'index']); ?></li>
-                <li class="active"><a href="javascript:;">添加栏目</a></li>
+                <li><?php echo $this->Html->link('添加栏目', ['action' => 'add']); ?></li>
+                <li><?php echo $this->Html->link('添加子栏目', ['action' => 'add', $channel->id]); ?></li>
+                <li class="active"><a href="javascript:;">栏目编辑</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active">
@@ -25,7 +24,7 @@
                                 <div class="col-lg-5 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('parent_id'); ?>">
                                         <label>所属栏目</label>
-                                        <?php echo $this->Form->select('parent_id', $parentChannelList, ['class' => 'form-control', 'placeholder' => '所属栏目']); ?>
+                                        <?php echo $this->Form->select('parent_id', $parentChannelList, ['class' => 'form-control']); ?>
                                         <?php echo $this->Admin->error('parent_id'); ?>
                                     </div>
                                 </div>
@@ -45,7 +44,16 @@
                                 <div class="col-lg-5 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('channel_code'); ?>">
                                         <label>栏目代码</label>
-                                        <?php echo $this->Form->text('channel_code', ['class' => 'form-control', 'placeholder' => '栏目代码']); ?>
+                                        <?php
+                                            echo $this->Form->text(
+                                                'channel_code',
+                                                [
+                                                    'class' => 'form-control',
+                                                    'placeholder' => '栏目代码',
+                                                    'disabled' => $channel->is_core
+                                                ]
+                                            );
+                                        ?>
                                         <span class="text-light-blue">支持半角字母数字、下划线和减号，唯一不重复，长度32位。</span>
                                         <?php echo $this->Admin->error('channel_code'); ?>
                                     </div>

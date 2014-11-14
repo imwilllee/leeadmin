@@ -88,7 +88,7 @@
             {%=file.type%}
         </td>
         <td>
-            {%=formatFileSize(file.size)%}
+            {%=size_format(file.size)%}
         </td>
         <td>
             {% if (!file.error) { %}
@@ -136,7 +136,7 @@
             {%=file.type%}
         </td>
         <td>
-            {%=formatFileSize(file.size)%}
+            {%=size_format(file.size)%}
         </td>
         <td>
             {% if (file.error) { %}
