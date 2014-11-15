@@ -1,4 +1,4 @@
-/*! 
+/*!
  *   AdminLTE v1.2
  *   Author: AlmsaeedStudio.com
  *   License: Open source - MIT
@@ -743,7 +743,7 @@ body > .header .logo .icon {
     left: 0px;
   }
 }
-/* 
+/*
     Dropdown menus
 ----------------------------
 */
@@ -1121,7 +1121,7 @@ body > .header .logo .icon {
     left: auto;
   }
 }
-/* 
+/*
    All form elements including input, select, textarea etc.
 -----------------------------------------------------------------
 */
@@ -1171,7 +1171,7 @@ body > .header .logo .icon {
 .radio {
   padding-left: 0;
 }
-/* 
+/*
     Compenent: Progress bars
 --------------------------------
 */
@@ -2033,7 +2033,7 @@ Component: timeline
   -moz-border-radius: 50%;
   border-radius: 50%;
 }
-/* 
+/*
     Component: callout
 ------------------------
 */
@@ -2073,7 +2073,7 @@ Component: timeline
 .callout.callout-info h4 {
   color: #3A87AD;
 }
-/* 
+/*
     Component: alert
 ------------------------
 */
@@ -2384,7 +2384,7 @@ Component: timeline
   margin-top: 30px;
   text-align: center;
 }
-/* 
+/*
     Page: register and login
 */
 .form-box {
@@ -2449,7 +2449,7 @@ Component: timeline
     width: 90%;
   }
 }
-/* 
+/*
     Page: 404 and 500 error pages
 ------------------------------------
 */
@@ -2499,7 +2499,7 @@ Component: timeline
 .error-page:after {
   clear: both;
 }
-/* 
+/*
     Page: Invoice
 */
 .invoice {
@@ -2532,12 +2532,12 @@ Component: timeline
     white-space: normal!important;
   }
 }
-/* 
+/*
     Skins
     -----
 */
-/* 
-    Skin Blue 
+/*
+    Skin Blue
     ---------
 */
 /* skin-blue navbar */
@@ -3501,4 +3501,22 @@ fieldset[disabled] .btn-vk.active {
 .input-group .radio label{
   padding-left: 5px;
   margin-right: 10px;
+}
+
+#scrollUp{
+	background-color:#777;
+	color:#eee;font-size:40px;
+	line-height:1;
+	text-align:center;
+	text-decoration:none;
+	bottom:20px;
+	right:20px;
+	overflow:hidden;
+	width:46px;
+	height:46px;
+	border:none;
+	opacity:0.8
+}
+#scrollUp:hover{
+	background-color:#333
 }

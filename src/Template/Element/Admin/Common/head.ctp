@@ -10,10 +10,8 @@
 
         <!--[if lt IE 9]>
         <?php
-            echo $this->Html->script('html5shiv');
-            echo $this->Html->script('respond.min');
+            echo $this->Html->script(['html5shiv', 'respond.min']);
         ?>
-
         <![endif]-->
 <?php echo $this->fetch('pageStyle'); ?>
     </head>

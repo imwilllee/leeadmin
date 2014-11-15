@@ -14,7 +14,6 @@
 <?php echo $this->element('Admin/Common/left_side'); ?>
 <?php echo $this->element('Admin/Common/right_side'); ?>
         </div>
-
 <?php echo $this->element('Admin/Common/Script/common'); ?>
     </body>
 </html>
