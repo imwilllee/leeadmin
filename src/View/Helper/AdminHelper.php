@@ -115,13 +115,21 @@ class AdminHelper extends AppHelper {
 /**
  * 显示错误高亮Class
  *
- * @param string $field 字段名称
+ * @param $mixed $fields 字段名称
  * @param array $errors 错误信息
  * @return string
  */
-	public function errorClass($field, $errors = []) {
-		if ($this->Form->isFieldError($field) || isset($errors[$field])) {
-			return ' has-error';
+	public function errorClass($fields, $errors = []) {
+		if (is_array($fields)) {
+			foreach ($fields as $field) {
+				if ($this->Form->isFieldError($field) || isset($errors[$field])) {
+					return ' has-error';
+				}
+			}
+		} else {
+			if ($this->Form->isFieldError($fields) || isset($errors[$fields])) {
+				return ' has-error';
+			}
 		}
 		return null;
 	}

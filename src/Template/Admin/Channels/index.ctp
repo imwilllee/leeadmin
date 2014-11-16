@@ -18,8 +18,9 @@
                                         <th style="width:45px;">#</th>
                                         <th>栏目名称</th>
                                         <th>栏目代码</th>
-                                        <th>显示栏目</th>
-                                        <th>核心栏目</th>
+                                        <th>类型</th>
+                                        <th>显示</th>
+                                        <th>核心</th>
                                         <th>文章数</th>
                                         <th>排序</th>
                                         <th></th>
@@ -37,6 +38,7 @@
                                         <?php echo $this->Html->link($channel->name, ['action' => 'edit', $channel->id]); ?>
                                         </td>
                                         <td><?php echo h($channel->channel_code); ?></td>
+                                        <td><?php echo $channel->type_id; ?></td>
                                         <td>
                                             <?php if ($channel->display_flg): ?>
                                                 <span class="label label-primary"><?php echo Configure::read('Common.boolen.1'); ?></span>

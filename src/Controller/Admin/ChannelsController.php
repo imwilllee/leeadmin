@@ -57,7 +57,7 @@ class ChannelsController extends AppAdminController {
 		if ($this->request->is('post')) {
 			$parentChannel = $this->Channels->get($this->request->data('parent_id'));
 			$channel = $this->Channels->newEntity($this->request->data());
-			if ($parentChannel && $parentChannel->id > 1) {
+			if ($parentChannel->parent_id) {
 				$channel->set('level', $parentChannel->level + 1);
 			}
 			if ($this->Channels->save($channel)) {
@@ -87,14 +87,7 @@ class ChannelsController extends AppAdminController {
 		$this->loadModel('Channels');
 		$channel = $this->Channels->get($id);
 		if ($this->request->is(['post', 'put'])) {
-			$channelParentId = $channel->parent_id;
 			$channel = $this->Channels->patchEntity($channel, $this->request->data());
-			if ($channelParentId != $this->request->data('parent_id')) {
-				$parentChannel = $this->Channels->get($channelParentId);
-				if ($parentChannel->id > 1) {
-					$channel->set('level', $parentChannel->level + 1);
-				}
-			}
 			if ($this->Channels->save($channel)) {
 				$this->Flash->success('数据保存成功！');
 				return $this->redirect(['action' => 'index']);
@@ -102,8 +95,7 @@ class ChannelsController extends AppAdminController {
 				$this->Flash->error('数据保存失败！');
 			}
 		}
-		$parentChannelList = $this->Channels->find('treeList');
-		$this->set(compact('channel', 'parentChannelList'));
+		$this->set(compact('channel'));
 	}
 
 /**
