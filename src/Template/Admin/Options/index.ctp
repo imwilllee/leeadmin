@@ -53,7 +53,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-5 col-md-8 col-xs-12">
+                                <div class="col-lg-8 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('tagline'); ?>">
                                         <label>网站简介</label>
                                         <?php echo $this->Form->textarea('tagline', ['class' => 'form-control', 'placeholder' => '网站简介', 'rows' => 3]); ?>
@@ -108,7 +108,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-5 col-md-8 col-xs-12">
+                                <div class="col-lg-8 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('maintenance_info'); ?>">
                                         <label>维护信息</label>
                                         <?php echo $this->Form->textarea('maintenance_info', ['class' => 'form-control', 'placeholder' => '维护信息', 'rows' => 5]); ?>

@@ -138,7 +138,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-5 col-md-8 col-xs-12">
+                                <div class="col-lg-8 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('explain'); ?>">
                                         <label>备注说明</label>
                                         <?php echo $this->Form->textarea('explain', ['class' => 'form-control', 'placeholder' => '备注说明', 'rows' => 5]); ?>
