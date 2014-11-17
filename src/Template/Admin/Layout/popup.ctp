@@ -3,6 +3,13 @@
     echo $this->element('Admin/Common/Css/common');
     $this->end();
 ?>
+<?php $this->append('pageStyle'); ?>
+<style type="text/css">
+.right-side {
+    margin-left:0px;
+}
+</style>
+<?php $this->end(); ?>
 <!DOCTYPE html>
 <html>
     <head>

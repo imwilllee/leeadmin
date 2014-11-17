@@ -32,5 +32,34 @@ $config = [
 			'index' => 1,
 			'seo' => 2
 		]
+	],
+/**
+ * 附件上传配置
+ */
+	'Attachments' => [
+		// 文件上传
+		'file' => [
+			'upload_dir' => UPLOAD_DIR . 'files' . DS . YYYY . DS . MM . DS . DD . DS,
+			'save_rule' => 'hash',
+			//'accept_file_types' => '/\.(gif|jpe?g|png|bmp)$/i',
+			'max_file_size' => 2 * 1024 * 1024,
+			'preview_url' => sprintf('/uploads/files/%s/%s/%s/', YYYY, MM, DD)
+		],
+		// 图片上传
+		'image' => [
+			'upload_dir' => UPLOAD_DIR . 'images' . DS . YYYY . DS . MM . DS . DD . DS,
+			'save_rule' => 'hash',
+			'accept_file_types' => '/\.(gif|jpe?g|png|bmp)$/i',
+			'max_file_size' => 2 * 1024 * 1024,
+			'preview_url' => sprintf('/uploads/images/%s/%s/%s/', YYYY, MM, DD)
+		],
+		// flash上传
+		'flash' => [
+			'upload_dir' => UPLOAD_DIR . 'flash' . DS . YYYY . DS . MM . DS . DD . DS,
+			'save_rule' => 'hash',
+			'accept_file_types' => '/\.(swf)$/i',
+			'max_file_size' => 2 * 1024 * 1024,
+			'preview_url' => sprintf('/uploads/flash/%s/%s/%s/', YYYY, MM, DD)
+		]
 	]
 ];

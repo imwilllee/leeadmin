@@ -23,6 +23,13 @@ class AppController extends Controller {
 	public $viewClass = 'App\View\AppView';
 
 /**
+ * 不需要安全验证的操作
+ *
+ * @var array
+ */
+	protected $_allowedActions = [];
+
+/**
  * 初始化钩子方法
  *
  * @return void
@@ -40,6 +47,10 @@ class AppController extends Controller {
  * @return void
  */
 	public function beforeFilter(Event $event) {
+		if (!empty($this->_allowedActions)) {
+			$this->Security->config('unlockedActions', $this->_allowedActions);
+			$this->eventManager()->detach($this->Csrf);
+		}
 		parent::beforeFilter($event);
 		// url前缀写入配置 方便其他处调用
 		Configure::write('prefix', $this->request->params['prefix']);
