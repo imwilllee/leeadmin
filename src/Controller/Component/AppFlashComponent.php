@@ -1,10 +1,6 @@
 <?php
 /**
- * 菜单节点管理组件
- *
- * 核心菜单定义在config/menus.php文件内
- * 插件菜单定义在插件目录下的config/menus.php文件内
- * 调用refresh()方法刷新所有菜单
+ * 项目Flash组件
  *
  * @copyright LeeAdmin
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)

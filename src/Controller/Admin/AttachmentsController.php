@@ -43,14 +43,54 @@ class AttachmentsController extends AppAdminController {
 /**
  * 附件一览
  *
- * @param string $type 类型
  * @return void
  */
-	public function index($type = 'file') {
+	public function index() {
 		$this->_subTitle = '附件一览';
-		if ($this->request->query('CKEditor')) {
-			$this->layout = 'popup';
+		$type = $this->request->query('type');
+		$this->loadModel('Attachments');
+		$query = $this->Attachments->find()->select(['id', 'name', 'size', 'type', 'save_name', 'preview_url', 'is_image', 'created']);
+		switch ($type) {
+			case 'image':
+				$query->where(['is_image' => true]);
+				break;
+			case 'flash':
+				$query->where(['ext' => 'swf']);
+				break;
+			default:
+				break;
 		}
+		$query->order(['id' => 'DESC']);
+		$this->paginate = array_merge($this->paginate, ['sortWhitelist' => ['id']]);
+		$attachments = $this->paginate($query);
+		$this->set(compact('type', 'attachments'));
+		if ($this->request->query('CKEditor')) {
+			// if (!$type) {
+			// 	$this->request->query['filter'] = 1;
+			// }
+			$this->layout = 'popup';
+			$this->render('browse');
+		}
+	}
+
+/**
+ * 附件删除
+ *
+ * @param int $id 栏目id
+ * @return void
+ */
+	public function delete($id = null) {
+		$this->request->allowMethod('post', 'delete');
+		$this->loadModel('Attachments');
+		$attachment = $this->Attachments->get($id);
+		if ($this->Attachments->delete($attachment)) {
+			// 删除物理文件
+			unlink(ROOT . $attachment->save_dir . $attachment->save_name);
+			$this->Flash->success('附件删除成功！');
+		} else {
+			$this->Flash->error('附件删除失败！');
+		}
+		return $this->redirect(['action' => 'index']);
 	}
 
 /**
@@ -59,17 +99,37 @@ class AttachmentsController extends AppAdminController {
  * @param string $type 类型
  * @return void
  */
-	public function upload($type = 'file') {
+	public function upload($type = null) {
 		$this->_subTitle = '上传附件';
 		if ($this->request->is('post')) {
 			$this->autoRender = false;
-			if (!in_array($type, array_keys(Configure::read('Attachments')))) {
+			if ($type || !in_array($type, array_keys(Configure::read('Attachments')))) {
 				$type = 'file';
 			}
 			$options = Configure::read('Attachments.' . $type);
 			$options['param_name'] = 'upload';
 			$upload = new FileUpload($options);
 			$files = $upload->saveFiles();
+			if ($files['files']) {
+				$this->loadModel('Attachments');
+				// 保存附件信息
+				foreach ($files['files'] as $file) {
+					if (!$file->error) {
+						$attachment = $this->Attachments->newEntity([
+							'hash' => $file->hash,
+							'name' => $file->name,
+							'size' => $file->size,
+							'type' => $file->type,
+							'ext' => $file->ext,
+							'save_dir' => substr($options['upload_dir'], strlen(ROOT)),
+							'save_name' => $file->saveName,
+							'preview_url' => $file->previewUrl,
+							'is_image' => $file->isImage
+						]);
+						$this->Attachments->save($attachment, ['validate' => false]);
+					}
+				}
+			}
 			if ($this->request->query('CKEditor')) {
 				$this->response->body($this->__responseCKEditor($files['files'][0]));
 				$this->response->type('html');
@@ -78,6 +138,10 @@ class AttachmentsController extends AppAdminController {
 				$this->response->type('json');
 			}
 			return $this->response;
+		}
+		$this->set(compact('type'));
+		if ($this->request->query('CKEditor')) {
+			$this->layout = 'popup';
 		}
 	}
 

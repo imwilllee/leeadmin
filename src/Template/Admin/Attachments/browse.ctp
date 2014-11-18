@@ -3,10 +3,11 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="javascript:;">附件一览</a></li>
-                <li><?php echo $this->Html->link('上传附件', ['action' => 'upload']); ?></li>
+                <li><?php echo $this->Html->link('上传附件', ['action' => 'upload', $type, '?' => $this->request->query]); ?></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active">
+                <?php if ($this->request->query('filter')): ?>
                     <div class="box box-primary">
                         <div class="box-body">
                             <div class="row">
@@ -14,21 +15,21 @@
                                     <?php
                                         echo $this->Html->link(
                                                 '<i class="fa fa-paperclip"></i> 全部附件',
-                                                ['action' => 'index'],
+                                                ['action' => 'index', '?' => array_merge($this->request->query, ['type' => false])],
                                                 ['escape' => false, 'class' => 'btn btn-default btn-flat']
                                             );
                                     ?>
                                     <?php
                                         echo $this->Html->link(
                                                 '<i class="fa fa-image"></i> 图片',
-                                                ['action' => 'index', '?' => ['type' => 'image']],
+                                                ['action' => 'index', '?' => array_merge($this->request->query, ['type' => 'image'])],
                                                 ['escape' => false, 'class' => 'btn btn-default btn-flat']
                                             );
                                     ?>
                                     <?php
                                         echo $this->Html->link(
                                                 '<i class="fa fa-flash"></i> Flash',
-                                                ['action' => 'index', '?' => ['type' => 'flash']],
+                                                ['action' => 'index', '?' => array_merge($this->request->query, ['type' => 'flash'])],
                                                 ['escape' => false, 'class' => 'btn btn-default btn-flat']
                                             );
                                     ?>
@@ -36,16 +37,15 @@
                             </div>
                         </div>
                     </div>
+                <?php endif; ?>
                     <div class="box box-primary">
                         <div class="box-body table-responsive no-padding">
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="width:40px;"><?php echo $this->Paginator->sort('id', '#'); ?></th>
                                         <th>上传文件名</th>
                                         <th>大小</th>
                                         <th>类型</th>
-                                        <th>保存文件名</th>
                                         <th>上传日期</th>
                                         <th></th>
                                     </tr>
@@ -53,7 +53,6 @@
                                 <tbody>
                                     <?php foreach ($attachments as $attachment): ?>
                                     <tr>
-                                        <td><?php echo $attachment->id; ?></td>
                                         <td>
                                         <?php if ($attachment->is_image): ?>
                                             <i class="fa fa-image"></i>
@@ -64,9 +63,16 @@
                                         </td>
                                         <td><?php echo size_format($attachment->size); ?></td>
                                         <td><?php echo h($attachment->type); ?></td>
-                                        <td><?php echo h($attachment->save_name); ?></td>
                                         <td><?php echo df($attachment->created); ?></td>
-                                        <td> <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', $attachment->id]); ?></td>
+                                        <td>
+                                            <?php
+                                                echo $this->Html->link(
+                                                        '<i class="fa fa-check"></i> 选择',
+                                                        $attachment->preview_url,
+                                                        ['escape' => false, 'class' => 'btn btn-primary btn-sm btn-flat item']
+                                                    );
+                                            ?>
+                                        </td>
                                     </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -87,8 +93,13 @@
 
 <?php $this->append('pageScript'); ?>
 <script>
-    $(document).ready(function() {
+    $(function() {
         $('.fancybox-thumb').fancybox();
+        $('.item').on('click', function(e) {
+            e.preventDefault();
+            window.opener.CKEDITOR.tools.callFunction(<?php echo $this->request->query('CKEditorFuncNum'); ?>, $(this).attr('href'));
+            window.close();
+        });
     });
 </script>
 <?php $this->end(); ?>

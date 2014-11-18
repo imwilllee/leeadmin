@@ -70,3 +70,26 @@ function url_decode($url) {
 function get_file_ext($filename) {
 	return strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 }
+
+/**
+ * 格式化文件大小
+ *
+ * @param int $bytes 字节
+ * @param int $decimals 小数位
+ * @return string
+ */
+function size_format($bytes, $decimals = 0) {
+	$quant = array(
+		'TB' => 1099511627776,
+		'GB' => 1073741824,
+		'MB' => 1048576,
+		'kB' => 1024,
+		'B ' => 1,
+	);
+	foreach ($quant as $unit => $mag) {
+		if (doubleval($bytes) >= $mag) {
+			return number_format( $bytes / $mag, $decimals ) . ' ' . $unit;
+		}
+	}
+	return false;
+}

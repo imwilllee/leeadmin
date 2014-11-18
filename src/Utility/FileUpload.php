@@ -273,6 +273,8 @@ class FileUpload {
 					}
 				}
 			}
+		} else {
+			$file->isImage = false;
 		}
 	}
 

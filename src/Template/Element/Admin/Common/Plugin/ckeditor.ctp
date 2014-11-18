@@ -12,12 +12,12 @@
     $(function(){
         $('.editor').ckeditor({
             uiColor: '#FAFAFA',
-            filebrowserBrowseUrl: '<?php echo Router::url(['plugin' => false, 'controller' => 'Attachments', 'action' => 'index']); ?>',
+            filebrowserBrowseUrl: '<?php echo Router::url(['plugin' => false, 'controller' => 'Attachments', 'action' => 'index', '?' => ['filter' => 1]]); ?>',
             filebrowserUploadUrl: '<?php echo Router::url(['plugin' => false, 'controller' => 'Attachments', 'action' => 'upload']); ?>',
-            filebrowserImageBrowseLinkUrl: '<?php echo Router::url(['plugin' => false, 'controller' => 'Attachments', 'action' => 'index', 'image']); ?>',
-            filebrowserImageBrowseUrl: '<?php echo Router::url(['plugin' => false, 'controller' => 'Attachments', 'action' => 'index', 'image']); ?>',
+            filebrowserImageBrowseLinkUrl: '<?php echo Router::url(['plugin' => false, 'controller' => 'Attachments', 'action' => 'index', '?' => ['type' =>'image']]); ?>',
+            filebrowserImageBrowseUrl: '<?php echo Router::url(['plugin' => false, 'controller' => 'Attachments', 'action' => 'index', '?' => ['type' =>'image']]); ?>',
             filebrowserImageUploadUrl: '<?php echo Router::url(['plugin' => false, 'controller' => 'Attachments', 'action' => 'upload', 'image']); ?>',
-            filebrowserFlashBrowseUrl: '<?php echo Router::url(['plugin' => false, 'controller' => 'Attachments', 'action' => 'index', 'flash']); ?>',
+            filebrowserFlashBrowseUrl: '<?php echo Router::url(['plugin' => false, 'controller' => 'Attachments', 'action' => 'index', '?' => ['type' =>'flash']]); ?>',
             filebrowserFlashUploadUrl: '<?php echo Router::url(['plugin' => false, 'controller' => 'Attachments', 'action' => 'upload', 'flash']); ?>'
         });
     });
