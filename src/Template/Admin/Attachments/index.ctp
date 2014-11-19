@@ -32,6 +32,20 @@
                                                 ['escape' => false, 'class' => 'btn btn-default btn-flat']
                                             );
                                     ?>
+                                    <?php
+                                        echo $this->Html->link(
+                                                '<i class="fa fa-file-pdf-o"></i> PDF',
+                                                ['action' => 'index', '?' => ['type' => 'pdf']],
+                                                ['escape' => false, 'class' => 'btn btn-default btn-flat']
+                                            );
+                                    ?>
+                                    <?php
+                                        echo $this->Html->link(
+                                                '<i class="fa fa-file-zip-o"></i> ZIP',
+                                                ['action' => 'index', '?' => ['type' => 'zip']],
+                                                ['escape' => false, 'class' => 'btn btn-default btn-flat']
+                                            );
+                                    ?>
                                 </div>
                             </div>
                         </div>

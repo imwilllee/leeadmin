@@ -57,6 +57,12 @@ class AttachmentsController extends AppAdminController {
 			case 'flash':
 				$query->where(['ext' => 'swf']);
 				break;
+			case 'pdf':
+				$query->where(['ext' => 'pdf']);
+				break;
+			case 'zip':
+				$query->where(['ext' => 'zip']);
+				break;
 			default:
 				break;
 		}
@@ -65,9 +71,6 @@ class AttachmentsController extends AppAdminController {
 		$attachments = $this->paginate($query);
 		$this->set(compact('type', 'attachments'));
 		if ($this->request->query('CKEditor')) {
-			// if (!$type) {
-			// 	$this->request->query['filter'] = 1;
-			// }
 			$this->layout = 'popup';
 			$this->render('browse');
 		}
@@ -101,12 +104,12 @@ class AttachmentsController extends AppAdminController {
  */
 	public function upload($type = null) {
 		$this->_subTitle = '上传附件';
+		if (!$type || !in_array($type, array_keys(Configure::read('Attachments')))) {
+			$type = 'file';
+		}
+		$options = Configure::read('Attachments.' . $type);
 		if ($this->request->is('post')) {
 			$this->autoRender = false;
-			if ($type || !in_array($type, array_keys(Configure::read('Attachments')))) {
-				$type = 'file';
-			}
-			$options = Configure::read('Attachments.' . $type);
 			$options['param_name'] = 'upload';
 			$upload = new FileUpload($options);
 			$files = $upload->saveFiles();
@@ -139,7 +142,7 @@ class AttachmentsController extends AppAdminController {
 			}
 			return $this->response;
 		}
-		$this->set(compact('type'));
+		$this->set(compact('type', 'options'));
 		if ($this->request->query('CKEditor')) {
 			$this->layout = 'popup';
 		}
