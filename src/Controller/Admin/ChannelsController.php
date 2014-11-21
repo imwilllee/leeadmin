@@ -108,7 +108,7 @@ class ChannelsController extends AppAdminController {
 		$this->request->allowMethod('post', 'delete');
 		$this->loadModel('Channels');
 		$channel = $this->Channels->get($id);
-		if (!$channel->is_core) {
+		if (!$channel->is_core && $id != 1) {
 			if ($this->Channels->delete($channel)) {
 				$this->Flash->success('栏目删除成功！');
 			} else {

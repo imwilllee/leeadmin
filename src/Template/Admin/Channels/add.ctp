@@ -72,10 +72,10 @@
 
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-xs-12">
-                                    <div class="form-group<?php echo $this->Admin->errorClass('explain'); ?>">
-                                        <label>栏目介绍</label>
-                                        <?php echo $this->Form->textarea('explain', ['class' => 'editor form-control', 'placeholder' => '栏目介绍', 'rows' => 5]); ?>
-                                        <?php echo $this->Admin->error('explain'); ?>
+                                    <div class="form-group<?php echo $this->Admin->errorClass('content'); ?>">
+                                        <label>栏目内容</label>
+                                        <?php echo $this->Form->textarea('content', ['class' => 'editor form-control', 'placeholder' => '栏目内容', 'rows' => 5]); ?>
+                                        <?php echo $this->Admin->error('content'); ?>
                                     </div>
                                 </div>
                             </div>
