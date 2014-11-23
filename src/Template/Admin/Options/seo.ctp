@@ -45,7 +45,7 @@
                                 <div class="col-lg-8 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('keywords'); ?>">
                                         <label>关键字</label>
-                                        <?php echo $this->Form->textarea('keywords', ['class' => 'form-control', 'placeholder' => '关键字', 'rows' => 3]); ?>
+                                        <?php echo $this->Form->textarea('keywords', ['class' => 'form-control', 'placeholder' => '关键字', 'rows' => 5]); ?>
                                         <?php echo $this->Admin->error('keywords'); ?>
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@
                                 <div class="col-lg-8 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('description'); ?>">
                                         <label>网站描述信息</label>
-                                        <?php echo $this->Form->textarea('description', ['class' => 'form-control', 'placeholder' => '网站描述信息', 'rows' => 3]); ?>
+                                        <?php echo $this->Form->textarea('description', ['class' => 'form-control', 'placeholder' => '网站描述信息', 'rows' => 5]); ?>
                                         <?php echo $this->Admin->error('description'); ?>
                                     </div>
                                 </div>

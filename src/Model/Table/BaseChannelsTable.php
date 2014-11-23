@@ -24,7 +24,6 @@ class BaseChannelsTable extends AppTable {
 		$this->table('joyweb_channel');
 		$this->primaryKey('id');
 		parent::initialize($config);
-		$this->addBehavior('Tree');
 		$this->hasMany('BaseArticles', [
 			'className' => 'BaseArticles',
 			'foreignKey' => 'channel_id',

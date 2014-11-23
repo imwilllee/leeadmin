@@ -56,7 +56,7 @@
                                 <div class="col-lg-8 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('tagline'); ?>">
                                         <label>网站简介</label>
-                                        <?php echo $this->Form->textarea('tagline', ['class' => 'form-control', 'placeholder' => '网站简介', 'rows' => 3]); ?>
+                                        <?php echo $this->Form->textarea('tagline', ['class' => 'form-control', 'placeholder' => '网站简介', 'rows' => 5]); ?>
                                         <?php echo $this->Admin->error('tagline'); ?>
                                     </div>
                                 </div>

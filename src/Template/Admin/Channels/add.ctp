@@ -53,6 +53,16 @@
                             </div>
 
                             <div class="row">
+                                <div class="col-lg-3 col-md-4 col-xs-12">
+                                    <div class="form-group<?php echo $this->Admin->errorClass('type_id'); ?>">
+                                        <label>栏目类型</label>
+                                        <?php echo $this->Form->select('type_id', Configure::read('Channels.type'), ['class' => 'form-control']); ?>
+                                        <?php echo $this->Admin->error('type_id'); ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-12 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('display_flg'); ?>">
                                         <label>栏目属性</label>
@@ -104,10 +114,10 @@
 
                             <div class="row">
                                 <div class="col-lg-8 col-md-12 col-xs-12">
-                                    <div class="form-group<?php echo $this->Admin->errorClass('seo_keyword'); ?>">
+                                    <div class="form-group<?php echo $this->Admin->errorClass('seo_keywords'); ?>">
                                         <label>栏目关键字</label>
-                                        <?php echo $this->Form->textarea('seo_keyword', ['class' => 'form-control', 'placeholder' => '备注说明', 'rows' => 5]); ?>
-                                        <?php echo $this->Admin->error('seo_keyword'); ?>
+                                        <?php echo $this->Form->textarea('seo_keywords', ['class' => 'form-control', 'placeholder' => '栏目关键字', 'rows' => 5]); ?>
+                                        <?php echo $this->Admin->error('seo_keywords'); ?>
                                     </div>
                                 </div>
                             </div>

@@ -10,6 +10,7 @@
 namespace App\Model\Table;
 
 use App\Model\Table\AppTable;
+use Cake\Core\Configure;
 use Cake\Validation\Validator;
 
 class ChannelsTable extends AppTable {
@@ -34,6 +35,7 @@ class ChannelsTable extends AppTable {
  * @return \Cake\Validation\Validator
  */
 	public function validationDefault(Validator $validator) {
+		$typeList = array_keys(Configure::read('Channels.type_id'));
 		$validator
 			->validatePresence('parent_id', 'create', '所属栏目项目不存在！')
 			->notEmpty('parent_id', '请选择所属栏目！')
@@ -62,6 +64,14 @@ class ChannelsTable extends AppTable {
 					'rule' => 'validateUnique',
 					'message' => '栏目代码已存在！',
 					'provider' => 'table'
+				]
+			])
+			->validatePresence('type_id', 'create', '栏目类型项目不存在！')
+			->notEmpty('type_id', '栏目类型必须填写！')
+			->add('type_id', [
+				'inList' => [
+					'rule' => ['inList', $typeList],
+					'message' => '栏目类型选择错误！'
 				]
 			])
 			->validatePresence('display_flg', 'create', '显示栏目项目不存在！')

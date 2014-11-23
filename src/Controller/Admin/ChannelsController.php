@@ -32,7 +32,7 @@ class ChannelsController extends AppAdminController {
 		$this->loadModel('Channels');
 		try {
 			$channels = $this->Channels->find('children', ['for' => 1])
-				->select(['id', 'parent_id', 'name', 'channel_code', 'level', 'is_core', 'display_flg', 'article_count']);
+				->select(['id', 'parent_id', 'name', 'channel_code', 'level', 'is_core', 'display_flg', 'type_id']);
 			$this->set(compact('channels'));
 		} catch (RecordNotFoundException $e) {
 			if ($this->_initChannel()) {

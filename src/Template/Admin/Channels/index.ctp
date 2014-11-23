@@ -21,7 +21,6 @@
                                         <th>类型</th>
                                         <th>显示</th>
                                         <th>核心</th>
-                                        <th>文章数</th>
                                         <th>排序</th>
                                         <th></th>
                                     </tr>
@@ -38,7 +37,12 @@
                                         <?php echo $this->Html->link($channel->name, ['action' => 'edit', $channel->id]); ?>
                                         </td>
                                         <td><?php echo h($channel->channel_code); ?></td>
-                                        <td><?php echo $channel->type_id; ?></td>
+                                        <td>
+                                            <?php if ($channel->type_id): ?>
+                                                <?php echo Configure::read('Channels.type.' . $channel->type_id); ?>
+                                            <?php endif; ?>
+
+                                        </td>
                                         <td>
                                             <?php if ($channel->display_flg): ?>
                                                 <span class="label label-primary"><?php echo Configure::read('Common.boolen.1'); ?></span>
@@ -52,14 +56,6 @@
                                             <?php else: ?>
                                                 <span class="label label-danger"><?php echo Configure::read('Common.boolen.0'); ?></span>
                                             <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <?php
-                                                echo $this->Html->link(
-                                                    number_format($channel->article_count),
-                                                    ['controller' => 'Articles', 'action' => 'index', '?' => ['channel_id' => $channel->id]]
-                                                );
-                                            ?>
                                         </td>
                                         <td>
                                             <?php echo $this->Admin->iconLink('fa fa-1 fa-arrow-up', ['action' => 'rank', $channel->id], ['data-original-title' => '上移']); ?>
