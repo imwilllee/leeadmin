@@ -136,6 +136,8 @@
                     <i class="fa fa-ban"></i>
                     <span>删除</span>
                 </button>
+            {% } else { %}
+                <a href="javascript:choose('{%=file.previewUrl%}');" class="btn btn-primary btn-sm btn-flat item"><i class="fa fa-check"></i> 选择</a>
             {% } %}
         </td>
     </tr>
@@ -143,6 +145,11 @@
 </script>
 
 <script>
+    var choose = function (href) {
+        parent.fancybox_callback(href);
+        parent.jQuery.fancybox.close();
+        return false;
+    }
     $(function(){
         $('.start-all').on('click', function(e) {
             e.preventDefault();

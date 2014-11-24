@@ -70,7 +70,7 @@ class AttachmentsController extends AppAdminController {
 		$this->paginate = array_merge($this->paginate, ['sortWhitelist' => ['id']]);
 		$attachments = $this->paginate($query);
 		$this->set(compact('type', 'attachments'));
-		if ($this->request->query('CKEditor')) {
+		if ($this->request->query('CKEditor') || $this->request->query('fancybox')) {
 			$this->layout = 'popup';
 			$this->render('browse');
 		}
@@ -143,8 +143,13 @@ class AttachmentsController extends AppAdminController {
 			return $this->response;
 		}
 		$this->set(compact('type', 'options'));
-		if ($this->request->query('CKEditor')) {
+		if ($this->request->query('CKEditor') || $this->request->query('fancybox')) {
 			$this->layout = 'popup';
+			if ($this->request->query('CKEditor')) {
+				$this->render('ckeditor_upload');
+			} else {
+				$this->render('fancybox_upload');
+			}
 		}
 	}
 

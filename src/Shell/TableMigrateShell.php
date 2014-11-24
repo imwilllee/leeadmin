@@ -19,7 +19,7 @@ class TableMigrateShell extends Shell {
 					'name' => $root->name,
 					'level' => 0,
 					'content' => $root->content,
-					'is_core' => true,
+					'is_core' => $root->is_system == '1' ? true : false,
 					'display_flg' => true,
 					'seo_keywords' => $root->keywords,
 					'seo_description' => $root->description
@@ -32,6 +32,8 @@ class TableMigrateShell extends Shell {
 							'title' => $baseArticle->title,
 							'channel_id' => $channel->id,
 							'recommend_flg' => $baseArticle->flag == 'r' ? true : false,
+							'is_delete' => $baseArticle->is_delete == '1' ? true : false,
+							'status' => true,
 							'thumbnail' => $baseArticle->litpic,
 							'content' => $baseArticle->content,
 							'rank' => $baseArticle->sort,
@@ -77,7 +79,7 @@ class TableMigrateShell extends Shell {
 					'name' => $source->name,
 					'level' => 1,
 					'content' => $source->content,
-					'is_core' => true,
+					'is_core' => $source->is_system == '1' ? true : false,
 					'display_flg' => true,
 					'seo_keywords' => $source->keywords,
 					'seo_description' => $source->description
@@ -89,6 +91,8 @@ class TableMigrateShell extends Shell {
 					$childArticle = $this->Articles->newEntity([
 							'title' => $article->title,
 							'channel_id' => $sourceChannel->id,
+							'status' => true,
+							'is_delete' => $article->is_delete == '1' ? true : false,
 							'recommend_flg' => $article->flag == 'r' ? true : false,
 							'thumbnail' => $article->litpic,
 							'content' => $article->content,

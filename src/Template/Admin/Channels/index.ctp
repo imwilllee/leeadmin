@@ -15,7 +15,6 @@
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="width:45px;">#</th>
                                         <th>栏目名称</th>
                                         <th>栏目代码</th>
                                         <th>类型</th>
@@ -28,20 +27,17 @@
                                 <tbody>
                                     <?php foreach ($channels as $channel): ?>
                                     <tr>
-                                        <td>
-                                        <?php if ($channel->level == 0): ?>
-                                        <span class="label label-info">Top</span>
-                                        <?php endif; ?>
-                                        </td>
                                         <td class="channel-level" data-channel-level="<?php echo $channel->level; ?>">
-                                        <?php echo $this->Html->link($channel->name, ['action' => 'edit', $channel->id]); ?>
+                                        <?php echo $this->Html->link($channel->name, ['controller' => 'Articles', 'action' => 'index', '?' => ['channel_id' => $channel->id]]); ?>
+                                        <?php if ($channel->parent_id == 1): ?>
+                                        <span class="label bg-aqua">Top</span>
+                                        <?php endif; ?>
                                         </td>
                                         <td><?php echo h($channel->channel_code); ?></td>
                                         <td>
                                             <?php if ($channel->type_id): ?>
                                                 <?php echo Configure::read('Channels.type.' . $channel->type_id); ?>
                                             <?php endif; ?>
-
                                         </td>
                                         <td>
                                             <?php if ($channel->display_flg): ?>
@@ -62,10 +58,14 @@
                                             <?php echo $this->Admin->iconLink('fa fa-1 fa-arrow-down', ['action' => 'rank', $channel->id, 'down'], ['data-original-title' => '下移']); ?>
                                         </td>
                                         <td>
-                                            <?php echo $this->Admin->iconLink('fa fa-1 fa fa-file-text-o', ['controller' => 'Articles', 'action' => 'add', $channel->id], ['data-original-title' => '添加文章']); ?>
+                                            <?php echo $this->Admin->iconLink('fa fa-1 fa fa-file-text-o', ['controller' => 'Articles', 'action' => 'add', '?' => ['channel_id' => $channel->id]], ['data-original-title' => '添加文章']); ?>
                                             <?php echo $this->Admin->iconLink('fa fa-1 fa-plus-square', ['action' => 'add', $channel->id], ['data-original-title' => '添加子栏目']); ?>
                                             <?php echo $this->Admin->iconEditLink(['action' => 'edit', $channel->id]); ?>
-                                            <?php echo $this->Admin->iconDeleteLink(['action' => 'delete', $channel->id]); ?>
+                                            <?php
+                                                if (!$channel->is_core):
+                                                    echo $this->Admin->iconDeleteLink(['action' => 'delete', $channel->id]);
+                                                endif;
+                                            ?>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>

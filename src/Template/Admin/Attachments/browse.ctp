@@ -95,11 +95,19 @@
 <script>
     $(function() {
         $('.fancybox-thumb').fancybox();
+<?php if (!$this->request->query('fancybox')): ?>
         $('.item').on('click', function(e) {
             e.preventDefault();
             window.opener.CKEDITOR.tools.callFunction(<?php echo $this->request->query('CKEditorFuncNum'); ?>, $(this).attr('href'));
             window.close();
         });
+<?php else: ?>
+        $('.item').on('click', function(e) {
+            e.preventDefault();
+            parent.fancybox_callback($(this).attr('href'));
+            parent.jQuery.fancybox.close();
+        });
+<?php endif; ?>
     });
 </script>
 <?php $this->end(); ?>

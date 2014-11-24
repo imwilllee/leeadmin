@@ -1,6 +1,7 @@
     <head>
         <meta charset="UTF-8">
         <title><?php echo $this->Admin->title(); ?></title>
+        <?php echo $this->Html->meta('icon'); ?>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <?php
             echo $this->Html->css('bootstrap.min');

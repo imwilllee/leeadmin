@@ -84,6 +84,9 @@ class ChannelsController extends AppAdminController {
  */
 	public function edit($id = null) {
 		$this->_subTitle = '栏目编辑';
+		if ($id == 1) {
+			return $this->redirect(['action' => 'index']);
+		}
 		$this->loadModel('Channels');
 		$channel = $this->Channels->get($id);
 		if ($this->request->is(['post', 'put'])) {

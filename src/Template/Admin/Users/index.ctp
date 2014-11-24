@@ -149,7 +149,6 @@
 <script>
     $(function(){
         $('.batch-action').on('click', function(){
-            $('#action-menus').removeClass('open');
             var items = get_checked_items('id[]');
             if ($.isEmptyObject(items)) {
                 alert('至少选择一个项目！');

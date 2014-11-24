@@ -62,6 +62,7 @@ return [
 		'display_flg' => true,
 		'menu_nodes' => [
 			['link' => 'admin/Articles/index', 'name' => '文章一览'],
+			['link' => 'admin/Articles/attribute', 'name' => '属性变更'],
 			['link' => 'admin/Articles/add', 'name' => '添加文章'],
 			['link' => 'admin/Articles/edit', 'name' => '文章编辑'],
 			['link' => 'admin/Articles/delete', 'name' => '文章删除']

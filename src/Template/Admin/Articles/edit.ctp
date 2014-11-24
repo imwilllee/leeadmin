@@ -6,7 +6,8 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li><?php echo $this->Html->link('文章一览', ['action' => 'index']); ?></li>
-                <li class="active"><a href="javascript:;">添加文章</a></li>
+                <li><?php echo $this->Html->link('添加文章', ['action' => 'add']); ?></li>
+                <li class="active"><a href="javascript:;">文章编辑</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active">

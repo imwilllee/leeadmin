@@ -7,6 +7,9 @@
 /logs/*
 /tests/*
 /plugins/DebugKit
+/webroot/uploads
+/webroot/Upload
+/webroot/wudichinei
 
 # OS generated files #
 ######################

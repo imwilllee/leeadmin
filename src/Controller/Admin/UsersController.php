@@ -127,7 +127,7 @@ class UsersController extends AppAdminController {
 	private function __markQuery($query) {
 		if ($this->request->is('post')) {
 			if ($this->request->data('q') != '') {
-				$this->request->query['q'] = $this->request->data('q');
+				$this->request->query['q'] = urlencode($this->request->data('q'));
 			}
 			if ($this->request->data('email') != '') {
 				$this->request->query['email'] = $this->request->data('email');
@@ -140,7 +140,7 @@ class UsersController extends AppAdminController {
 			}
 		}
 		if ($this->request->query('q') != '') {
-			$this->request->data['q'] = $this->request->query('q');
+			$this->request->data['q'] = urldecode($this->request->query('q'));
 			$query->andWhere(function ($exp) {
 				return $exp->or_([
 					'Users.alias LIKE' => '%' . $this->request->data['q'] . '%',
@@ -149,9 +149,11 @@ class UsersController extends AppAdminController {
 			});
 		}
 		if ($this->request->query('email') != '') {
+			$this->request->data['email'] = $this->request->query('email');
 			$query->where(['Users.email' => $this->request->data['email']]);
 		}
 		if ($this->request->query('group_id') != '') {
+			$this->request->data['group_id'] = $this->request->query('group_id');
 			$query->where(['Users.group_id' => $this->request->data['group_id']]);
 		}
 		if ($this->request->query('status') != '') {
@@ -257,7 +259,7 @@ class UsersController extends AppAdminController {
 		$this->autoRender = false;
 		$ids = $this->request->query('id');
 		if (empty($ids)) {
-			$this->Flash->error('请选择至少选择一个项目！');
+			$this->Flash->error('请至少选择一个项目！');
 		} else {
 			$ids = explode('_', $ids);
 			$this->loadModel('Users');

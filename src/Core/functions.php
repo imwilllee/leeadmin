@@ -42,26 +42,6 @@ function df($date, $format = 'Y-m-d H:i:s') {
 }
 
 /**
- * url编码
- *
- * @param string $url 未编码的url
- * @return string
- */
-function url_encode($url) {
-	return rawurlencode($url);
-}
-
-/**
- * url解码
- *
- * @param string $url 编码的url
- * @return string
- */
-function url_decode($url) {
-	return rawurldecode($url);
-}
-
-/**
  * 获取文件扩展名
  *
  * @param string $filename 文件名

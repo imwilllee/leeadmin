@@ -35,7 +35,7 @@ class ChannelsTable extends AppTable {
  * @return \Cake\Validation\Validator
  */
 	public function validationDefault(Validator $validator) {
-		$typeList = array_keys(Configure::read('Channels.type_id'));
+		$typeList = array_keys(Configure::read('Channels.type'));
 		$validator
 			->validatePresence('parent_id', 'create', '所属栏目项目不存在！')
 			->notEmpty('parent_id', '请选择所属栏目！')
@@ -91,5 +91,15 @@ class ChannelsTable extends AppTable {
 				]
 			]);
 		return $validator;
+	}
+
+/**
+ * 栏目列表
+ *
+ * @return array
+ */
+	public function getChannelList() {
+		$this->behaviors()->Tree->config('scope', ['id >' => 1]);
+		return $this->find('treeList');
 	}
 }
