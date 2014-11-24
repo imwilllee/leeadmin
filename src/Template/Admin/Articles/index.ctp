@@ -44,6 +44,33 @@
                                         <?php echo $this->Form->select('channel_id', $channelList, ['class' => 'form-control', 'empty' => '---选择栏目---']); ?>
                                     </div>
                                 </div>
+
+                                <div class="col-lg-6 col-md-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label>创建日期</label>
+                                        <div class="input-group">
+                                            <div class="col-lg-6 col-md-6 col-xs-6 no-padding">
+                                                <div class="input-group">
+                                                    <?php echo $this->Form->text('start_date', ['id' => 'start_date', 'class' => 'form-control', 'placeholder' => '开始日期']); ?>
+                                                    <div class="input-group-addon datetimepicker" data-target-id="start_date">
+                                                    <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                                <div class="input-group">
+                                                    <?php echo $this->Form->text('end_date', ['id' => 'end_date', 'class' => 'form-control datetimepicker', 'placeholder' => '结束日期']); ?>
+                                                    <div class="input-group-addon datetimepicker" data-target-id="end_date">
+                                                    <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-2 col-md-4 col-xs-12">
                                     <div class="form-group">
                                         <label>状态</label>
@@ -69,31 +96,6 @@
                                     </div>
                                 </div>
 
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-4 col-xs-12">
-                                    <div class="form-group">
-                                        <label>创建日期</label>
-                                        <div class="input-group">
-                                            <div class="col-lg-4 col-xs-6 no-padding">
-                                                <div class="input-group">
-                                                    <?php echo $this->Form->text('start_date', ['id' => 'start_date', 'class' => 'form-control', 'placeholder' => '开始日期']); ?>
-                                                    <div class="input-group-addon datetimepicker" data-target-id="start_date">
-                                                    <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-xs-6">
-                                                <div class="input-group">
-                                                    <?php echo $this->Form->text('end_date', ['id' => 'end_date', 'class' => 'form-control datetimepicker', 'placeholder' => '结束日期']); ?>
-                                                    <div class="input-group-addon datetimepicker" data-target-id="end_date">
-                                                    <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="box-footer" style="display: none;">

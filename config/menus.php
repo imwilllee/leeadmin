@@ -96,7 +96,8 @@ return [
 		'display_flg' => true,
 		'menu_nodes' => [
 			['link' => 'admin/Attachments/index', 'name' => '附件一览'],
-			['link' => 'admin/Attachments/upload', 'name' => '上传附件']
+			['link' => 'admin/Attachments/upload', 'name' => '上传附件'],
+			['link' => 'admin/Attachments/delete', 'name' => '删除附件']
 		]
 	],
 	[
@@ -131,7 +132,8 @@ return [
 			['link' => 'admin/Users/view', 'name' => '管理员详细'],
 			['link' => 'admin/Users/edit', 'name' => '管理员编辑'],
 			['link' => 'admin/Users/active', 'name' => '状态变更'],
-			['link' => 'admin/Users/delete', 'name' => '管理员删除']
+			['link' => 'admin/Users/delete', 'name' => '管理员删除'],
+			['link' => 'admin/Users/change_password', 'name' => '更改密码']
 		]
 	],
 	[

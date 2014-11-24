@@ -29,6 +29,7 @@ class TableMigrateShell extends Shell {
 			if ($root->articles) {
 				foreach ($root->articles as $baseArticle) {
 					$article = $this->Articles->newEntity([
+							'id' => $baseArticle->id,
 							'title' => $baseArticle->title,
 							'channel_id' => $channel->id,
 							'recommend_flg' => $baseArticle->flag == 'r' ? true : false,
@@ -89,6 +90,7 @@ class TableMigrateShell extends Shell {
 			if ($source->articles) {
 				foreach ($source->articles as $article) {
 					$childArticle = $this->Articles->newEntity([
+							'id' => $article->id,
 							'title' => $article->title,
 							'channel_id' => $sourceChannel->id,
 							'status' => true,
