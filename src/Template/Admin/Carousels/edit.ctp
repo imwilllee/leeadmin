@@ -52,7 +52,7 @@
                                                 <?php
                                                     echo $this->Html->link(
                                                         '<i class="fa fa-image"></i> 选择',
-                                                        ['controller' => 'Attachments', 'action' => 'index', 'image', '?' => ['fancybox' => 'yes']],
+                                                        ['controller' => 'Attachments', 'action' => 'index', 'image', '?' => ['type' => 'image', 'fancybox' => 'yes']],
                                                         ['class' => 'btn btn-default btn-flat', 'id' => 'choose', 'escape' => false]
                                                     );
                                                 ?>
