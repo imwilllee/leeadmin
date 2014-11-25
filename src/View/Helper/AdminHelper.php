@@ -172,4 +172,22 @@ class AdminHelper extends AppHelper {
 		$ext = get_file_ext($filename);
 		return in_array($ext, ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'ico']);
 	}
+
+/**
+ * 显示页面标题
+ *
+ * @return string
+ */
+	public function title() {
+		$title = null;
+		$delimiter = '_';
+		if (isset($this->_View->viewVars['mainTitle']) && $this->_View->viewVars['mainTitle'] != '') {
+			$title .= $this->_View->viewVars['mainTitle'];
+		}
+		if (isset($this->_View->viewVars['subTitle']) && $this->_View->viewVars['subTitle'] != '') {
+			$title .= $delimiter . $this->_View->viewVars['subTitle'];
+		}
+		$title .= $delimiter . 'LeeAdmin';
+		return h($title);
+	}
 }

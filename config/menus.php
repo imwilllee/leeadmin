@@ -87,6 +87,30 @@ return [
 		'display_flg' => true
 	],
 	[
+		'menu_code' => 'contact',
+		'parent_code' => null,
+		'name' => '留言管理',
+		'link' => null,
+		'class' => 'fa fa-comments',
+		'rank' => 0,
+		'display_flg' => true,
+		'menu_nodes' => [
+			['link' => 'admin/Contacts/index', 'name' => '留言一览'],
+			['link' => 'admin/Contacts/view', 'name' => '留言详细'],
+			['link' => 'admin/Contacts/attribute', 'name' => '状态更新'],
+			['link' => 'admin/Contacts/delete', 'name' => '留言删除']
+		]
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'contact',
+		'name' => '留言一览',
+		'link' => 'admin/Contacts/index',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
 		'menu_code' => 'attachment',
 		'parent_code' => null,
 		'name' => '附件管理',
@@ -199,8 +223,7 @@ return [
 		'rank' => 0,
 		'display_flg' => true,
 		'menu_nodes' => [
-			['link' => 'admin/Options/index', 'name' => '站点信息'],
-			['link' => 'admin/Options/seo', 'name' => 'SEO设置'],
+			['link' => 'admin/Options/index', 'name' => '站点信息']
 		]
 	],
 	[
@@ -211,14 +234,5 @@ return [
 		'class' => null,
 		'rank' => 0,
 		'display_flg' => true
-	],
-	[
-		'menu_code' => null,
-		'parent_code' => 'setting',
-		'name' => 'SEO设置',
-		'link' => 'admin/Options/seo',
-		'class' => null,
-		'rank' => 0,
-		'display_flg' => true
-	],
+	]
 ];

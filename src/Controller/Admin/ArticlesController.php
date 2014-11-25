@@ -11,6 +11,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
 use Cake\Core\Configure;
+use Cake\Utility\Inflector;
 use DateTime;
 
 class ArticlesController extends AppAdminController {

@@ -48,40 +48,26 @@ class OptionsTable extends AppTable {
 			->notEmpty('title', '网站名称必须填写！')
 			->add('title', [
 				'maxLength' => [
-					'rule' => ['maxLength', 64],
+					'rule' => ['maxLength', 250],
 					'message' => '网站名称超出长度限制！',
 					'last' => true
 				]
 			])
-			->validatePresence('title', 'create', '网站域名项目不存在！')
-			->allowEmpty('domain')
-			->add('domain', [
+			->validatePresence('keywords', 'create', '网站关键字项目不存在！')
+			->allowEmpty('keywords')
+			->add('keywords', [
 				'maxLength' => [
-					'rule' => ['maxLength', 64],
-					'message' => '网站域名超出长度限制！',
+					'rule' => ['maxLength', 250],
+					'message' => '网站关键字超出长度限制！',
 					'last' => true
 				]
 			])
-			->validatePresence('email', 'create', '邮箱地址项目不存在！')
-			->allowEmpty('email')
-			->add('email', [
+			->validatePresence('description', 'create', '网站描述项目不存在！')
+			->allowEmpty('description')
+			->add('description', [
 				'maxLength' => [
-					'rule' => ['maxLength', 32],
-					'message' => '邮箱地址超出长度限制！',
-					'last' => true
-				],
-				'email' => [
-					'rule' => 'email',
-					'message' => '邮箱地址格式错误！',
-					'last' => true
-				]
-			])
-			->validatePresence('tagline', 'create', '网站简介项目不存在！')
-			->allowEmpty('tagline')
-			->add('tagline', [
-				'maxLength' => [
-					'rule' => ['maxLength', 3000],
-					'message' => '网站简介超出长度限制！',
+					'rule' => ['maxLength', 500],
+					'message' => '网站描述超出长度限制！',
 					'last' => true
 				]
 			])
@@ -89,87 +75,72 @@ class OptionsTable extends AppTable {
 			->allowEmpty('icp_no')
 			->add('icp_no', [
 				'maxLength' => [
-					'rule' => ['maxLength', 32],
+					'rule' => ['maxLength', 250],
 					'message' => 'ICP备案号超出长度限制！',
 					'last' => true
 				]
 			])
-			->validatePresence('timezone', 'create', '时区设置项目不存在！')
-			->allowEmpty('timezone')
-			->add('timezone', [
+			->validatePresence('commpany_name', 'create', '公司名称项目不存在！')
+			->allowEmpty('commpany_name')
+			->add('commpany_name', [
 				'maxLength' => [
-					'rule' => ['maxLength', 255],
-					'message' => '时区设置超出长度限制！',
+					'rule' => ['maxLength', 250],
+					'message' => '公司名称超出长度限制！',
 					'last' => true
 				]
 			])
-			->validatePresence('run_status', 'create', '网站运行状态项目不存在！')
-			->notEmpty('run_status', '网站运行状态选择！')
-			->add('run_status', [
-				'inList' => [
-					'rule' => ['inList', $runStatus],
-					'message' => '网站运行状态选择错误！'
-				]
-			])
-			->validatePresence('maintenance_info', 'create', '维护信息项目不存在！')
-			->allowEmpty('maintenance_info')
-			->add('maintenance_info', [
+			->validatePresence('mobile', 'create', '电话项目不存在！')
+			->allowEmpty('mobile')
+			->add('mobile', [
 				'maxLength' => [
-					'rule' => ['maxLength', 20000],
-					'message' => '维护信息超出长度限制！',
-					'last' => true
-				]
-			]);
-		return $validator;
-	}
-
-/**
- * SEO设置验证规则
- *
- * @param \Cake\Validation\Validator $validator 验证对象
- * @return \Cake\Validation\Validator
- */
-	public function validationSeo(Validator $validator) {
-		$validator
-			->validatePresence('robots', 'create', 'Robots项目不存在！')
-			->allowEmpty('robots')
-			->add('robots', [
-				'maxLength' => [
-					'rule' => ['maxLength', 255],
-					'message' => 'Robots超出长度限制！',
+					'rule' => ['maxLength', 250],
+					'message' => '电话超出长度限制！',
 					'last' => true
 				]
 			])
-			->validatePresence('title_delimiter', 'create', '标题分隔符项目不存在！')
-			->allowEmpty('title_delimiter')
-			->add('title_delimiter', [
-				'maxLength' => [
-					'rule' => ['maxLength', 16],
-					'message' => '标题分隔符超出长度限制！',
-					'last' => true
-				]
-			])
-			->validatePresence('keywords', 'create', '关键字项目不存在！')
-			->allowEmpty('keywords')
+			->validatePresence('email', 'create', '电话项目不存在！')
+			->allowEmpty('email')
 			->add('email', [
 				'maxLength' => [
-					'rule' => ['maxLength', 255],
-					'message' => '关键字超出长度限制！',
+					'rule' => ['maxLength', 250],
+					'message' => '电话超出长度限制！',
+					'last' => true
+				],
+				'email' => [
+					'rule' => 'email',
+					'message' => '邮箱格式错误！',
 					'last' => true
 				]
 			])
-			->validatePresence('description', 'create', '网站描述信息项目不存在！')
-			->allowEmpty('description')
-			->add('description', [
+			->validatePresence('fax', 'create', '传真项目不存在！')
+			->allowEmpty('fax')
+			->add('fax', [
 				'maxLength' => [
-					'rule' => ['maxLength', 255],
-					'message' => '网站描述信息超出长度限制！',
+					'rule' => ['maxLength', 250],
+					'message' => '传真超出长度限制！',
+					'last' => true
+				]
+			])
+			->validatePresence('address', 'create', '地址项目不存在！')
+			->allowEmpty('address')
+			->add('address', [
+				'maxLength' => [
+					'rule' => ['maxLength', 250],
+					'message' => '地址超出长度限制！',
+					'last' => true
+				]
+			])
+			->validatePresence('tagline', 'create', '简短描述目不存在！')
+			->allowEmpty('copyright')
+			->add('tagline', [
+				'maxLength' => [
+					'rule' => ['maxLength', 3000],
+					'message' => '简短描述超出长度限制！',
 					'last' => true
 				]
 			]);
 		return $validator;
 	}
-
 
 /**
  * 保存配置项

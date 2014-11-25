@@ -17,24 +17,6 @@ use Cake\View\Helper;
 class AppHelper extends Helper {
 
 /**
- * 显示页面标题
- *
- * @return string
- */
-	public function title() {
-		$title = null;
-		$delimiter = Configure::read('Option.title_delimiter');
-		if (isset($this->_View->viewVars['mainTitle']) && $this->_View->viewVars['mainTitle'] != '') {
-			$title .= $this->_View->viewVars['mainTitle'];
-		}
-		if (isset($this->_View->viewVars['subTitle']) && $this->_View->viewVars['subTitle'] != '') {
-			$title .= $delimiter . $this->_View->viewVars['subTitle'];
-		}
-		$title .= $delimiter . Configure::read('Option.title');
-		return h($title);
-	}
-
-/**
  * 字符串url解析
  * url格式规则
  * 插件格式:plugin.controller/action 和 plugin.prefix/controller/action

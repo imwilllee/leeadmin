@@ -43,27 +43,4 @@ class OptionsController extends AppAdminController {
 		}
 		$this->set(compact('options'));
 	}
-
-/**
- * SEO设置
- *
- * @return void
- */
-	public function seo() {
-		$this->_subTitle = 'SEO设置';
-		$this->loadModel('Options');
-		$typeId = Configure::read('Common.options.seo');
-		$options = $this->Options->getOptionsByTypeId($typeId);
-		if ($this->request->is('post')) {
-			$options = $this->Options->patchEntity($options, $this->request->data());
-			if ($this->Options->validate($options, ['validate' => 'seo'])) {
-				if ($this->Options->saveOptions($options, $typeId)) {
-					$this->Flash->success('数据保存成功！');
-					return $this->redirect(['action' => 'seo']);
-				}
-			}
-			$this->Flash->error('数据保存失败！');
-		}
-		$this->set(compact('options'));
-	}
 }

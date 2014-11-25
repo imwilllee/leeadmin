@@ -96,6 +96,9 @@ mb_internal_encoding(Configure::read('App.encoding'));
  */
 ini_set('intl.default_locale', 'en_US');
 
+// timezone
+date_default_timezone_set('Asia/Shanghai');
+
 /**
  * Register application error and exception handlers.
  */
@@ -140,11 +143,6 @@ Security::salt(Configure::consume('Security.salt'));
 
 // 缓存项目配置项
 Configure::write('Option', TableRegistry::get('Options')->getCacheOptions());
-
-$timezone = Configure::read('Option.timezone');
-if (!empty($timezone)) {
-	date_default_timezone_set($timezone);
-}
 
 /**
  * Setup detectors for mobile and tablet.
