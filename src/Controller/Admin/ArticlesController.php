@@ -247,7 +247,7 @@ class ArticlesController extends AppAdminController {
 		}
 		$this->loadModel('Channels');
 		$channelList = $this->Channels->getChannelList();
-		$this->set(compact('article', 'channelList') );
+		$this->set(compact('article', 'channelList'));
 	}
 
 /**

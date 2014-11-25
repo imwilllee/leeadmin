@@ -143,6 +143,29 @@ return [
 		'display_flg' => true
 	],
 	[
+		'menu_code' => 'element',
+		'parent_code' => null,
+		'name' => '页面元素管理',
+		'link' => null,
+		'class' => 'fa fa-laptop',
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'element',
+		'name' => '首页KV图',
+		'link' => 'admin/Carousels/index',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true,
+		'menu_nodes' => [
+			['link' => 'admin/Carousels/index', 'name' => 'KV图一览'],
+			['link' => 'admin/Carousels/edit', 'name' => 'KV图添加(编辑)'],
+			['link' => 'admin/Carousels/delete', 'name' => 'KV图附件']
+		]
+	],
+	[
 		'menu_code' => 'user',
 		'parent_code' => null,
 		'name' => '系统管理员',
