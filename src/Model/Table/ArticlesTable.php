@@ -39,31 +39,52 @@ class ArticlesTable extends AppTable {
  * @return \Cake\Validation\Validator
  */
 	public function validationDefault(Validator $validator) {
+		return $this->validationBase($validator);
+	}
+
+/**
+ * 单页栏目验证规则
+ *
+ * @param \Cake\Validation\Validator $validator 验证对象
+ * @return \Cake\Validation\Validator
+ */
+	public function validationPages(Validator $validator) {
 		$validator
-			->validatePresence('title', 'create', '标题项目不存在！')
-			->notEmpty('title', '标题不能为空！')
+		->validatePresence('arlicle_code', 'create', '文章代码项目不存在！')
+		->notEmpty('arlicle_code')
+		->add('arlicle_code', [
+			'custom' => [
+				'rule' => function ($value, $context) {
+					return preg_match('/^[\-_0-9a-zA-Z]{1,64}$/i', $value) ? true : false;
+				},
+				'message' => '文章代码格式错误！',
+				'last' => true
+			],
+			'unique' => [
+				'rule' => 'validateUnique',
+				'message' => '文章代码已存在！',
+				'provider' => 'table'
+			]
+		]);
+		return $this->validationBase($validator);
+	}
+
+/**
+ * 基础验证规则
+ *
+ * @param \Cake\Validation\Validator $validator 验证对象
+ * @return \Cake\Validation\Validator
+ */
+	public function validationBase($validator) {
+		$validator
+			->validatePresence('title', 'create', '文章标题项目不存在！')
+			->notEmpty('title', '文章标题不能为空！')
 			->add('title', [
 				'maxLength' => [
 					'rule' => ['maxLength', 250],
-					'message' => '标题超出长度限制！'
+					'message' => '文章标题超出长度限制！'
 				]
 			])
-			// ->validatePresence('arlicle_code', 'create', '文章代码项目不存在！')
-			// ->allowEmpty('arlicle_code')
-			// ->add('arlicle_code', [
-			// 	'custom' => [
-			// 		'rule' => function ($value, $context) {
-			// 			return preg_match('/^[\-_0-9a-zA-Z]{1,32}$/i', $value);
-			// 		},
-			// 		'message' => '文章代码格式错误！',
-			// 		'last' => true
-			// 	],
-			// 	'unique' => [
-			// 		'rule' => 'validateUnique',
-			// 		'message' => '文章代码已存在！',
-			// 		'provider' => 'table'
-			// 	]
-			// ])
 			->validatePresence('channel_id', 'create', '所属栏目项目不存在！')
 			->notEmpty('channel_id', '所属栏目必须选择！')
 			->add('channel_id', [

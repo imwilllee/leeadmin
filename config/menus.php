@@ -19,11 +19,11 @@ return [
 		]
 	],
 	[
-		'menu_code' => 'channels',
+		'menu_code' => 'content',
 		'parent_code' => null,
-		'name' => '栏目管理',
+		'name' => '内容管理',
 		'link' => null,
-		'class' => 'fa fa-th-list',
+		'class' => 'fa fa-book',
 		'rank' => 0,
 		'display_flg' => true,
 		'menu_nodes' => [
@@ -36,7 +36,7 @@ return [
 	],
 	[
 		'menu_code' => null,
-		'parent_code' => 'channels',
+		'parent_code' => 'content',
 		'name' => '栏目一览',
 		'link' => 'admin/Channels/index',
 		'class' => null,
@@ -45,7 +45,7 @@ return [
 	],
 	[
 		'menu_code' => null,
-		'parent_code' => 'channels',
+		'parent_code' => 'content',
 		'name' => '添加栏目',
 		'link' => 'admin/Channels/add',
 		'class' => null,
@@ -53,11 +53,11 @@ return [
 		'display_flg' => true
 	],
 	[
-		'menu_code' => 'article',
-		'parent_code' => null,
+		'menu_code' => null,
+		'parent_code' => 'content',
 		'name' => '文章管理',
-		'link' => null,
-		'class' => 'fa fa-file-text',
+		'link' => 'admin/Articles/index',
+		'class' => null,
 		'rank' => 0,
 		'display_flg' => true,
 		'menu_nodes' => [
@@ -67,24 +67,6 @@ return [
 			['link' => 'admin/Articles/edit', 'name' => '文章编辑'],
 			['link' => 'admin/Articles/delete', 'name' => '文章删除']
 		]
-	],
-	[
-		'menu_code' => null,
-		'parent_code' => 'article',
-		'name' => '文章一览',
-		'link' => 'admin/Articles/index',
-		'class' => null,
-		'rank' => 0,
-		'display_flg' => true
-	],
-	[
-		'menu_code' => null,
-		'parent_code' => 'article',
-		'name' => '添加文章',
-		'link' => 'admin/Articles/add',
-		'class' => null,
-		'rank' => 0,
-		'display_flg' => true
 	],
 	[
 		'menu_code' => 'contact',

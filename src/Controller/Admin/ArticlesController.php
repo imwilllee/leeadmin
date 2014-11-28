@@ -11,8 +11,10 @@ namespace App\Controller\Admin;
 
 use App\Controller\AppAdminController;
 use Cake\Core\Configure;
+use Cake\ORM\Exception\RecordNotFoundException;
 use Cake\Utility\Inflector;
 use DateTime;
+use InvalidArgumentException;
 
 class ArticlesController extends AppAdminController {
 
@@ -51,13 +53,14 @@ class ArticlesController extends AppAdminController {
 				'Articles.status',
 				'Articles.channel_id',
 				'Articles.created'
-			]
+			],
+			'limit' => 15
 		];
 		$this->paginate = array_merge($this->paginate, $config);
 		$articles = $this->paginate($query);
 
-		$channelList = $this->Channels->getChannelList();
-		$this->set(compact('articles', 'channelList') );
+		$channelsTree = $this->Channels->find('children', ['for' => 1])->select(['id', 'parent_id', 'name']);
+		$this->set(compact('articles', 'channelsTree'));
 	}
 
 /**
@@ -198,32 +201,46 @@ class ArticlesController extends AppAdminController {
 				$this->Flash->error('数据更新失败');
 			}
 		}
-		return $this->redirect(['action' => 'index']);
+		return $this->redirect(['action' => 'index', '?' => ['channel_id' => $this->request->query('channel_id')]]);
 	}
 
 /**
  * 添加文章
  *
+ * @param int channelId 栏目ID
  * @return void
  */
-	public function add() {
+	public function add($channelId = null) {
 		$this->_subTitle = '添加文章';
+		$this->loadModel('Channels');
 		$this->loadModel('Articles');
-		if ($this->request->query('channel_id')) {
-			$this->request->data['channel_id'] = $this->request->query('channel_id');
+		try {
+			$channel = $this->Channels->get($channelId);
+		} catch (RecordNotFoundException $e) {
+			return $this->redirect(['action' => 'index']);
+		} catch (InvalidArgumentException $e) {
+			return $this->redirect(['action' => 'index']);
 		}
 		$article = $this->Articles->newEntity($this->request->data());
 		if ($this->request->is('post')) {
-			if ($this->Articles->save($article)) {
+			$options = [];
+			if ($channel->type_id == 2) {
+				$options = ['validate' => 'pages'];
+			}
+			if ($this->Articles->save($article, $options)) {
 				$this->Flash->success('数据保存成功！');
-				return $this->redirect(['action' => 'index']);
+				return $this->redirect(['action' => 'index', '?' => ['channel_id' => $channel->id]]);
 			} else {
 				$this->Flash->error('数据保存失败！');
 			}
+		} else {
+			$article->set('channel_id', $channelId);
 		}
-		$this->loadModel('Channels');
-		$channelList = $this->Channels->getChannelList();
-		$this->set(compact('article', 'channelList') );
+		$breadcrumbs = $this->Channels->find('path', ['for' => $channelId])->select(['id', 'name']);
+		if ($channel->type_id == 2) {
+			$this->_subTitle = '添加单页';
+		}
+		$this->set(compact('channel', 'article', 'breadcrumbs'));
 	}
 
 /**
@@ -235,19 +252,26 @@ class ArticlesController extends AppAdminController {
 	public function edit($id = null) {
 		$this->_subTitle = '文章编辑';
 		$this->loadModel('Articles');
-		$article = $this->Articles->get($id, ['contain' => false]);
+		$this->loadModel('Channels');
+		$article = $this->Articles->get($id, ['contain' => ['Channels']]);
 		if ($this->request->is(['post', 'put'])) {
+			$options = [];
+			if ($article->channel->type_id == 2) {
+				$options = ['validate' => 'pages'];
+			}
 			$article = $this->Articles->patchEntity($article, $this->request->data());
-			if ($this->Articles->save($article)) {
+			if ($this->Articles->save($article, $options)) {
 				$this->Flash->success('数据保存成功！');
-				return $this->redirect(['action' => 'index']);
+				return $this->redirect(['action' => 'index', '?' => ['channel_id' => $article->channel_id]]);
 			} else {
 				$this->Flash->error('数据保存失败！');
 			}
 		}
-		$this->loadModel('Channels');
-		$channelList = $this->Channels->getChannelList();
-		$this->set(compact('article', 'channelList'));
+		$breadcrumbs = $this->Channels->find('path', ['for' => $article->channel->id])->select(['id', 'name']);
+		if ($article->channel->type_id == 2) {
+			$this->_subTitle = '单页编辑';
+		}
+		$this->set(compact('article', 'breadcrumbs'));
 	}
 
 /**

@@ -31,9 +31,15 @@ class ChannelsController extends AppAdminController {
 		$this->_subTitle = '栏目一览';
 		$this->loadModel('Channels');
 		try {
-			$channels = $this->Channels->find('children', ['for' => 1])
-				->select(['id', 'parent_id', 'name', 'channel_code', 'level', 'is_core', 'display_flg', 'type_id']);
-			$this->set(compact('channels'));
+			$parentId = 1;
+			$channelsTree = $this->Channels->find('children', ['for' => $parentId])->select(['id', 'parent_id', 'name']);
+			if ($this->request->query('parent_id')) {
+				$parentId = $this->request->query('parent_id');
+			}
+			$childrens = $this->Channels->find()
+				->select(['id', 'parent_id', 'name', 'channel_code', 'type_id', 'display_flg', 'is_core'])
+				->where(['parent_id' => $parentId]);
+			$this->set(compact('channelsTree', 'childrens'));
 		} catch (RecordNotFoundException $e) {
 			if ($this->_initChannel()) {
 				$this->Flash->success('初始化栏目成功！');

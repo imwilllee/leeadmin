@@ -9,9 +9,24 @@
                 <li class="active"><a href="javascript:;">添加文章</a></li>
             </ul>
             <div class="tab-content">
+                <ol class="breadcrumb">
+                <?php foreach ($breadcrumbs as $breadcrumb): ?>
+                    <?php if ($breadcrumb->id == 1): ?>
+                        <li><?php echo $this->Html->link('网站栏目', ['action' => 'index']); ?></li>
+                    <?php else: ?>
+                    <li><?php echo $this->Html->link($breadcrumb->name, ['action' => 'index', '?' => ['channel_id' => $breadcrumb->id]]); ?></li>
+                    <?php endif;?>
+                <?php endforeach; ?>
+                <?php if ($channel->type_id == 2): ?>
+                    <li class="active">添加单页</li>
+                <?php else: ?>
+                    <li class="active">添加文章</li>
+                <?php endif;?>
+                </ol>
                 <div class="tab-pane active">
 
                 <?php echo $this->Form->create($article); ?>
+                <?php echo $this->Form->hidden('channel_id'); ?>
                     <div class="box box-solid box-primary">
                         <div class="box-header">
                             <h3 class="box-title">基本信息</h3>
@@ -20,28 +35,27 @@
                             </div>
                         </div>
                         <div class="box-body">
+<?php if ($channel->type_id == 2): ?>
+                            <div class="row">
+                                <div class="col-lg-5 col-md-8 col-xs-12">
+                                    <div class="form-group<?php echo $this->Admin->errorClass('arlicle_code'); ?>">
+                                        <label>文章代码</label>
+                                        <?php echo $this->Form->text('arlicle_code', ['class' => 'form-control', 'placeholder' => '文章代码']); ?>
+                                        <span class="text-light-blue">用于url访问，单页类型栏目必须填写此项。</span>
+                                        <?php echo $this->Admin->error('arlicle_code'); ?>
+                                    </div>
+                                </div>
+                            </div>
+<?php endif; ?>
                             <div class="row">
                                 <div class="col-lg-5 col-md-8 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('title'); ?>">
-                                        <label>标题</label>
-                                        <?php echo $this->Form->text('title', ['class' => 'form-control', 'placeholder' => '标题']); ?>
+                                        <label>文章标题</label>
+                                        <?php echo $this->Form->text('title', ['class' => 'form-control', 'placeholder' => '文章标题']); ?>
                                         <?php echo $this->Admin->error('title'); ?>
                                     </div>
                                 </div>
                             </div>
-<?php if (!$this->request->query('channel_id')): ?>
-                            <div class="row">
-                                <div class="col-lg-3 col-md-5 col-xs-12">
-                                    <div class="form-group<?php echo $this->Admin->errorClass('channel_id'); ?>">
-                                        <label>所属栏目</label>
-                                        <?php echo $this->Form->select('channel_id', $channelList, ['class' => 'form-control']); ?>
-                                        <?php echo $this->Admin->error('channel_id'); ?>
-                                    </div>
-                                </div>
-                            </div>
-<?php else: ?>
-    <?php echo $this->Form->hidden('channel_id'); ?>
-<?php endif; ?>
                             <div class="row">
                                 <div class="col-md-12 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('status'); ?>">
@@ -112,7 +126,7 @@
                                 <div class="col-lg-12 col-md-12 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('content'); ?>">
                                         <label>内容</label>
-                                        <?php echo $this->Form->textarea('content', ['class' => 'form-control ckeditor', 'placeholder' => '内容', 'rows' => 10]); ?>
+                                        <?php echo $this->Form->textarea('content', ['class' => 'form-control editor', 'placeholder' => '内容', 'rows' => 10]); ?>
                                         <?php echo $this->Admin->error('content'); ?>
                                     </div>
                                 </div>

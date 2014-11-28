@@ -86,7 +86,7 @@
                                 <div class="col-lg-12 col-md-12 col-xs-12">
                                     <div class="form-group<?php echo $this->Admin->errorClass('content'); ?>">
                                         <label>栏目内容</label>
-                                        <?php echo $this->Form->textarea('content', ['class' => 'form-control ckeditor', 'placeholder' => '栏目内容', 'rows' => 5]); ?>
+                                        <?php echo $this->Form->textarea('content', ['class' => 'form-control editor', 'placeholder' => '栏目内容', 'rows' => 5]); ?>
                                         <?php echo $this->Admin->error('content'); ?>
                                     </div>
                                 </div>
