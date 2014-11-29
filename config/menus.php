@@ -93,6 +93,59 @@ return [
 		'display_flg' => true
 	],
 	[
+		'menu_code' => 'question',
+		'parent_code' => null,
+		'name' => '常见问题管理',
+		'link' => null,
+		'class' => 'fa fa-question-circle',
+		'rank' => 0,
+		'display_flg' => true,
+		'menu_nodes' => [
+			['link' => 'admin/Questions/index', 'name' => '问题一览'],
+			['link' => 'admin/Questions/edit', 'name' => '问题添加(编辑)'],
+			['link' => 'admin/Questions/delete', 'name' => '问题删除'],
+			['link' => 'admin/Questions/category', 'name' => '分类一览'],
+			['link' => 'admin/Questions/category_edit', 'name' => '分类添加'],
+			['link' => 'admin/Questions/category_delete', 'name' => '分类删除'],
+		]
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'question',
+		'name' => '问题一览',
+		'link' => 'admin/Questions/index',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'question',
+		'name' => '问题添加',
+		'link' => 'admin/Questions/edit',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'question',
+		'name' => '分类一览',
+		'link' => 'admin/Questions/category',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
+		'menu_code' => null,
+		'parent_code' => 'question',
+		'name' => '分类添加',
+		'link' => 'admin/Questions/category_edit',
+		'class' => null,
+		'rank' => 0,
+		'display_flg' => true
+	],
+	[
 		'menu_code' => 'attachment',
 		'parent_code' => null,
 		'name' => '附件管理',

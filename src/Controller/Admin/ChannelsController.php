@@ -38,7 +38,8 @@ class ChannelsController extends AppAdminController {
 			}
 			$childrens = $this->Channels->find()
 				->select(['id', 'parent_id', 'name', 'channel_code', 'type_id', 'display_flg', 'is_core'])
-				->where(['parent_id' => $parentId]);
+				->where(['parent_id' => $parentId])
+				->order(['lft' => 'ASC']);
 			$this->set(compact('channelsTree', 'childrens'));
 		} catch (RecordNotFoundException $e) {
 			if ($this->_initChannel()) {
@@ -145,7 +146,7 @@ class ChannelsController extends AppAdminController {
 			$this->Channels->moveDown($channel);
 		}
 		$this->Flash->success('排序成功！');
-		return $this->redirect(['action' => 'index']);
+		return $this->redirect(['action' => 'index', '?' => ['parent_id' => $this->request->query('parent_id')]]);
 	}
 
 /**

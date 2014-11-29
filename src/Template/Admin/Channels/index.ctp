@@ -72,8 +72,8 @@
                                                             <?php endif; ?>
                                                         </td>
                                                         <td>
-                                                            <?php echo $this->Admin->iconLink('fa fa-1 fa-arrow-up', ['action' => 'rank', $children->id], ['data-original-title' => '上移']); ?>
-                                                            <?php echo $this->Admin->iconLink('fa fa-1 fa-arrow-down', ['action' => 'rank', $children->id, 'down'], ['data-original-title' => '下移']); ?>
+                                                            <?php echo $this->Admin->iconLink('fa fa-1 fa-arrow-up', ['action' => 'rank', $children->id, '?' => ['parent_id' => $children->parent_id]], ['data-original-title' => '上移']); ?>
+                                                            <?php echo $this->Admin->iconLink('fa fa-1 fa-arrow-down', ['action' => 'rank', $children->id, 'down', '?' => ['parent_id' => $children->parent_id]], ['data-original-title' => '下移']); ?>
                                                         </td>
                                                         <td>
                                                             <?php echo $this->Admin->iconLink('fa fa-1 fa fa-file-text-o', ['controller' => 'Articles', 'action' => 'add', $children->id], ['data-original-title' => '添加文章']); ?>
