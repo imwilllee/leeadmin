@@ -66,9 +66,9 @@
                                                             <input type="checkbox" id="checkbox-selector" data-target-selector="id[]">
                                                         </th>
                                                         <th><?php echo $this->Paginator->sort('Articles.channel_id', '所属栏目'); ?></th>
-                                                        <th>标题</th>
+                                                        <th style="width:30%;">标题</th>
                                                         <th><?php echo $this->Paginator->sort('Articles.status', '状态'); ?></th>
-                                                        <th>文章属性</th>
+                                                        <th>属性</th>
                                                         <th><?php echo $this->Paginator->sort('Articles.created', '创建日期'); ?></th>
                                                         <th></th>
                                                     </tr>

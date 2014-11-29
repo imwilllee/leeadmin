@@ -34,12 +34,14 @@ class CarouselsController extends AppAdminController {
 				'Carousels.link',
 				'Carousels.src',
 				'Carousels.rank',
+				'Carousels.type_id',
 				'Carousels.created'
 			]);
 		$config = [
 			'sortWhitelist' => [
 				'Carousels.rank',
-				'Carousels.created'
+				'Carousels.created',
+				'Carousels.type_id',
 			]
 		];
 		$this->paginate = array_merge($this->paginate, $config);

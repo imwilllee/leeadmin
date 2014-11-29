@@ -16,11 +16,12 @@
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th><?php echo $this->Paginator->sort('rank', '排序'); ?></th>
+                                        <th><?php echo $this->Paginator->sort('Carousels.rank', '排序'); ?></th>
+                                        <th><?php echo $this->Paginator->sort('Carousels.type_id', '类型'); ?></th>
                                         <th>名称</th>
                                         <th>链接</th>
                                         <th>图片路径</th>
-                                        <th><?php echo $this->Paginator->sort('created', '创建日期'); ?></th>
+                                        <th><?php echo $this->Paginator->sort('Carousels.created', '创建日期'); ?></th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -28,6 +29,11 @@
                                     <?php foreach ($carousels as $carousel): ?>
                                     <tr>
                                         <td><?php echo $carousel->rank; ?></td>
+                                        <td>
+                                        <?php if ($carousel->type_id): ?>
+                                            <?php echo  Configure::read('Carousels.type.' . $carousel->type_id); ?>
+                                        <?php endif; ?>
+                                        </td>
                                         <td><?php echo h($carousel->name); ?></td>
                                         <td><?php echo h($carousel->link); ?></td>
                                         <td>

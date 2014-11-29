@@ -1,3 +1,6 @@
+<?php
+    use Cake\Core\Configure;
+?>
 <div class="row">
     <div class="col-md-12">
         <div class="nav-tabs-custom">
@@ -27,6 +30,16 @@
                                         <label>名称</label>
                                         <?php echo $this->Form->text('name', ['class' => 'form-control', 'placeholder' => '名称']); ?>
                                         <?php echo $this->Admin->error('name'); ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 col-xs-12">
+                                    <div class="form-group<?php echo $this->Admin->errorClass('type_id'); ?>">
+                                        <label>类型</label>
+                                        <?php echo $this->Form->select('type_id', Configure::read('Carousels.type'), ['class' => 'form-control']); ?>
+                                        <?php echo $this->Admin->error('type_id'); ?>
                                     </div>
                                 </div>
                             </div>
@@ -68,6 +81,16 @@
                                         <label>排序</label>
                                         <?php echo $this->Form->text('rank', ['class' => 'form-control', 'placeholder' => '排序']); ?>
                                         <?php echo $this->Admin->error('rank'); ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6 col-md-10 col-xs-12">
+                                    <div class="form-group<?php echo $this->Admin->errorClass('explain'); ?>">
+                                        <label>描述说明</label>
+                                        <?php echo $this->Form->textarea('explain', ['class' => 'form-control', 'placeholder' => '描述说明', 'rows' => 5]); ?>
+                                        <?php echo $this->Admin->error('explain'); ?>
                                     </div>
                                 </div>
                             </div>

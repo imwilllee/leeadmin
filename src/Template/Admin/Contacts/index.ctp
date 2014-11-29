@@ -117,10 +117,10 @@
                                         </th>
                                         <th><?php echo $this->Paginator->sort('Contacts.notify_flg', '状态'); ?></th>
                                         <th>姓名</th>
-                                        <th>公司名</th>
-                                        <th>电话号码</th>
+                                        <th style="width:20%;">公司名</th>
+                                        <th style="width:20%;">电话号码</th>
                                         <th>电子邮箱</th>
-                                        <th>资料类型</th>
+                                        <th><?php echo $this->Paginator->sort('Contacts.type_id', '资料类型'); ?></th>
                                         <th><?php echo $this->Paginator->sort('Contacts.created', '留言时间'); ?></th>
                                         <th></th>
                                     </tr>

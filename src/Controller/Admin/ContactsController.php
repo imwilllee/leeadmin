@@ -43,6 +43,7 @@ class ContactsController extends AppAdminController {
 		$config = [
 			'sortWhitelist' => [
 				'Contacts.notify_flg',
+				'Contacts.type_id',
 				'Contacts.created'
 			]
 		];
